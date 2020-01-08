@@ -4,7 +4,7 @@
 
   export let count;
 
-  $: textVal = count;
+  $: textVal = count.toLocaleString();
 </script>
 
 <style>

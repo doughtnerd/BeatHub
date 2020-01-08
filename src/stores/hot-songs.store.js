@@ -1,7 +1,7 @@
 import { writable, get } from "svelte/store";
 
 function makeQuery(nextPage) {
-  return fetch(`https://beatsaver.com/api/maps/latest/${nextPage}`)
+  return fetch(`https://beatsaver.com/api/maps/hot/${nextPage}`)
     .then(res => {
       return res.json();
     })
@@ -10,7 +10,7 @@ function makeQuery(nextPage) {
     });
 }
 
-function createNewSongStore() {
+function createHotSongsStore() {
   const store = writable({
     nextPage: 0,
     songs: [],
@@ -23,11 +23,14 @@ function createNewSongStore() {
       const { nextPage } = get(store);
       try {
         const newSongs = await makeQuery(nextPage);
-        store.update(current => ({
-          nextPage: current.nextPage + 1,
-          songs: [...current.songs, ...newSongs],
-          error: null
-        }));
+
+        store.update(current => {
+          return {
+            nextPage: current.nextPage + 1,
+            songs: [...current.songs, ...newSongs],
+            error: null
+          };
+        });
       } catch (err) {
         store.update(current => ({ ...current, error: err }));
       }
@@ -35,4 +38,4 @@ function createNewSongStore() {
   };
 }
 
-export const newSongsStore = createNewSongStore();
+export const hotSongsStore = createHotSongsStore();

@@ -22,6 +22,6 @@
   <BeatmapKey>{beatmap.key}</BeatmapKey>
   <Upvotes count={beatmap.stats.upVotes} />
   <Downvotes count={beatmap.stats.downVotes} />
-  <Downloads>{beatmap.stats.downloads}</Downloads>
+  <Downloads count={beatmap.stats.downloads} />
   <Rating percentage={beatmap.stats.rating} />
 </div>

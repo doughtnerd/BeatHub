@@ -1,6 +1,10 @@
 <script>
   import Icon from "svelte-awesome";
   import { download } from "svelte-awesome/icons";
+
+  export let count;
+
+  $: textVal = count.toLocaleString();
 </script>
 
 <style>
@@ -10,9 +14,7 @@
 </style>
 
 <div>
-  <span>
-    <slot />
-  </span>
+  <span>{textVal}</span>
   <span style="color: blue">
     <Icon scale={0.8} data={download} />
   </span>

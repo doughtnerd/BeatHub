@@ -1,5 +1,5 @@
 {
-  "name": "template-electron-svelte",
+  "name": "beathub",
   "version": "1.0.0",
   "main": "./src/electron.js",
   "devDependencies": {
@@ -25,12 +25,8 @@
   },
   "dependencies": {
     "@material-ui/icons": "~4.5.1",
-    "@material/layout-grid": "~4.0.0",
-    "@sveltejs/svelte-virtual-list": "~3.0.1",
-    "adm-zip": "~0.4.13",
     "electron-dl": "~2.0.0",
     "jszip": "~3.2.2",
-    "path": "~0.12.7",
     "svelte-awesome": "~2.2.1",
     "svelte-infinite-scroll": "~0.1.0"
   },

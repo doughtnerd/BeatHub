@@ -1,5 +1,9 @@
 <script>
-  import { previewUrl } from "../stores/beatmap-preview.store";
+  import { previewUrl, beatmapPreview } from "../stores/beatmap-preview.store";
+
+  function handleEnded() {
+    beatmapPreview.stop();
+  }
 </script>
 
 <style>
@@ -14,5 +18,10 @@
 </style>
 
 <div>
-  <audio autoplay controls controlsList="nodownload" src={$previewUrl} />
+  <audio
+    autoplay
+    controls
+    controlsList="nodownload"
+    src={$previewUrl}
+    on:ended={handleEnded} />
 </div>

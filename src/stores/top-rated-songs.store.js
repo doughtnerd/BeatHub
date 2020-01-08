@@ -1,7 +1,7 @@
 import { writable, get } from "svelte/store";
 
 function makeQuery(nextPage) {
-  return fetch(`https://beatsaver.com/api/maps/downloads/${nextPage}`)
+  return fetch(`https://beatsaver.com/api/maps/rating/${nextPage}`)
     .then(res => {
       return res.json();
     })
@@ -10,7 +10,7 @@ function makeQuery(nextPage) {
     });
 }
 
-function createTopDownloadedSongsStore() {
+function createTopRatedSongsStore() {
   const store = writable({
     nextPage: 0,
     songs: [],
@@ -32,4 +32,4 @@ function createTopDownloadedSongsStore() {
   };
 }
 
-export const topDownloadedSongsStore = createTopDownloadedSongsStore();
+export const topRatedSongsStore = createTopRatedSongsStore();
