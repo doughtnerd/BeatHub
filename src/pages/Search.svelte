@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 100%;
+    width: 90%;
     height: 80px;
     align-items: center;
   }
@@ -100,7 +100,7 @@
 
   .song-list-container {
     margin-top: 80px;
-    overflow: scroll;
+    overflow: hidden;
     height: calc(100% - 80px);
   }
 </style>

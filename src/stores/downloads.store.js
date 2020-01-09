@@ -4,7 +4,7 @@ import JSZip from "jszip";
 const { remote } = window.require("electron");
 const fs = remote.require("fs");
 
-const ROOT_DOWNLOAD_FOLDER = "/Users/ccarlson/Desktop/";
+const ROOT_DOWNLOAD_FOLDER = "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels/";
 
 export const downloads = createDownloadsStore();
 

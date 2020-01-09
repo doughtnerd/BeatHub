@@ -1,39 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
-// const electronDl = require("electron-dl");
-// electronDl();
-
-// const { download } = require("electron-dl");
-
-// ipcMain.on("download-beatmap", async (event, { beatmap }) => {
-//   console.log(beatmap.directDownload);
-//   const win = BrowserWindow.getFocusedWindow();
-//   // console.log();
-//   // await download(win, `https://beatsaver.com` + beatmap.directDownload, {
-//   //   directory: "/Users/ccarlson/Desktop"
-//   // });
-
-//   const resp = await fetch(`https://beatsaver.com` + beatmap.directDownload);
-//   const blob = await resp.blob();
-
-//   const zip = new JSZip();
-//   await zip.loadAsync(blob);
-
-//   Object.keys(zip.files).forEach(filename => {
-//     debugger;
-//     zip
-//       .file(filename)
-//       .async("nodebuffer")
-//       .then(content => {
-//         const dest = "/Users/ccarlson/Desktop/";
-//         fs.writeFileSync(dest, content);
-//       });
-//   });
-// });
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow() {
@@ -46,8 +13,9 @@ function createWindow() {
     }
   });
 
-  mainWindow.webContents.openDevTools();
-
+  // mainWindow.webContents.openDevTools();
+  mainWindow.setMenu(null);
+  
   let watcher;
   if (process.env.NODE_ENV === "development") {
     watcher = require("chokidar").watch(

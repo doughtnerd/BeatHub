@@ -33,7 +33,6 @@
   }
 
   .main {
-    padding: 8px;
     height: 100%;
   }
 
