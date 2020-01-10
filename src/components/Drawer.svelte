@@ -8,12 +8,18 @@
 </script>
 
 <style>
-  .drawer {
-    position: fixed;
-    top: 0;
-    left: 0;
+  .drawer-container {
+    width: 100%;
     height: 100%;
-    box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: row;
+  }
+
+  .drawer {
+    height: 100%;
+    background-color: var(--background);
+    color: var(--backgroundText);
+    overflow-y: scroll;
   }
 
   .drawer--slim {
@@ -33,33 +39,23 @@
   }
 
   .main {
-    height: 100%;
-  }
+    background-color: var(--foreground);
+    flex-grow: 1;
 
-  .main--slim {
-    margin-left: 72px;
-  }
-
-  .main--full {
-    margin-left: 216px;
-  }
-
-  .main--closed {
-    margin-left: 0px;
+    display: flex;
+    flex-direction: column;
   }
 </style>
 
-<div
-  class="drawer"
-  class:drawer--slim={isSlim}
-  class:drawer--full={isFull}
-  class:drawer--closed={isClosed}>
-  <slot name="drawer-content" />
-</div>
-<div
-  class="main"
-  class:main--slim={isSlim}
-  class:main--full={isFull}
-  class:main--closed={isClosed}>
-  <slot />
+<div class="drawer-container">
+  <div
+    class="drawer"
+    class:drawer--slim={isSlim}
+    class:drawer--full={isFull}
+    class:drawer--closed={isClosed}>
+    <slot name="drawer-content" />
+  </div>
+  <div class="main">
+    <slot />
+  </div>
 </div>

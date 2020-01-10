@@ -1,0 +1,10 @@
+:root {
+  --background: #000000;
+  --foreground: #1c1c1c;
+  --backgroundText: #929292;
+  --foregroundText: #e1e1e1;
+
+  --primary: #59b0f3;
+  --secondary: #ff6347;
+  --error: #be2942;
+}

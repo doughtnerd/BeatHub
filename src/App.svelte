@@ -6,14 +6,17 @@
     fire,
     star,
     exclamation,
-    arrowCircleDown
+    arrowCircleDown,
+    tasks,
+    cog
   } from "svelte-awesome/icons";
   import {
-    NEW_SONGS,
+    NEW_MAPS,
     SEARCH,
-    HOT_SONGS,
-    TOP_RATED_SONGS,
-    TOP_DOWNLOADED_SONGS,
+    HOT_MAPS,
+    TOP_RATED_MAPS,
+    TOP_DOWNLOADED_MAPS,
+    SETTINGS,
     activeView
   } from "./stores/active-view.store";
   import NewSongs from "./pages/NewSongs.svelte";
@@ -21,11 +24,8 @@
   import TopRatedSongs from "./pages/TopRatedSongs.svelte";
   import TopDownloadedSongs from "./pages/TopDownloadedSongs.svelte";
   import Search from "./pages/Search.svelte";
+  import Settings from "./pages/Settings.svelte";
   import AudioPlayer from "./components/AudioPlayer.svelte";
-
-  function handleNavClick(navItem) {
-    activeView.set(navItem);
-  }
 </script>
 
 <style>
@@ -33,84 +33,131 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
   }
 
   .drawer-content * {
-    padding: 16px 8px 16px 8px;
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 72px;
+    width: 100%;
   }
 
   .drawer-content *:hover {
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: var(--foreground);
     cursor: pointer;
   }
 
   .drawer-content *:active,
   .drawer-content .active {
-    background-color: rgba(0, 0, 0, 0.25);
-    color: #11998e;
+    background-color: var(--foreground);
+    color: var(--primary);
+  }
+
+  .app-container {
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main {
+    overflow: hidden;
+    flex-grow: 2;
+  }
+
+  footer {
+    color: var(--foregroundText);
+    background-color: var(--background);
+
+    height: 64px;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 </style>
 
-<Drawer mode="slim">
-  <ul class="drawer-content" slot="drawer-content">
-    <li
-      class:active={$activeView === SEARCH}
-      on:click={() => {
-        handleNavClick(SEARCH);
-      }}>
-      <Icon scale={2} data={search} />
-    </li>
-    <li
-      class:active={$activeView === TOP_RATED_SONGS}
-      on:click={() => {
-        handleNavClick(TOP_RATED_SONGS);
-      }}>
-      <Icon scale={2} data={star} />
-    </li>
-    <li
-      class:active={$activeView === TOP_DOWNLOADED_SONGS}
-      on:click={() => {
-        handleNavClick(TOP_DOWNLOADED_SONGS);
-      }}>
-      <Icon scale={2} data={arrowCircleDown} />
-    </li>
-    <li
-      class:active={$activeView === HOT_SONGS}
-      on:click={() => {
-        handleNavClick(HOT_SONGS);
-      }}>
-      <Icon scale={2} data={fire} />
-    </li>
-    <li
-      class:active={$activeView === NEW_SONGS}
-      on:click={() => {
-        handleNavClick(NEW_SONGS);
-      }}>
-      <Icon scale={2} data={exclamation} />
-    </li>
-  </ul>
-  {#if $activeView === NEW_SONGS}
-    <NewSongs />
-  {/if}
-  {#if $activeView === HOT_SONGS}
-    <HotSongs />
-  {/if}
-  {#if $activeView === TOP_RATED_SONGS}
-    <TopRatedSongs />
-  {/if}
-  {#if $activeView === TOP_DOWNLOADED_SONGS}
-    <TopDownloadedSongs />
-  {/if}
-  {#if $activeView === SEARCH}
-    <Search />
-  {/if}
-</Drawer>
+<div class="app-container">
+  <div class="main">
+    <Drawer mode="slim">
+      <div class="drawer-content" slot="drawer-content">
+        <div
+          class:active={$activeView === SEARCH}
+          on:click={() => {
+            activeView.set(SEARCH);
+          }}>
+          <Icon scale={2} data={search} />
+        </div>
+        <div
+          class:active={$activeView === TOP_RATED_MAPS}
+          on:click={() => {
+            activeView.set(TOP_RATED_MAPS);
+          }}>
+          <Icon scale={2} data={star} />
+        </div>
+        <div
+          class:active={$activeView === TOP_DOWNLOADED_MAPS}
+          on:click={() => {
+            activeView.set(TOP_DOWNLOADED_MAPS);
+          }}>
+          <Icon scale={2} data={arrowCircleDown} />
+        </div>
+        <div
+          class:active={$activeView === HOT_MAPS}
+          on:click={() => {
+            activeView.set(HOT_MAPS);
+          }}>
+          <Icon scale={2} data={fire} />
+        </div>
+        <div
+          class:active={$activeView === NEW_MAPS}
+          on:click={() => {
+            activeView.set(NEW_MAPS);
+          }}>
+          <Icon scale={2} data={exclamation} />
+        </div>
+        <div
+          class:active={$activeView === NEW_MAPS}
+          on:click={() => {
+            activeView.set(NEW_MAPS);
+          }}>
+          <Icon scale={2} data={tasks} />
+        </div>
+        <div
+          class:active={$activeView === SETTINGS}
+          on:click={() => {
+            activeView.set(SETTINGS);
+          }}>
+          <Icon scale={2} data={cog} />
+        </div>
+      </div>
 
-<div
-  style="position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);">
-  <AudioPlayer />
+      {#if $activeView === NEW_MAPS}
+        <NewSongs />
+      {/if}
+      {#if $activeView === HOT_MAPS}
+        <HotSongs />
+      {/if}
+      {#if $activeView === TOP_RATED_MAPS}
+        <TopRatedSongs />
+      {/if}
+      {#if $activeView === TOP_DOWNLOADED_MAPS}
+        <TopDownloadedSongs />
+      {/if}
+      {#if $activeView === SEARCH}
+        <Search />
+      {/if}
+      {#if $activeView === SETTINGS}
+        <Settings />
+      {/if}
+
+    </Drawer>
+  </div>
+  <footer>
+    <AudioPlayer />
+  </footer>
 </div>

@@ -1,10 +1,11 @@
-import { writable, derived, readable } from "svelte/store";
+import { writable } from "svelte/store";
 
-export const NEW_SONGS = "newSongs";
-export const TOP_RATED_SONGS = "topRatedSongs";
-export const TOP_DOWNLOADED_SONGS = "topDownloadedSongs";
-export const TOP_PLAYED_SONGS = "topPlayedSongs";
-export const HOT_SONGS = "hotSongs";
+export const NEW_MAPS = "newMaps";
+export const TOP_RATED_MAPS = "topRatedMaps";
+export const TOP_DOWNLOADED_MAPS = "topDownloadedMaps";
+export const TOP_PLAYED_MAPS = "topPlayedMaps";
+export const HOT_MAPS = "hotMaps";
 export const SEARCH = "search";
+export const SETTINGS = "settings";
 
 export const activeView = writable(SEARCH);

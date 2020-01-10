@@ -28,13 +28,13 @@
 
 <style>
   .search-container {
-    background-color: white;
-    position: fixed;
+    background-color: var(--forground);
+    /* position: ; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 90%;
-    height: 80px;
+    /* width: 90%; */
+    height: 72px;
     align-items: center;
   }
 
@@ -42,7 +42,7 @@
     position: relative;
     padding: 15px 0 0;
     margin-top: 10px;
-    width: 50%;
+    width: 80%;
   }
 
   .form__field {
@@ -52,7 +52,7 @@
     border-bottom: 2px solid #9b9b9b;
     outline: 0;
     font-size: 1.3rem;
-    /* color: #fff; */
+    color: var(--foregroundText);
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
@@ -72,14 +72,14 @@
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: #9b9b9b;
+    color: var(--foregroundText);
   }
 
   .form__field:focus {
     padding-bottom: 6px;
     font-weight: 700;
     border-width: 3px;
-    border-image: linear-gradient(to right, #11998e, #38ef7d);
+    border-image: linear-gradient(to right, var(--primary), var(--secondary));
     border-image-slice: 1;
   }
   .form__field:focus ~ .form__label {
@@ -88,7 +88,7 @@
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: #11998e;
+    color: #59b0f3;
     font-weight: 700;
   }
 
@@ -99,28 +99,29 @@
   }
 
   .song-list-container {
-    margin-top: 80px;
+    padding-top: 72px;
     overflow: hidden;
-    height: calc(100% - 80px);
+    /* height: calc(100% - 64px); */
+    max-height: calc(100% - 72px);
   }
 </style>
 
-<div class="search-container">
-  <div class="form__group field">
-    <input
-      on:change={handleSearch}
-      type="search"
-      class="form__field"
-      placeholder="Name"
-      name="search"
-      id="search"
-      required />
-    <label for="search" class="form__label">Search</label>
+<div style="display: flex; flex-direction: column; height: 100%">
+  <div class="search-container">
+    <div class="form__group field">
+      <input
+        on:change={handleSearch}
+        type="search"
+        class="form__field"
+        placeholder="Name"
+        name="search"
+        id="search"
+        required />
+      <label for="search" class="form__label">Search</label>
+    </div>
+
   </div>
 
-</div>
-
-<div class="song-list-container">
   {#if $searchStore.songs.length == 0}
     {#await handleLoadMore()}
       <span>Loading Songs...</span>

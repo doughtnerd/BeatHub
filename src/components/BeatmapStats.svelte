@@ -15,6 +15,7 @@
     text-align: right;
     font-weight: lighter;
     overflow: hidden;
+    color: var(--backgroundText);
   }
 </style>
 

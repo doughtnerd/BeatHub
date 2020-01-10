@@ -2,6 +2,7 @@
   .secondary-text {
     font-weight: lighter;
     font-size: 0.9em;
+    color: var(--backgroundText);
   }
 </style>
 

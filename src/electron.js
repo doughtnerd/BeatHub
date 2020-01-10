@@ -8,6 +8,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 680,
+    frame: true,
     webPreferences: {
       nodeIntegration: true
     }
@@ -15,7 +16,7 @@ function createWindow() {
 
   // mainWindow.webContents.openDevTools();
   mainWindow.setMenu(null);
-  
+
   let watcher;
   if (process.env.NODE_ENV === "development") {
     watcher = require("chokidar").watch(

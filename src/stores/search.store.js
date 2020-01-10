@@ -1,8 +1,9 @@
 import { writable, get } from "svelte/store";
+import { SEARCH_API } from "../constants/beatsaver-api.constants";
 
 function makeQuery(page, query) {
   if (!query || query == "") return Promise.resolve([]);
-  return fetch(`https://beatsaver.com/api/search/text/${page}?q=${query}`)
+  return fetch(`${SEARCH_API}${page}?q=${query}`)
     .then(res => {
       return res.json();
     })
@@ -47,7 +48,8 @@ function createSearchStore() {
         update(current => ({
           nextPage: current.nextPage + 1,
           songs: [...current.songs, ...results],
-          query: query
+          query: query,
+          error: null
         }));
       } catch (err) {
         update(current => ({

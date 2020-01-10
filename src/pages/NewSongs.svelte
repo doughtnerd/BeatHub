@@ -2,12 +2,12 @@
   import SvelteInfiniteScroll from "svelte-infinite-scroll";
   import BeatmapList from "../components/BeatmapList.svelte";
   import BeatmapListItem from "../components/BeatmapListItem.svelte";
-  import { newSongsStore } from "../stores/new-songs.store";
+  import { newMapsStore } from "../stores/beatmap.store";
   import { beatmapPreview } from "../stores/beatmap-preview.store";
   import { downloads } from "../stores/downloads.store";
 
   async function handleLoadMore() {
-    await newSongsStore.loadNextPage();
+    await newMapsStore.loadNextPage();
   }
 
   function handlePreview({ detail }) {
@@ -23,13 +23,13 @@
   }
 </script>
 
-{#if $newSongsStore.songs.length == 0}
+{#if $newMapsStore.songs.length == 0}
   {#await handleLoadMore()}
     <span>Loading Songs...</span>
   {:then songs}
     <BeatmapList>
 
-      {#each $newSongsStore.songs as beatmap}
+      {#each $newMapsStore.songs as beatmap}
         <BeatmapListItem
           on:preview={handlePreview}
           on:stop={handleStop}
@@ -46,7 +46,7 @@
 {:else}
   <BeatmapList>
 
-    {#each $newSongsStore.songs as beatmap}
+    {#each $newMapsStore.songs as beatmap}
       <BeatmapListItem
         on:preview={handlePreview}
         on:stop={handleStop}
