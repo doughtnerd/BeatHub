@@ -11,15 +11,18 @@
 
   $: formattedCurrentTime = formatAsTime(currentTime);
   $: formattedDuration = formatAsTime(duration);
+  $: volumeIcon = volume > 0 ? volumeUp : volumeOff;
 
   function handleEnded() {
     beatmapPreview.stop();
+    currentTime = 0;
+    duration = 0;
   }
 
   function formatAsTime(timeInSeconds) {
     if (!duration) return "0:00";
     const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.round(timeInSeconds % 60);
+    const seconds = Math.floor(timeInSeconds % 60);
 
     if (seconds < 10) {
       return `${minutes}:0${seconds}`;
@@ -28,19 +31,21 @@
   }
 
   function handlePlayClick() {
+    if (!$previewUrl) return;
     paused = false;
   }
 
   function handlePauseClick() {
+    if (!$previewUrl) return;
     paused = true;
   }
 
   function handleVolumeClick() {
-    volume = 0;
-  }
-
-  function handleMuteClick() {
-    volume = 1;
+    if (volume > 0) {
+      volume = 0;
+    } else {
+      volume = 1;
+    }
   }
 </script>
 
@@ -54,11 +59,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    width: 500px;
   }
 
   .audio-container * {
-    margin-left: 16px;
-    margin-right: 8px;
+    flex-grow: 0;
+    flex-shrink: 0;
   }
 
   img {
@@ -67,6 +74,7 @@
 
     height: 56px;
     width: 56px;
+    border: 1px solid var(--background);
   }
 
   input {
@@ -87,51 +95,51 @@
   bind:duration />
 
 <div class="audio-container">
-  <img
-    src={$beatmapPreview ? 'http://beatsaver.com' + $beatmapPreview.coverURL : ''}
-    alt="" />
-  <div>{formattedCurrentTime} / {formattedDuration}</div>
-  {#if paused}
-    <Fab
-      on:click={handlePlayClick}
-      iconColor="var(--foregroundText)"
-      color="var(--background)"
-      hoverColor="var(--foreground)"
-      iconData={play}
-      iconScale={1.25} />
+  {#if $beatmapPreview}
+    <img
+      src="http://beatsaver.com{$beatmapPreview.coverURL}"
+      alt="song image" />
   {:else}
-    <Fab
-      on:click={handlePauseClick}
-      iconColor="var(--foregroundText)"
-      color="var(--background)"
-      hoverColor="var(--foreground)"
-      iconData={pause}
-      iconScale={1.25} />
+    <div style="height: 56px; width: 56px;" />
   {/if}
-  <input
-    type="range"
-    name="points"
-    min={0}
-    on:input={event => {
-      currentTime = event.target.value;
-    }}
-    max={duration}
-    value={currentTime} />
-  {#if volume > 0}
+  <div class="time">{formattedCurrentTime} / {formattedDuration}</div>
+  <div class="play-control">
+    {#if paused}
+      <Fab
+        on:click={handlePlayClick}
+        iconColor="var(--foregroundText)"
+        color="var(--background)"
+        hoverColor="var(--foreground)"
+        iconData={play}
+        iconScale={1.25} />
+    {:else}
+      <Fab
+        on:click={handlePauseClick}
+        iconColor="var(--foregroundText)"
+        color="var(--background)"
+        hoverColor="var(--foreground)"
+        iconData={pause}
+        iconScale={1.25} />
+    {/if}
+  </div>
+  <div class="time-control">
+    <input
+      type="range"
+      name="points"
+      min={0}
+      on:input={event => {
+        currentTime = event.target.value;
+      }}
+      max={duration}
+      value={currentTime} />
+  </div>
+  <div class="volume-control">
     <Fab
       on:click={handleVolumeClick}
       iconColor="var(--foregroundText)"
       hoverColor="var(--foreground)"
       color="var(--background)"
-      iconData={volumeUp}
+      iconData={volumeIcon}
       iconScale={1.25} />
-  {:else}
-    <Fab
-      on:click={handleMuteClick}
-      iconColor="var(--foregroundText)"
-      hoverColor="var(--foreground)"
-      color="var(--background)"
-      iconData={volumeOff}
-      iconScale={1.25} />
-  {/if}
+  </div>
 </div>
