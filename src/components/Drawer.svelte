@@ -16,6 +16,8 @@
   }
 
   .drawer {
+    flex-shrink: 0;
+    flex-grow: 0;
     height: 100%;
     background-color: var(--background);
     color: var(--backgroundText);

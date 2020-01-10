@@ -42,6 +42,8 @@
     align-items: center;
     height: 72px;
     width: 100%;
+
+    color: var(--foregroundText);
   }
 
   .drawer-content *:hover {
@@ -72,7 +74,7 @@
     color: var(--foregroundText);
     background-color: var(--background);
 
-    height: 64px;
+    height: 56px;
     flex-shrink: 0;
 
     display: flex;
