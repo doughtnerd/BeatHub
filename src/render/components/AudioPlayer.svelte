@@ -6,7 +6,7 @@
 
   let currentTime = 0;
   let duration;
-  let paused;
+  let paused = true;
   let volume = 1;
 
   $: formattedCurrentTime = formatAsTime(currentTime);
@@ -28,6 +28,11 @@
       return `${minutes}:0${seconds}`;
     }
     return `${minutes}:${seconds}`;
+  }
+
+  function handleOnInput(event) {
+    if (!previewUrl) return;
+    currentTime = event.target.value;
   }
 
   function handlePlayClick() {
@@ -97,7 +102,7 @@
 <div class="audio-container">
   {#if $beatmapPreview}
     <img
-      src="http://beatsaver.com{$beatmapPreview.coverURL}"
+      src="https://beatsaver.com{$beatmapPreview.coverURL}"
       alt="song image" />
   {:else}
     <div style="height: 56px; width: 56px;" />
@@ -127,9 +132,7 @@
       type="range"
       name="points"
       min={0}
-      on:input={event => {
-        currentTime = event.target.value;
-      }}
+      on:input={handleOnInput}
       max={duration}
       value={currentTime} />
   </div>

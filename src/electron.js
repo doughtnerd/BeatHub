@@ -14,7 +14,6 @@ function createWindow() {
     }
   });
 
-  // mainWindow.webContents.openDevTools();
   mainWindow.setMenu(null);
 
   let watcher;

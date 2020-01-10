@@ -93,7 +93,7 @@
 
 <div class="beatmap-list-item">
   <div class="beatmap-graphic-container">
-    <img src="http://beatsaver.com{beatmap.coverURL}" alt="beatmap cover" />
+    <img src="https://beatsaver.com{beatmap.coverURL}" alt="beatmap cover" />
   </div>
 
   <div class="beatmap-info-container">
