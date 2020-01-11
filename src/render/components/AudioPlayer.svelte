@@ -1,5 +1,6 @@
 <script>
-  import { previewUrl, beatmapPreview } from "../stores/beatmap-preview.store";
+  import LoadingSpinner from "./LoadingSpinner.svelte";
+  import { beatmapPreviewStore } from "../stores/beatmap-preview.store";
   import Fab from "./Fab.svelte";
   import Icon from "svelte-awesome";
   import { play, pause, volumeUp, volumeOff } from "svelte-awesome/icons";
@@ -14,7 +15,7 @@
   $: volumeIcon = volume > 0 ? volumeUp : volumeOff;
 
   function handleEnded() {
-    beatmapPreview.stop();
+    beatmapPreviewStore.stop();
     currentTime = 0;
     duration = 0;
   }
@@ -31,17 +32,17 @@
   }
 
   function handleOnInput(event) {
-    if (!previewUrl) return;
+    if (!$beatmapPreviewStore.previewUrl) return;
     currentTime = event.target.value;
   }
 
   function handlePlayClick() {
-    if (!$previewUrl) return;
+    if (!$beatmapPreviewStore.previewUrl) return;
     paused = false;
   }
 
   function handlePauseClick() {
-    if (!$previewUrl) return;
+    if (!$beatmapPreviewStore.previewUrl) return;
     paused = true;
   }
 
@@ -92,7 +93,7 @@
 
 <audio
   autoplay
-  src={$previewUrl}
+  src={$beatmapPreviewStore.previewUrl}
   on:ended={handleEnded}
   bind:volume
   bind:paused
@@ -100,9 +101,15 @@
   bind:duration />
 
 <div class="audio-container">
-  {#if $beatmapPreview}
+  {#if $beatmapPreviewStore.loading}
+    <div
+      style="display: flex; flex-direction: column; justify-content: center;
+      height: 56px; width: 56px;">
+      <LoadingSpinner />
+    </div>
+  {:else if $beatmapPreviewStore.activePreview}
     <img
-      src="https://beatsaver.com{$beatmapPreview.coverURL}"
+      src="https://beatsaver.com{$beatmapPreviewStore.activePreview.coverURL}"
       alt="song image" />
   {:else}
     <div style="height: 56px; width: 56px;" />

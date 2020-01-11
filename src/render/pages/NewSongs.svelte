@@ -2,7 +2,7 @@
   import InfiniteBeatmapList from "../components/InfiniteBeatmapList.svelte";
   import LoadingScreen from "../components/LoadingScreen.svelte";
   import { newMapsStore } from "../stores/beatmap.store";
-  import { beatmapPreview } from "../stores/beatmap-preview.store";
+  import { beatmapPreviewStore } from "../stores/beatmap-preview.store";
   import { downloads } from "../stores/downloads.store";
   import { onMount } from "svelte";
 
@@ -19,11 +19,11 @@
   }
 
   function handlePreview({ detail }) {
-    beatmapPreview.preview(detail);
+    beatmapPreviewStore.preview(detail);
   }
 
   function handleStop() {
-    beatmapPreview.stop();
+    beatmapPreviewStore.stop();
   }
 
   function handleDownload({ detail }) {

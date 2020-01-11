@@ -1,7 +1,7 @@
 <script>
   import { download, play, stop } from "svelte-awesome/icons";
   import { createEventDispatcher } from "svelte";
-
+  import LoadingSpinner from "./LoadingSpinner.svelte";
   import BeatmapStats from "./BeatmapStats.svelte";
   import Fab from "./Fab.svelte";
   import PrimaryText from "./PrimaryText.svelte";
@@ -13,12 +13,18 @@
   import ExpertPlusChip from "./ExpertPlusChip.svelte";
   import ModeChip from "./ModeChip.svelte";
 
-  import { beatmapPreview } from "../stores/beatmap-preview.store";
+  import {
+    beatmapPreviewStore,
+    activeBeatmapPreviewKey,
+    beatmapToPreviewKey
+  } from "../stores/beatmap-preview.store";
 
   export let beatmap;
 
-  $: isCurrentlyPlaying =
-    $beatmapPreview && $beatmapPreview.key === beatmap.key;
+  $: isCurrentlyPlaying = $activeBeatmapPreviewKey === beatmap.key;
+
+  $: isCurrentlyLoading =
+    $beatmapToPreviewKey === beatmap.key && $beatmapPreviewStore.loading;
 
   const dispatch = createEventDispatcher();
 
@@ -82,6 +88,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        align-items: center;
 
         div {
           margin-left: 8px;
@@ -137,7 +144,9 @@
 
     <div class="beatmap-audio-controls">
       <div>
-        {#if !isCurrentlyPlaying}
+        {#if isCurrentlyLoading}
+          <LoadingSpinner />
+        {:else if !isCurrentlyPlaying}
           <Fab
             on:click={handlePreviewClick}
             iconColor="white"
