@@ -1,8 +1,7 @@
 <script>
+  import LoadingScreen from "../components/LoadingScreen.svelte";
+  import InfiniteBeatmapList from "../components/InfiniteBeatmapList.svelte";
   import { searchStore } from "../stores/search.store";
-  import SvelteInfiniteScroll from "svelte-infinite-scroll";
-  import BeatmapList from "../components/BeatmapList.svelte";
-  import BeatmapListItem from "../components/BeatmapListItem.svelte";
   import { beatmapPreview } from "../stores/beatmap-preview.store";
   import { downloads } from "../stores/downloads.store";
 
@@ -122,38 +121,19 @@
 
   </div>
 
-  {#if $searchStore.songs.length == 0}
-    {#await handleLoadMore()}
-      <span>Loading Songs...</span>
-    {:then songs}
-      <BeatmapList>
-
-        {#each $searchStore.songs as beatmap}
-          <BeatmapListItem
-            on:preview={handlePreview}
-            on:stop={handleStop}
-            on:download={handleDownload}
-            {beatmap} />
-        {/each}
-        <SvelteInfiniteScroll threshold={10} on:loadMore={handleLoadMore} />
-
-      </BeatmapList>
-    {:catch error}
-      <div>Error Loading Songs</div>
-      <div>{error}</div>
-    {/await}
+  {#if $searchStore.searching}
+    <LoadingScreen />
   {:else}
-    <BeatmapList>
-
-      {#each $searchStore.songs as beatmap}
-        <BeatmapListItem
-          on:preview={handlePreview}
-          on:stop={handleStop}
-          on:download={handleDownload}
-          {beatmap} />
-      {/each}
-      <SvelteInfiniteScroll threshold={10} on:loadMore={handleLoadMore} />
-
-    </BeatmapList>
+    <InfiniteBeatmapList
+      maps={$searchStore.maps}
+      on:preview={handlePreview}
+      on:stop={handleStop}
+      on:download={handleDownload}
+      on:loadMore={handleLoadMore} />
+    {#if $searchStore.loading}
+      <div style="height: 80px">
+        <LoadingScreen />
+      </div>
+    {/if}
   {/if}
 </div>

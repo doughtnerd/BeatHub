@@ -15,8 +15,11 @@ function makeQuery(page, query) {
 function createSearchStore() {
   const store = writable({
     nextPage: 0,
-    songs: [],
-    query: ""
+    maps: [],
+    query: "",
+    error: null,
+    searching: false,
+    loading: false
   });
 
   const { set, update, subscribe } = store;
@@ -25,36 +28,51 @@ function createSearchStore() {
     subscribe,
     search: async query => {
       try {
+        update(current => ({
+          ...current,
+          query,
+          searching: true,
+          loading: true
+        }));
         const results = await makeQuery(0, query);
-        set({
+        update(current => ({
+          ...current,
+          maps: [...results],
+          searching: false,
           nextPage: 1,
-          songs: [...results],
-          query: query,
-          error: null
-        });
+          loading: false
+        }));
       } catch (err) {
         set({
           nextPage: 0,
-          songs: [],
+          maps: [],
           query: query,
-          error: err
+          error: err,
+          searching: false,
+          loading: false
         });
       }
     },
     loadNextPage: async () => {
-      let { nextPage, query, songs } = get(store);
+      let { nextPage, query, maps } = get(store);
       try {
+        update(current => ({
+          ...current,
+          loading: true
+        }));
         let results = await makeQuery(nextPage, query);
         update(current => ({
           nextPage: current.nextPage + 1,
-          songs: [...current.songs, ...results],
+          maps: [...current.maps, ...results],
           query: query,
-          error: null
+          error: null,
+          loading: false
         }));
       } catch (err) {
         update(current => ({
           ...current,
-          error: err
+          error: err,
+          loading: false
         }));
       }
     }

@@ -19,26 +19,50 @@ function makeQuery(endpoint, nextPage) {
 function createBeatmapStore(endpoint) {
   const store = writable({
     nextPage: 0,
-    songs: [],
-    error: null
+    maps: [],
+    error: null,
+    loading: false
   });
 
   return {
     subscribe: store.subscribe,
+    loadFirstPage: async () => {
+      store.update(current => ({
+        ...current,
+        loading: true
+      }));
+      const newSongs = await makeQuery(endpoint, 0);
+
+      store.update(current => ({
+        nextPage: current.nextPage + 1,
+        maps: [...newSongs],
+        error: null,
+        loading: false
+      }));
+    },
     loadNextPage: async () => {
       const { nextPage } = get(store);
       try {
+        store.update(current => ({
+          ...current,
+          loading: true
+        }));
         const newSongs = await makeQuery(endpoint, nextPage);
 
         store.update(current => {
           return {
             nextPage: current.nextPage + 1,
-            songs: [...current.songs, ...newSongs],
+            maps: [...current.maps, ...newSongs],
+            loading: false,
             error: null
           };
         });
       } catch (err) {
-        store.update(current => ({ ...current, error: err }));
+        store.update(current => ({
+          ...current,
+          error: err,
+          loading: false
+        }));
       }
     }
   };
