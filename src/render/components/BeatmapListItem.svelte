@@ -42,11 +42,13 @@
 </script>
 
 <style type="text/scss">
-  $imgSize: 126px;
+  :root {
+    --beatmapListItemCoverImgSize: 126px;
+  }
 
   .beatmap-list-item {
-    height: $imgSize;
-    max-height: $imgSize;
+    height: var(--beatmapListItemCoverImgSize);
+    max-height: var(--beatmapListItemCoverImgSize);
     padding: 8px;
 
     display: flex;
@@ -58,8 +60,8 @@
       flex-shrink: 0.2;
 
       img {
-        width: $imgSize;
-        height: $imgSize;
+        width: var(--beatmapListItemCoverImgSize);
+        height: var(--beatmapListItemCoverImgSize);
       }
     }
 

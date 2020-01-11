@@ -1,5 +1,8 @@
 <script>
   export let color = "var(--primary)";
+  export let scale = 1;
+
+  $: scaleToPx = 8 * scale + "px";
 </script>
 
 <style>
@@ -9,8 +12,8 @@
   }
 
   .spinner > div {
-    width: 8px;
-    height: 8px;
+    width: var(--scale);
+    height: var(--scale);
     background-color: var(--spinnerColor);
 
     border-radius: 100%;
@@ -54,7 +57,7 @@
   }
 </style>
 
-<div class="spinner" style="--spinnerColor:{color}">
+<div class="spinner" style="--spinnerColor:{color}; --scale:{scaleToPx}">
   <div class="bounce1" />
   <div class="bounce2" />
   <div class="bounce3" />

@@ -17,9 +17,11 @@
     TOP_RATED_MAPS,
     TOP_DOWNLOADED_MAPS,
     SETTINGS,
+    DOWNLOADS,
     activeView
   } from "./stores/active-view.store";
   import NewSongs from "./pages/NewSongs.svelte";
+  import Downloads from "./pages/Downloads.svelte";
   import HotSongs from "./pages/HotSongs.svelte";
   import TopRatedSongs from "./pages/TopRatedSongs.svelte";
   import TopDownloadedSongs from "./pages/TopDownloadedSongs.svelte";
@@ -66,7 +68,7 @@
   }
 
   .app-container::-webkit-scrollbar {
-  display: none;
+    display: none;
   }
 
   .main {
@@ -75,7 +77,7 @@
   }
 
   .main::-webkit-scrollbar {
-  display: none;
+    display: none;
   }
 
   footer {
@@ -131,9 +133,9 @@
           <Icon scale={2} data={exclamation} />
         </div>
         <div
-          class:active={$activeView === NEW_MAPS}
+          class:active={$activeView === DOWNLOADS}
           on:click={() => {
-            activeView.set(NEW_MAPS);
+            activeView.set(DOWNLOADS);
           }}>
           <Icon scale={2} data={tasks} />
         </div>
@@ -163,6 +165,9 @@
       {/if}
       {#if $activeView === SETTINGS}
         <Settings />
+      {/if}
+      {#if $activeView === DOWNLOADS}
+        <Downloads />
       {/if}
 
     </Drawer>
