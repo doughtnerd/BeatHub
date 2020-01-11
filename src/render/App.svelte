@@ -65,9 +65,17 @@
     flex-direction: column;
   }
 
+  .app-container::-webkit-scrollbar {
+  display: none;
+  }
+
   .main {
     overflow: hidden;
     flex-grow: 2;
+  }
+
+  .main::-webkit-scrollbar {
+  display: none;
   }
 
   footer {

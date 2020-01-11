@@ -4,6 +4,14 @@
   --backgroundText: #929292;
   --foregroundText: #e1e1e1;
 
+  /* --background: #c0c0c0;
+  --foreground: #ffffff;
+  --backgroundText: #a0a0a0;
+  --foregroundText: #000000; */
+
+  --primaryText: #f0f0f0;
+  --secondaryText: #929292;
+
   --primary: #59b0f3;
   --secondary: #ff6347;
   --error: #be2942;

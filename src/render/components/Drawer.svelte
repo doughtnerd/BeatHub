@@ -22,6 +22,11 @@
     background-color: var(--background);
     color: var(--backgroundText);
     overflow-y: scroll;
+    
+  }
+
+  .drawer::-webkit-scrollbar {
+  display: none;
   }
 
   .drawer--slim {
@@ -46,6 +51,10 @@
 
     display: flex;
     flex-direction: column;
+  }
+
+  .main::-webkit-scrollbar {
+  display: none;
   }
 </style>
 
