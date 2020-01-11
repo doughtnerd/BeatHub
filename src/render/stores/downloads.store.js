@@ -4,38 +4,25 @@ import JSZip from "jszip";
 const { remote } = window.require("electron");
 const fs = remote.require("fs");
 
-const ROOT_DOWNLOAD_FOLDER = "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels/";
+async function downloadBeatmap(beatmap) {
+  const resp = await fetch(`https://beatsaver.com` + beatmap.directDownload);
+  const blob = await resp.blob();
 
-export const downloads = createDownloadsStore();
+  const zip = new JSZip();
+  await zip.loadAsync(blob);
 
-function createDownloadsStore() {
-  const { subscribe, set, update } = writable([]);
+  Object.keys(zip.files).forEach(async filename => {
+    const content = await zip.file(filename).async("nodebuffer");
+    const songFolderName = formatFolderName(beatmap);
+    const destFolder = `${ROOT_DOWNLOAD_FOLDER}${songFolderName}/`;
 
-  return {
-    subscribe,
-    download: async beatmap => {
-      // downloadBeatmap(beatmap);
-      const resp = await fetch(
-        `https://beatsaver.com` + beatmap.directDownload
-      );
-      const blob = await resp.blob();
-
-      const zip = new JSZip();
-      await zip.loadAsync(blob);
-
-      Object.keys(zip.files).forEach(async filename => {
-        const content = await zip.file(filename).async("nodebuffer");
-        const songFolderName = formatFolderName(beatmap);
-        const destFolder = `${ROOT_DOWNLOAD_FOLDER}${songFolderName}/`;
-        if (!fs.existsSync(destFolder)) {
-          fs.mkdirSync(destFolder);
-        }
-
-        const dest = destFolder + filename;
-        fs.writeFileSync(dest, content);
-      });
+    if (!fs.existsSync(destFolder)) {
+      fs.mkdirSync(destFolder);
     }
-  };
+
+    const dest = destFolder + filename;
+    fs.writeFileSync(dest, content);
+  });
 }
 
 function formatFolderName(beatmap) {
@@ -47,3 +34,50 @@ function formatFolderName(beatmap) {
     ""
   )} - ${levelAuthorName})`;
 }
+
+function createDownloadsStore() {
+  const store = writable({
+    downloadDirectory:
+      "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels/",
+    downloading: {},
+    completed: {}
+  });
+
+  return {
+    subscribe: store.subscribe,
+    changeDownloadDirectory: newDirectory => {
+      store.update(current => ({
+        ...current,
+        downloadDirectory: newDirectory
+      }));
+    },
+    download: async beatmap => {
+      store.update(current => {
+        return {
+          ...current,
+          downloading: {
+            ...current.downloading,
+            [beatmap.key]: beatmap
+          }
+        };
+      });
+
+      await downloadBeatmap(beatmap);
+
+      store.update(current => {
+        const newDownloading = { ...current.downloading };
+        delete newDownloading[beatmap.key];
+        return {
+          ...current,
+          downloading: newDownloading,
+          completed: {
+            ...current.completed,
+            [beatmap.key]: beatmap
+          }
+        };
+      });
+    }
+  };
+}
+
+export const downloads = createDownloadsStore();

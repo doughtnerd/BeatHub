@@ -21,7 +21,7 @@
   }
 
   function formatAsTime(timeInSeconds) {
-    if (!duration) return "0:00";
+    if (!timeInSeconds) return "0:00";
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
 
