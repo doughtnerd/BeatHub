@@ -28,9 +28,10 @@
   import Search from "./pages/Search.svelte";
   import Settings from "./pages/Settings.svelte";
   import AudioPlayer from "./components/AudioPlayer.svelte";
+  import Badge from "./components/Badge.svelte";
   import { downloads } from "./stores/downloads.store";
 
-  downloads.init();
+  $: numberOfDownloads = Object.keys($downloads.downloading).length;
 </script>
 
 <style>
@@ -40,7 +41,7 @@
     justify-content: flex-start;
   }
 
-  .drawer-content * {
+  .drawer-item {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -51,13 +52,13 @@
     color: var(--foregroundText);
   }
 
-  .drawer-content *:hover {
+  .drawer-item:hover {
     background-color: var(--foreground);
     cursor: pointer;
   }
 
-  .drawer-content *:active,
-  .drawer-content .active {
+  .drawer-item:active,
+  .drawer-item.active {
     background-color: var(--foreground);
     color: var(--primary);
   }
@@ -101,6 +102,7 @@
     <Drawer mode="slim">
       <div class="drawer-content" slot="drawer-content">
         <div
+          class="drawer-item"
           class:active={$activeView === SEARCH}
           on:click={() => {
             activeView.set(SEARCH);
@@ -108,6 +110,7 @@
           <Icon scale={2} data={search} />
         </div>
         <div
+          class="drawer-item"
           class:active={$activeView === TOP_RATED_MAPS}
           on:click={() => {
             activeView.set(TOP_RATED_MAPS);
@@ -115,6 +118,7 @@
           <Icon scale={2} data={star} />
         </div>
         <div
+          class="drawer-item"
           class:active={$activeView === TOP_DOWNLOADED_MAPS}
           on:click={() => {
             activeView.set(TOP_DOWNLOADED_MAPS);
@@ -122,6 +126,7 @@
           <Icon scale={2} data={arrowCircleDown} />
         </div>
         <div
+          class="drawer-item"
           class:active={$activeView === HOT_MAPS}
           on:click={() => {
             activeView.set(HOT_MAPS);
@@ -129,6 +134,7 @@
           <Icon scale={2} data={fire} />
         </div>
         <div
+          class="drawer-item"
           class:active={$activeView === NEW_MAPS}
           on:click={() => {
             activeView.set(NEW_MAPS);
@@ -136,13 +142,20 @@
           <Icon scale={2} data={exclamation} />
         </div>
         <div
+          class="drawer-item"
           class:active={$activeView === DOWNLOADS}
           on:click={() => {
             activeView.set(DOWNLOADS);
           }}>
           <Icon scale={2} data={tasks} />
+          <div style="position: absolute; left: 8px">
+            <Badge color="white" background="var(--error)">
+              {numberOfDownloads}
+            </Badge>
+          </div>
         </div>
         <div
+          class="drawer-item"
           class:active={$activeView === SETTINGS}
           on:click={() => {
             activeView.set(SETTINGS);

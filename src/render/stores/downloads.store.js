@@ -24,7 +24,6 @@ async function downloadBeatmap(beatmap, downloadDirectory) {
 
     const dest = destFolder + filename;
 
-    console.log(dest);
     fs.writeFileSync(dest, content);
   });
 }
