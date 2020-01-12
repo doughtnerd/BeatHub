@@ -6,6 +6,11 @@ const storage = new Store();
 const { remote } = window.require("electron");
 const fs = remote.require("fs");
 
+const DEFAULT_WINDOWS_STEAM_LOCATION =
+  "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels";
+const DEFAULT_WINDOWS_OCULUS_LOCATION =
+  "C:/Program Files/Oculus/Software/Software/hyperbolic-magnetism-beat-saber";
+
 async function downloadBeatmap(beatmap, downloadDirectory) {
   const resp = await fetch(`https://beatsaver.com` + beatmap.directDownload);
   const blob = await resp.blob();
@@ -44,7 +49,13 @@ function getDownloadDirectory() {
   if (hasDownloadDirectory) {
     return storage.get("downloadDirectory");
   } else {
-    return "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels";
+    if (fs.existsSync(DEFAULT_WINDOWS_OCULUS_LOCATION)) {
+      return DEFAULT_WINDOWS_OCULUS_LOCATION;
+    } else if (fs.existsSync(DEFAULT_WINDOWS_STEAM_LOCATION)) {
+      return DEFAULT_WINDOWS_STEAM_LOCATION;
+    }
+    // TODO: Add in prompting for install location;
+    return "";
   }
 }
 
