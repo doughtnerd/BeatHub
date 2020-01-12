@@ -25,8 +25,7 @@ build a real world project to learn Svelte 3 with.
 
 ## Planned Features
 
-1. BeatSaber install folder selection
-2. Mod installation support
+1. Mod installation support
 
 ## Contributing
 
