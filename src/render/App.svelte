@@ -28,6 +28,9 @@
   import Search from "./pages/Search.svelte";
   import Settings from "./pages/Settings.svelte";
   import AudioPlayer from "./components/AudioPlayer.svelte";
+  import { downloads } from "./stores/downloads.store";
+
+  downloads.init();
 </script>
 
 <style>

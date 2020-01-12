@@ -13,13 +13,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   overflow: hidden;
-
-  
 }
 
 body::-webkit-scrollbar {
   display: none;
-  }
+}
 
 a {
   color: rgb(0, 100, 200);

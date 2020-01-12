@@ -31,6 +31,8 @@
   "dependencies": {
     "@material-ui/icons": "~4.5.1",
     "electron-dl": "~2.0.0",
+    "electron-json-storage": "~4.1.8",
+    "electron-store": "~5.1.0",
     "jszip": "~3.2.2",
     "svelte-awesome": "~2.2.1",
     "svelte-infinite-scroll": "~0.1.0"

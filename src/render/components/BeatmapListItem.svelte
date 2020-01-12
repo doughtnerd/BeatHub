@@ -19,10 +19,14 @@
     beatmapToPreviewKey
   } from "../stores/beatmap-preview.store";
 
+  import { downloads } from "../stores/downloads.store";
+
   export let beatmap;
 
   $: isCurrentlyPlaying = $activeBeatmapPreviewKey === beatmap.key;
-
+  $: isCurrentlyDownloading = $downloads.downloading.hasOwnProperty(
+    beatmap.key
+  );
   $: isCurrentlyLoading =
     $beatmapToPreviewKey === beatmap.key && $beatmapPreviewStore.loading;
 
@@ -166,12 +170,17 @@
 
       </div>
       <div>
-        <Fab
-          on:click={handleDownloadClick}
-          iconColor="white"
-          color="#FF6347"
-          iconData={download}
-          iconScale={1.5} />
+        {#if isCurrentlyDownloading}
+          <LoadingSpinner />
+        {:else}
+          <Fab
+            on:click={handleDownloadClick}
+            iconColor="white"
+            color="#FF6347"
+            iconData={download}
+            iconScale={1.5} />
+        {/if}
+
       </div>
     </div>
 

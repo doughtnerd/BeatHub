@@ -1,0 +1,35 @@
+{
+  "_version": "2.0.0",
+  "_songName": "Burly Brawl",
+  "_songSubName": "",
+  "_songAuthorName": "The Matrix Reloaded",
+  "_levelAuthorName": "SpacePoulp",
+  "_beatsPerMinute": 175,
+  "_shuffle": 0,
+  "_shufflePeriod": 0.5,
+  "_previewStartTime": 12,
+  "_previewDuration": 28,
+  "_songFilename": "burlybrawl.egg",
+  "_coverImageFilename": "cover.png",
+  "_environmentName": "BigMirrorEnvironment",
+  "_songTimeOffset": 0,
+  "_difficultyBeatmapSets": [
+    {
+      "_beatmapCharacteristicName": "Standard",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "Expert",
+          "_difficultyRank": 7,
+          "_beatmapFilename": "ExpertStandard.dat",
+          "_noteJumpMovementSpeed": 20,
+          "_noteJumpStartBeatOffset": 0.5,
+          "_customData": {
+            "_editorOffset": 0,
+            "_editorOldOffset": 0
+          }
+        }
+      ]
+    }
+  ],
+  "_allDirectionsEnvironmentName": "GlassDesertEnvironment"
+}

@@ -1,10 +1,12 @@
-import { writable, derived, readable } from "svelte/store";
+import { writable, derived, readable, get } from "svelte/store";
 import JSZip from "jszip";
+const Store = require("electron-store");
+const storage = new Store();
 
 const { remote } = window.require("electron");
 const fs = remote.require("fs");
 
-async function downloadBeatmap(beatmap) {
+async function downloadBeatmap(beatmap, downloadDirectory) {
   const resp = await fetch(`https://beatsaver.com` + beatmap.directDownload);
   const blob = await resp.blob();
 
@@ -14,13 +16,15 @@ async function downloadBeatmap(beatmap) {
   Object.keys(zip.files).forEach(async filename => {
     const content = await zip.file(filename).async("nodebuffer");
     const songFolderName = formatFolderName(beatmap);
-    const destFolder = `${ROOT_DOWNLOAD_FOLDER}${songFolderName}/`;
+    const destFolder = `${downloadDirectory}/${songFolderName}/`;
 
     if (!fs.existsSync(destFolder)) {
-      fs.mkdirSync(destFolder);
+      fs.mkdirSync(destFolder, { recursive: true });
     }
 
     const dest = destFolder + filename;
+
+    console.log(dest);
     fs.writeFileSync(dest, content);
   });
 }
@@ -35,23 +39,40 @@ function formatFolderName(beatmap) {
   )} - ${levelAuthorName})`;
 }
 
+function getDownloadDirectory() {
+  const hasDownloadDirectory = storage.has("downloadDirectory");
+
+  if (hasDownloadDirectory) {
+    return storage.get("downloadDirectory");
+  } else {
+    return "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels";
+  }
+}
+
 function createDownloadsStore() {
   const store = writable({
-    downloadDirectory:
-      "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels/",
+    downloadDirectory: "",
     downloading: {},
     completed: {}
   });
 
+  store.update(current => ({
+    ...current,
+    downloadDirectory: getDownloadDirectory()
+  }));
+
   return {
     subscribe: store.subscribe,
-    changeDownloadDirectory: newDirectory => {
+    init: async () => {},
+    changeDownloadDirectory: async newDirectory => {
       store.update(current => ({
         ...current,
         downloadDirectory: newDirectory
       }));
+      storage.set("downloadDirectory", newDirectory);
     },
     download: async beatmap => {
+      const { downloadDirectory } = get(store);
       store.update(current => {
         return {
           ...current,
@@ -62,7 +83,7 @@ function createDownloadsStore() {
         };
       });
 
-      await downloadBeatmap(beatmap);
+      await downloadBeatmap(beatmap, downloadDirectory);
 
       store.update(current => {
         const newDownloading = { ...current.downloading };
