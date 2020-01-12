@@ -42,9 +42,10 @@ build a real world project to learn Svelte 3 with.
 
 ## Planned Features
 
-1. Song Library Management
-2. Mod installation support
-3. Mac Support
+1. Auto Updates
+2. Song Library Management
+3. Mod installation support
+4. Mac Support
 
 ## Contributing
 
