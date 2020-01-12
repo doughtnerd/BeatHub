@@ -6,7 +6,31 @@
 
 A tiny and fast Beatsaver custom beatmap browser & downloader for your computer.
 
-Still in active dev, but soon will make an executable release.
+## Features
+
+- Search for beatmaps available through beatsaver.com
+
+![Search Demo](demo/Search.gif)
+
+- Browse top rated, top downloded, hottest, and newest custom beatmaps
+
+![Lists Demo](demo/BeatmapLists.gif)
+
+- Preview any beatmap before downloading, scrub through the song to see how you like it.
+
+![Preview Demo](demo/SongPreviewing.gif)
+
+- Quickly download custom beatmaps directly to your BeatSaber directory
+
+![Download Demo](demo/SongDownloading.gif)
+
+- Set Beatmap download folder
+
+![Path Demo](demo/InstallLocation.gif)
+
+## How to get
+
+[Go to releases](https://github.com/doughtnerd/BeatHub/releases/tag/1.0.0)
 
 ## Background
 
@@ -15,13 +39,6 @@ working on that project for ideas on how to make the client work. The rest of th
 
 I started working on this because I was having a bit of an unreliable experience with the BeatDrop (not to knock that project, it's still an excellent) software and felt a more simplified client for browsing & downloading songs would be nice. I also at the time was playing around with [Svelte 3](https://svelte.dev/) & [Electron](https://electronjs.org/) and reeeeally wanted to
 build a real world project to learn Svelte 3 with.
-
-## Features
-
-- Search for beatmaps available through beatsaver.com
-- Browse top rated, top downloaded, hottest, and newest custom beatmaps
-- Preview any beatmap before downloading, scrub through the song to see how you like it.
-- Quickly download custom beatmaps directly to your BeatSaber directory
 
 ## Planned Features
 
