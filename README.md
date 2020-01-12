@@ -37,7 +37,7 @@ A tiny and fast Beatsaver custom beatmap browser & downloader for your computer.
 I was inspired by [BeatDrop](https://github.com/StarGazer1258/BeatDrop), most of the credit goes to the developers
 working on that project for ideas on how to make the client work. The rest of the credit goes to the BeatSaver.com devs for their API docs and their online site.
 
-I started working on this because I was having a bit of an unreliable experience with the BeatDrop (not to knock that project, it's still an excellent codebase) software and felt a more simplified client for browsing & downloading songs would be nice. I also at the time was playing around with [Svelte 3](https://svelte.dev/) & [Electron](https://electronjs.org/) and reeeeally wanted to
+I started working on this because I was having a bit of an unreliable experience with the BeatDrop (not to knock that project, it's still an excellent mod & map manager) software and felt a more simplified client for browsing & downloading songs would be nice. I also at the time was playing around with [Svelte 3](https://svelte.dev/) & [Electron](https://electronjs.org/) and reeeeally wanted to
 build a real world project to learn Svelte 3 with.
 
 ## Planned Features
