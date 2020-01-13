@@ -7,7 +7,7 @@ const { remote } = window.require("electron");
 const fs = remote.require("fs");
 
 const DEFAULT_WINDOWS_STEAM_LOCATION =
-  "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels";
+  "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber";
 const DEFAULT_WINDOWS_OCULUS_LOCATION =
   "C:/Program Files/Oculus/Software/Software/hyperbolic-magnetism-beat-saber";
 
@@ -21,7 +21,7 @@ async function downloadBeatmap(beatmap, downloadDirectory) {
   Object.keys(zip.files).forEach(async filename => {
     const content = await zip.file(filename).async("nodebuffer");
     const songFolderName = formatFolderName(beatmap);
-    const destFolder = `${downloadDirectory}/${songFolderName}/`;
+    const destFolder = `${downloadDirectory}/Beat Saber_Data/CustomLevels/${songFolderName}/`;
 
     if (!fs.existsSync(destFolder)) {
       fs.mkdirSync(destFolder, { recursive: true });
