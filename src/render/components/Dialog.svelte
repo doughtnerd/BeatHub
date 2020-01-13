@@ -19,13 +19,13 @@
   }
 
   .backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.75);
   }
 
   .dialog {
-    background-color: white;
+    background-color: var(--foreground);
     padding: 16px;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.25);
     width: 400px;
     height: 200px;
 
