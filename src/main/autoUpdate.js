@@ -1,6 +1,6 @@
 const log = require("electron-log");
 const { autoUpdater } = require("electron-updater");
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { BrowserWindow, ipcMain } = require("electron");
 
 function register() {
   autoUpdater.logger = log;
@@ -45,13 +45,12 @@ function register() {
     sendStatusToWindow("updateDownloaded", "Update downloaded");
   });
 
-  app.on("ready", () => {
-    autoUpdater.checkForUpdatesAndNotify();
-  });
 
   ipcMain.handle("restartAndUpdate", () => {
     autoUpdater.quitAndInstall(true, true);
   });
+
+  return autoUpdater;
 }
 
 module.exports = { register };

@@ -1,10 +1,9 @@
 const { app, BrowserWindow, Menu, protocol, ipcMain } = require("electron");
 const path = require("path");
 const log = require("electron-log");
-const autoUpdater = require("./main/autoUpdate");
+const autoUpdater = require("./main/autoUpdate").register();
 
 let mainWindow;
-autoUpdater.register();
 
 log.info("App starting...");
 
@@ -42,7 +41,10 @@ function createWindow() {
   });
 }
 
-app.on("ready", createWindow);
+app.on("ready", () => {
+  createWindow();
+  autoUpdater.checkForUpdatesAndNotify();
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
