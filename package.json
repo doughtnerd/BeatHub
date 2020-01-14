@@ -47,15 +47,10 @@
   "scripts": {
     "autobuild": "rollup -c -w",
     "build": "electron-builder .",
-    "dev": "run-p start:dev autobuild",
-    "electron": "run-s build pure-electron",
     "electron-dev": "run-p autobuild pure-electron-dev",
     "windows:electron-dev": "run-p autobuild windows:pure-electron-dev",
-    "dist-darwin": "run-s build pure-dist-darwin",
-    "pure-electron": "electron .",
     "pure-electron-dev": "NODE_ENV=development electron --inspect=3000 .",
-    "windows:pure-electron-dev": "set NODE_ENV=development && npx electron --inspect=3000 .",
-    "pure-dist-darwin": "electron-builder --dir --mac --config electron-builder.yml",
+    "windows:pure-electron-dev": "set NODE_ENV=development&&set ROLLUP_WATCH=true&&electron --inspect=3000 .",
     "publish": "electron-builder --win -p always"
   },
   "build": {

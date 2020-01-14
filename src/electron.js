@@ -22,7 +22,8 @@ function createWindow() {
   mainWindow.setMenu(null);
 
   let watcher;
-  if (mode === "development") {
+  console.log(mode, mode == "development")
+  if (mode == "development") {
     watcher = require("chokidar").watch(
       path.join(__dirname, "../public/bundle.js"),
       { ignoreInitial: true }
