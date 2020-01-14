@@ -1,7 +1,11 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, Menu, protocol, ipcMain } = require("electron");
 const path = require("path");
+const log = require("electron-log");
+const autoUpdater = require("./main/autoUpdate").register();
 
 let mainWindow;
+
+log.info("App starting...");
 
 function createWindow() {
   const mode = process.env.NODE_ENV;
@@ -17,7 +21,8 @@ function createWindow() {
   mainWindow.setMenu(null);
 
   let watcher;
-  if (process.env.NODE_ENV === "development") {
+  console.log(mode, mode == "development")
+  if (mode == "development") {
     watcher = require("chokidar").watch(
       path.join(__dirname, "../public/bundle.js"),
       { ignoreInitial: true }
@@ -36,23 +41,18 @@ function createWindow() {
   });
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on("ready", createWindow);
+app.on("ready", () => {
+  createWindow();
+  autoUpdater.checkForUpdatesAndNotify();
+});
 
-// Quit when all windows are closed.
 app.on("window-all-closed", () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
 app.on("activate", () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
   }

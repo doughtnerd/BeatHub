@@ -29,6 +29,7 @@
   import Settings from "./pages/Settings.svelte";
   import AudioPlayer from "./components/AudioPlayer.svelte";
   import Badge from "./components/Badge.svelte";
+  import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
   import { downloads } from "./stores/downloads.store";
 
   $: numberOfDownloads = Object.keys($downloads.downloading).length;
@@ -192,3 +193,4 @@
     <AudioPlayer />
   </footer>
 </div>
+<UpdateReadyDialog />
