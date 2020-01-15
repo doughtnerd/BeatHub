@@ -1,7 +1,7 @@
 <script>
   import PrimaryText from "../components/PrimaryText.svelte";
   import { downloads } from "../stores/downloads.store";
-  const appVersion = require('electron').remote.app.getVersion();
+  const appVersion = require("electron").remote.app.getVersion();
   function handleOnChange(event) {
     if (event.target.files[0] && event.target.files[0].path) {
       downloads.changeDownloadDirectory(event.target.files[0].path);
@@ -38,16 +38,19 @@
   }
 </style>
 
-<input
-  bind:this={installLocInput}
-  type="file"
-  style="visibility: hidden;"
-  webkitdirectory
-  on:change={handleOnChange} />
-
 <div class="container">
-  <PrimaryText><h1>App Version</h1></PrimaryText>
-  <div><span>{appVersion}</span></div>
+  <input
+    bind:this={installLocInput}
+    type="file"
+    style="display: none"
+    webkitdirectory
+    on:change={handleOnChange} />
+  <PrimaryText>
+    <h1>App Version</h1>
+  </PrimaryText>
+  <div>
+    <span>{appVersion}</span>
+  </div>
   <PrimaryText>
     <h1>Beat Saber Install Location</h1>
   </PrimaryText>

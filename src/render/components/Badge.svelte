@@ -4,15 +4,13 @@
 </script>
 
 <style>
-  .wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .badge {
+    position: absolute;
     height: 24px;
     width: 24px;
   }
 
-  .badge {
+  .badge-text {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -28,8 +26,8 @@
   }
 </style>
 
-<div class="wrapper" style="--color:{color}; --background:{background}">
-  <span class="badge">
+<div class="badge" style="--color:{color}; --background:{background}">
+  <span class="badge-text">
     <slot />
   </span>
 </div>
