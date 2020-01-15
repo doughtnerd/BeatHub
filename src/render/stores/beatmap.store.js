@@ -41,7 +41,8 @@ function createBeatmapStore(endpoint) {
       }));
     },
     loadNextPage: async () => {
-      const { nextPage } = get(store);
+      const { nextPage, loading } = get(store);
+      if (loading) return;
       try {
         store.update(current => ({
           ...current,
