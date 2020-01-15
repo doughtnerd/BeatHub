@@ -22,11 +22,11 @@
     background-color: var(--background);
     color: var(--backgroundText);
     overflow-y: scroll;
-    
+    /* overflow-x: hidden; */
   }
 
   .drawer::-webkit-scrollbar {
-  display: none;
+    display: none;
   }
 
   .drawer--slim {
@@ -54,7 +54,7 @@
   }
 
   .main::-webkit-scrollbar {
-  display: none;
+    display: none;
   }
 </style>
 

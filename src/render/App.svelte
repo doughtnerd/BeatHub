@@ -29,47 +29,25 @@
   import Settings from "./pages/Settings.svelte";
   import AudioPlayer from "./components/AudioPlayer.svelte";
   import Badge from "./components/Badge.svelte";
+  import Tooltip from "./components/Tooltip.svelte";
   import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
+  import DrawerItem from "./components/DrawerItem.svelte";
   import { downloads } from "./stores/downloads.store";
 
   $: numberOfDownloads = Object.keys($downloads.downloading).length;
 </script>
 
 <style>
-  .drawer-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
-  .drawer-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    height: 72px;
-    width: 100%;
-
-    color: var(--foregroundText);
-  }
-
-  .drawer-item:hover {
-    background-color: var(--foreground);
-    cursor: pointer;
-  }
-
-  .drawer-item:active,
-  .drawer-item.active {
-    background-color: var(--foreground);
-    color: var(--primary);
-  }
-
   .app-container {
     height: 100vh;
     width: 100vw;
 
     display: flex;
     flex-direction: column;
+  }
+
+  .drawer-content {
+    position: static;
   }
 
   .app-container::-webkit-scrollbar {
@@ -102,67 +80,61 @@
   <div class="main">
     <Drawer mode="slim">
       <div class="drawer-content" slot="drawer-content">
-        <div
-          class="drawer-item"
-          class:active={$activeView === SEARCH}
+        <DrawerItem
+          itemName={SEARCH}
+          currentActiveView={$activeView}
+          icon={search}
           on:click={() => {
             activeView.set(SEARCH);
-          }}>
-          <Icon scale={2} data={search} />
-        </div>
-        <div
-          class="drawer-item"
-          class:active={$activeView === TOP_RATED_MAPS}
+          }} />
+        <DrawerItem
+          itemName={TOP_RATED_MAPS}
+          currentActiveView={$activeView}
+          icon={star}
           on:click={() => {
             activeView.set(TOP_RATED_MAPS);
-          }}>
-          <Icon scale={2} data={star} />
-        </div>
-        <div
-          class="drawer-item"
-          class:active={$activeView === TOP_DOWNLOADED_MAPS}
+          }} />
+        <DrawerItem
+          itemName={TOP_DOWNLOADED_MAPS}
+          currentActiveView={$activeView}
+          icon={arrowCircleDown}
           on:click={() => {
             activeView.set(TOP_DOWNLOADED_MAPS);
-          }}>
-          <Icon scale={2} data={arrowCircleDown} />
-        </div>
-        <div
-          class="drawer-item"
-          class:active={$activeView === HOT_MAPS}
+          }} />
+        <DrawerItem
+          itemName={HOT_MAPS}
+          currentActiveView={$activeView}
+          icon={fire}
           on:click={() => {
             activeView.set(HOT_MAPS);
-          }}>
-          <Icon scale={2} data={fire} />
-        </div>
-        <div
-          class="drawer-item"
-          class:active={$activeView === NEW_MAPS}
+          }} />
+        <DrawerItem
+          itemName={NEW_MAPS}
+          currentActiveView={$activeView}
+          icon={exclamation}
           on:click={() => {
             activeView.set(NEW_MAPS);
-          }}>
-          <Icon scale={2} data={exclamation} />
-        </div>
-        <div
-          class="drawer-item"
-          class:active={$activeView === DOWNLOADS}
+          }} />
+        <DrawerItem
+          itemName={DOWNLOADS}
+          currentActiveView={$activeView}
+          icon={tasks}
           on:click={() => {
             activeView.set(DOWNLOADS);
           }}>
-          <Icon scale={2} data={tasks} />
-          <div style="position: absolute; left: 8px">
+          <div style="position: absolute; left: 8px;">
             <Badge color="white" background="var(--error)">
-              {numberOfDownloads}
+              <span>{numberOfDownloads}</span>
             </Badge>
           </div>
-        </div>
-        <div
-          class="drawer-item"
-          class:active={$activeView === SETTINGS}
+        </DrawerItem>
+        <DrawerItem
+          itemName={SETTINGS}
+          currentActiveView={$activeView}
+          icon={cog}
           on:click={() => {
             activeView.set(SETTINGS);
-          }}>
-          <Icon scale={2} data={cog} />
-        </div>
+          }} />
       </div>
 
       {#if $activeView === NEW_MAPS}
