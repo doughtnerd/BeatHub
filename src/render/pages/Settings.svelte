@@ -1,7 +1,8 @@
 <script>
   import PrimaryText from "../components/PrimaryText.svelte";
   import { downloads } from "../stores/downloads.store";
-  const appVersion = require("electron").remote.app.getVersion();
+  import { appInfoStore } from "../stores/app-info.store";
+
   function handleOnChange(event) {
     if (event.target.files[0] && event.target.files[0].path) {
       downloads.changeDownloadDirectory(event.target.files[0].path);
@@ -49,7 +50,7 @@
     <h1>App Version</h1>
   </PrimaryText>
   <div>
-    <span>{appVersion}</span>
+    <span>{$appInfoStore.appVersion}</span>
   </div>
   <PrimaryText>
     <h1>Beat Saber Install Location</h1>

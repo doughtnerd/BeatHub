@@ -1,15 +1,15 @@
 const log = require("electron-log");
 const { autoUpdater } = require("electron-updater");
-const { BrowserWindow, ipcMain } = require("electron");
+const { ipcMain } = require("electron");
 
-function register() {
+function register(mainWindow) {
   autoUpdater.logger = log;
   autoUpdater.logger.transports.file.level = "info";
 
   const sendStatusToWindow = (channel, text) => {
     log.info(`${channel}: ${text}`);
 
-    BrowserWindow.getFocusedWindow().webContents.send(channel, text);
+    mainWindow.webContents.send(channel, text);
   };
 
   autoUpdater.on("checking-for-update", () => {
@@ -44,7 +44,6 @@ function register() {
   autoUpdater.on("update-downloaded", info => {
     sendStatusToWindow("updateDownloaded", "Update downloaded");
   });
-
 
   ipcMain.handle("restartAndUpdate", () => {
     autoUpdater.quitAndInstall(true, true);
