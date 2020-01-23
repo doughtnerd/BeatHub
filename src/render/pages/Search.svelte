@@ -23,6 +23,21 @@
   function handleSearch(event) {
     searchStore.search(event.target.value);
   }
+
+  function handleDebounceSearch(event) {
+    console.log(event.target.value);
+  }
+
+  function debounce(func, timeout) {
+    let timer;
+    return (...args) => {
+      const next = () => func(...args);
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(next, timeout > 0 ? timeout : 300);
+    };
+  }
 </script>
 
 <style>
@@ -110,6 +125,7 @@
     <div class="form__group field">
       <input
         on:change={handleSearch}
+        on:input={debounce(handleSearch, 500)}
         type="search"
         class="form__field"
         placeholder="Name"
