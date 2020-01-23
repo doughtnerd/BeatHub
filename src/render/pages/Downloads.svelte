@@ -38,16 +38,16 @@
 <div class="downloads-container">
 
   <h1>Queued</h1>
-  {#each queuedBeatmaps as beatmap}
+  {#each queuedBeatmaps as item}
     <div class="list">
-      <DownloadsListItem {beatmap} isDownloading={true} />
+      <DownloadsListItem beatmap={item.beatmap} isDownloading={true} />
     </div>
   {/each}
 
   <h1>Completed</h1>
-  {#each downloadedBeatmaps as beatmap}
+  {#each downloadedBeatmaps as item}
     <div class="list">
-      <DownloadsListItem {beatmap} isDownloading={false} />
+      <DownloadsListItem beatmap={item} isDownloading={false} />
     </div>
   {/each}
 

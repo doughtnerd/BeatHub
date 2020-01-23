@@ -1,14 +1,11 @@
 import { writable } from "svelte/store";
 
-const electron = require("electron");
-const { ipcRenderer } = electron;
-
 function createUpdateDialogStore() {
   const store = writable({
     isOpen: false
   });
 
-  ipcRenderer.on("updateDownloaded", () => {
+  window.api.receive("updateDownloaded", () => {
     store.set({ isOpen: true });
   });
 
@@ -21,7 +18,7 @@ function createUpdateDialogStore() {
       store.set({ isOpen: false });
     },
     updateAndRestart: () => {
-      ipcRenderer.invoke("restartAndUpdate");
+      window.api.invoke("restartAndUpdate");
     }
   };
 }
