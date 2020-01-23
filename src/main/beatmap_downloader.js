@@ -26,7 +26,12 @@ function download(url, onProgress, onEnd) {
 
 async function extractBeatmap(buffer, rootFolder, songFolderName) {
   const zip = new JSZip();
-  await zip.loadAsync(buffer);
+
+  try {
+    await zip.loadAsync(buffer);
+  } catch (err) {
+    console.info(err.message);
+  }
 
   Object.keys(zip.files).forEach(async filename => {
     const content = await zip.file(filename).async("nodebuffer");
