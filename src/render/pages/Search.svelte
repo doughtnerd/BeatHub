@@ -20,12 +20,9 @@
   function handleDownload({ detail }) {
     downloads.download(detail);
   }
+
   function handleSearch(event) {
     searchStore.search(event.target.value);
-  }
-
-  function handleDebounceSearch(event) {
-    console.log(event.target.value);
   }
 
   function debounce(func, timeout) {
@@ -43,11 +40,9 @@
 <style>
   .search-container {
     background-color: var(--forground);
-    /* position: ; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    /* width: 90%; */
     height: 72px;
     align-items: center;
   }
@@ -63,10 +58,10 @@
     font-family: inherit;
     width: 100%;
     border: 0;
-    border-bottom: 2px solid #9b9b9b;
+    border-bottom: 2px solid var(--backgroundText);
     outline: 0;
     font-size: 1.3rem;
-    color: var(--foregroundText);
+    color: var(--backgroundText);
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
@@ -86,7 +81,7 @@
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: var(--foregroundText);
+    color: var(--backgroundText);
   }
 
   .form__field:focus {
@@ -102,7 +97,7 @@
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: #59b0f3;
+    color: var(--primary);
     font-weight: 700;
   }
 
@@ -115,7 +110,6 @@
   .song-list-container {
     padding-top: 72px;
     overflow: hidden;
-    /* height: calc(100% - 64px); */
     max-height: calc(100% - 72px);
   }
 </style>

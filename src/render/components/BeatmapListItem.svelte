@@ -12,6 +12,7 @@
   import ExpertChip from "./ExpertChip.svelte";
   import ExpertPlusChip from "./ExpertPlusChip.svelte";
   import ModeChip from "./ModeChip.svelte";
+  import ListDivider from "./ListDivider.svelte";
 
   import {
     beatmapPreviewStore,
@@ -47,7 +48,7 @@
 
 <style type="text/scss">
   :root {
-    --beatmapListItemCoverImgSize: 126px;
+    --beatmapListItemCoverImgSize: 150px;
   }
 
   .beatmap-list-item {
@@ -82,6 +83,10 @@
         flex-direction: column;
         justify-content: flex-start;
       }
+
+      .beatmap-modes > * {
+        margin-right: 8px;
+      }
     }
 
     .beatmap-meta {
@@ -112,7 +117,9 @@
   <div class="beatmap-info-container">
 
     <div class="beatmap-song-info">
-      <PrimaryText>{beatmap.metadata.songName}</PrimaryText>
+      <PrimaryText>
+        <span style="font-size: 24px">{beatmap.metadata.songName}</span>
+      </PrimaryText>
       <SecondaryText>{beatmap.metadata.songAuthorName}</SecondaryText>
       <SecondaryText>
         Uploaded by: {beatmap.metadata.levelAuthorName}
@@ -155,13 +162,15 @@
         {:else if !isCurrentlyPlaying}
           <Fab
             on:click={handlePreviewClick}
+            scale={6}
             iconColor="white"
-            color="#59B0F3"
+            color="var(--primary)"
             iconData={play}
             iconScale={1.5} />
         {:else}
           <Fab
             on:click={handleStopClick}
+            scale={6}
             iconColor="white"
             color="#BD2942"
             iconData={stop}
@@ -175,8 +184,9 @@
         {:else}
           <Fab
             on:click={handleDownloadClick}
+            scale={6}
             iconColor="white"
-            color="#FF6347"
+            color="var(--secondary)"
             iconData={download}
             iconScale={1.5} />
         {/if}
@@ -187,3 +197,4 @@
   </div>
 
 </div>
+<ListDivider />

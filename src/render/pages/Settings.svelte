@@ -2,11 +2,17 @@
   import PrimaryText from "../components/PrimaryText.svelte";
   import { downloads } from "../stores/downloads.store";
   import { appInfoStore } from "../stores/app-info.store";
+  import { availableThemesStore, themeStore } from "../stores/theme.store";
 
   function handleOnChange(event) {
     if (event.target.files[0] && event.target.files[0].path) {
       downloads.changeDownloadDirectory(event.target.files[0].path);
     }
+  }
+
+  function handleThemeChange(event) {
+    const theme = event.target.value;
+    themeStore.setTheme(theme);
   }
 
   let installLocInput;
@@ -52,6 +58,7 @@
   <div>
     <span>{$appInfoStore.appVersion}</span>
   </div>
+
   <PrimaryText>
     <h1>Beat Saber Install Location</h1>
   </PrimaryText>
@@ -60,6 +67,7 @@
     <div class="folder-selection-buttons">
 
       <button
+        class="primary"
         id="folder-selection"
         on:click={() => {
           installLocInput.click();
@@ -67,5 +75,16 @@
         Choose Location
       </button>
     </div>
+  </div>
+
+  <PrimaryText>
+    <h1>Theme</h1>
+  </PrimaryText>
+  <div class="theme-selection">
+    <select on:change={handleThemeChange} value={$themeStore.currentThemeName}>
+      {#each $availableThemesStore as theme}
+        <option value={theme}>{theme}</option>
+      {/each}
+    </select>
   </div>
 </div>

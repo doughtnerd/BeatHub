@@ -33,6 +33,7 @@
   import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
   import DrawerItem from "./components/DrawerItem.svelte";
   import { downloads } from "./stores/downloads.store";
+  import { themeStore } from "./stores/theme.store";
 
   $: numberOfDownloads = Object.keys($downloads.downloading).length;
 </script>
@@ -166,3 +167,7 @@
   </footer>
 </div>
 <UpdateReadyDialog />
+
+<svelte:head>
+  <link rel="stylesheet" href={$themeStore.currentThemeCss} />
+</svelte:head>

@@ -1,8 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const log = require("electron-log");
-const autoUpdater = require("./main/autoUpdate");
-const downloadManager = require("./main/downloadManager");
+const autoUpdater = require("./main/updating/autoUpdate");
+const downloadManager = require("./main/downloading/downloadManager");
+const themeManager = require("./main/theming/themeManager");
 const url = require("url");
 
 let mainWindow;
@@ -14,8 +15,8 @@ ipcMain.handle("getAppVersion", () => {
 function createWindow() {
   const mode = process.env.NODE_ENV;
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 680,
+    width: 1024,
+    height: 720,
     frame: true,
     webPreferences: {
       nodeIntegration: false,
@@ -61,6 +62,7 @@ app.on("ready", () => {
   const mainWindow = createWindow();
 
   downloadManager.register(mainWindow);
+  themeManager.register(mainWindow);
 
   const updater = autoUpdater.register(mainWindow);
   updater.checkForUpdatesAndNotify();

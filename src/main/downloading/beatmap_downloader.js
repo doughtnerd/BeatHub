@@ -1,6 +1,10 @@
 const https = require("https");
 const fs = require("fs");
 const JSZip = require("jszip");
+const {
+  DOWNLOAD_COMPLETE,
+  DOWNLOAD_PROGRESS
+} = require("../../constants/channelNames");
 
 function download(url, onProgress, onEnd) {
   const request = https.get(url, res => {
@@ -84,7 +88,7 @@ process.on("message", (message, sendHandle) => {
     `https://beatsaver.com` + beatmap.directDownload,
     (bytesReceived, totalBytes) => {
       process.send({
-        messageType: "downloadProgress",
+        messageType: DOWNLOAD_PROGRESS,
         beatmap,
         bytesReceived,
         totalBytes
@@ -92,7 +96,7 @@ process.on("message", (message, sendHandle) => {
     },
     buffer => {
       extractBeatmap(buffer, downloadsFolder, songFolderName);
-      process.send({ messageType: "downloadComplete", beatmap });
+      process.send({ messageType: DOWNLOAD_COMPLETE, beatmap });
     }
   );
 });

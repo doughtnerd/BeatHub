@@ -1,7 +1,6 @@
 <style>
   .primary-text {
     font-weight: 800;
-    color: var(--foregroundText);
   }
 </style>
 

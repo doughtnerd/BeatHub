@@ -1,4 +1,9 @@
 import { writable } from "svelte/store";
+import {
+  GET_DOWNLOAD_DIRECTORY,
+  DOWNLOAD_BEATMAP,
+  DOWNLOAD_COMPLETE
+} from "../../constants/channelNames";
 
 function createDownloadsStore() {
   const store = writable({
@@ -7,7 +12,7 @@ function createDownloadsStore() {
     completed: {}
   });
 
-  window.api.invoke("getDownloadDirectory").then(dir => {
+  window.api.invoke(GET_DOWNLOAD_DIRECTORY).then(dir => {
     store.update(current => ({
       ...current,
       downloadDirectory: dir
@@ -31,7 +36,7 @@ function createDownloadsStore() {
   //   }
   // );
 
-  window.api.receive("downloadComplete", ({ beatmap }) => {
+  window.api.receive(DOWNLOAD_COMPLETE, ({ beatmap }) => {
     store.update(current => {
       const newDownloading = { ...current.downloading };
       delete newDownloading[beatmap.key];
@@ -49,7 +54,7 @@ function createDownloadsStore() {
   return {
     subscribe: store.subscribe,
     changeDownloadDirectory: async newDirectory => {
-      await window.api.invoke("changeDownloadDirectory", newDirectory);
+      await window.api.invoke(CHANGE_DOWNLOAD_DIRECTORY, newDirectory);
       store.update(current => ({
         ...current,
         downloadDirectory: newDirectory
@@ -70,7 +75,7 @@ function createDownloadsStore() {
         };
       });
 
-      await window.api.invoke("downloadBeatmap", beatmap);
+      await window.api.invoke(DOWNLOAD_BEATMAP, beatmap);
     }
   };
 }

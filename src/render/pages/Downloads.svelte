@@ -21,8 +21,8 @@
   ::-webkit-scrollbar-thumb {
     background-image: linear-gradient(
       to bottom,
-      var(--primary),
-      var(--secondary)
+      var(--scrollbarPrimaryColor),
+      var(--scrollbarSecondaryColor)
     );
     border: 2px solid var(--background);
   }

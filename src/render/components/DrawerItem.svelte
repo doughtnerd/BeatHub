@@ -19,11 +19,11 @@
     height: 72px;
     width: 100%;
 
-    color: var(--foregroundText);
+    color: var(--backgroundText);
   }
 
   .drawer-item:hover {
-    background-color: var(--foreground);
+    background-color: var(--foregroundText);
     cursor: pointer;
   }
 

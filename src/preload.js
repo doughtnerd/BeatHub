@@ -15,7 +15,9 @@ contextBridge.exposeInMainWorld("api", {
       "restartAndUpdate",
       "getDownloadDirectory",
       "getAppVersion",
-      "downloadBeatmap"
+      "downloadBeatmap",
+      "getCurrentTheme",
+      "setCurrentTheme"
     ];
     if (validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, args);

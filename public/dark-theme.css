@@ -1,18 +1,68 @@
+body {
+  color: var(--backgroundText);
+}
+
+button {
+  color: #333;
+  background-color: #f4f4f4;
+  outline: none;
+}
+
+button:hover {
+  background-color: #bebebe;
+}
+
+button:active {
+  background-color: #ddd;
+}
+
+button:focus {
+  border-color: #666;
+}
+
+button.primary {
+  background-color: var(--primary);
+  color: white;
+}
+
 :root {
-  --background: #000000;
-  --foreground: #1c1c1c;
-  --backgroundText: #929292;
-  --foregroundText: #e1e1e1;
+  --background: #111111;
+  --foreground: #252525;
+  --backgroundText: #f0f0f0;
+  --foregroundText: #b3b3b3;
 
-  /* --background: #c0c0c0;
-  --foreground: #ffffff;
-  --backgroundText: #a0a0a0;
-  --foregroundText: #000000; */
-
-  --primaryText: #f0f0f0;
-  --secondaryText: #929292;
-
-  --primary: #59b0f3;
+  --primary: #1598ef;
   --secondary: #ff6347;
-  --error: #be2942;
+  --error: #d12844;
+
+  --listDividerColor: rgba(255, 255, 255, 0.75);
+
+  --tooltipBackgroundColor: var(--background);
+
+  --modeChipBackgroundColor: #d8d8d8;
+  --modeChipTextColor: rgb(0, 0, 0);
+
+  --easyChipBackgroundColor: #29bd6c;
+  --easyChipTextColor: white;
+
+  --normalChipBackgroundColor: #1598ef;
+  --normalChipTextColor: white;
+
+  --hardChipBackgroundColor: #ff6347;
+  --hardChipTextColor: white;
+
+  --expertChipBackgroundColor: #d12844;
+  --expertChipTextColor: white;
+
+  --expertPlusChipBackgroundColor: #8f47db;
+  --expertPlusChipTextColor: white;
+
+  --scrollbarPrimaryColor: var(--primary);
+  --scrollbarSecondaryColor: var(--secondary);
+
+  --beatmapKeyIconColor: gold;
+  --beatmapUpvotesIconColor: #29bd6c;
+  --beatmapDownvotesIconColor: #d12844;
+  --beatmapDownloadsIconColor: #1598ef;
+  --beatmapRatingIconColor: #ff6347;
 }
