@@ -23,7 +23,7 @@
   }
 
   .drawer-item:hover {
-    background-color: var(--foregroundText);
+    background-color: var(--buttonHoverColor);
     cursor: pointer;
   }
 

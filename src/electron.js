@@ -1,9 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, session } = require("electron");
 const path = require("path");
 const log = require("electron-log");
 const autoUpdater = require("./main/updating/autoUpdate");
 const downloadManager = require("./main/downloading/downloadManager");
 const themeManager = require("./main/theming/themeManager");
+const previewManager = require("./main/previewing/previewManager");
 const url = require("url");
 
 let mainWindow;
@@ -59,10 +60,22 @@ function createWindow() {
 }
 
 app.on("ready", () => {
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: Object.assign(
+        {
+          "Content-Security-Policy": ["default-src 'self'"]
+        },
+        details.responseHeaders
+      )
+    });
+  });
+
   const mainWindow = createWindow();
 
   downloadManager.register(mainWindow);
   themeManager.register(mainWindow);
+  previewManager.register(mainWindow);
 
   const updater = autoUpdater.register(mainWindow);
   updater.checkForUpdatesAndNotify();

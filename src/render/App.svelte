@@ -1,6 +1,5 @@
 <script>
   import Drawer from "./components/Drawer.svelte";
-  import Icon from "svelte-awesome";
   import {
     search,
     fire,
@@ -32,10 +31,10 @@
   import Tooltip from "./components/Tooltip.svelte";
   import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
   import DrawerItem from "./components/DrawerItem.svelte";
-  import { downloads } from "./stores/downloads.store";
+  import Toast from "./components/Toast.svelte";
+  import ErrorNotificationBar from "./components/ErrorNotificationBar.svelte";
+  import { downloads, numberOfDownloads } from "./stores/downloads.store";
   import { themeStore } from "./stores/theme.store";
-
-  $: numberOfDownloads = Object.keys($downloads.downloading).length;
 </script>
 
 <style>
@@ -125,7 +124,7 @@
           }}>
           <div style="position: absolute; left: 8px;">
             <Badge color="white" background="var(--error)">
-              <span>{numberOfDownloads}</span>
+              <span>{$numberOfDownloads}</span>
             </Badge>
           </div>
         </DrawerItem>
@@ -166,7 +165,12 @@
     <AudioPlayer />
   </footer>
 </div>
+
+<ErrorNotificationBar />
+
 <UpdateReadyDialog />
+
+<Toast />
 
 <svelte:head>
   <link rel="stylesheet" href={$themeStore.currentThemeCss} />

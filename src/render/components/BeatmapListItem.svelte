@@ -47,10 +47,6 @@
 </script>
 
 <style type="text/scss">
-  :root {
-    --beatmapListItemCoverImgSize: 150px;
-  }
-
   .beatmap-list-item {
     height: var(--beatmapListItemCoverImgSize);
     max-height: var(--beatmapListItemCoverImgSize);
@@ -71,21 +67,17 @@
     }
 
     .beatmap-info-container {
+      flex-grow: 2;
+
       display: flex;
       flex-direction: column;
-      flex-grow: 2;
       justify-content: space-between;
-      padding: 0 8px 8px 8px;
-      overflow: hidden;
+      padding: 0 0 8px 8px;
 
       .beatmap-song-info {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-      }
-
-      .beatmap-modes > * {
-        margin-right: 8px;
       }
     }
 
@@ -93,19 +85,26 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      width: 104px;
 
       .beatmap-audio-controls {
         width: 100%;
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
 
-        div {
-          margin-left: 8px;
-        }
+        // div {
+        //   margin-left: 8px;
+        //   flex-shrink: 0;
+        //   flex-grow: 0;
+        // }
       }
     }
+  }
+
+  .beatmap-modes * {
+    margin-right: 8px;
   }
 </style>
 

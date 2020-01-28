@@ -3,7 +3,6 @@
 
   export let scale = 5;
   export let color;
-  export let hoverColor = "#30588e";
   export let iconColor;
   export let iconData;
   export let iconScale;
@@ -18,7 +17,6 @@
 
     background: var(--color);
     color: var(--iconColor);
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
 
     display: flex;
     justify-content: center;
@@ -26,7 +24,7 @@
   }
 
   .round-button-circle:hover {
-    background: var(--hoverColor);
+    background: var(--buttonHoverColor);
   }
 
   .round-button:hover {
@@ -36,7 +34,7 @@
 
 <div
   class="round-button"
-  style="--hoverColor:{hoverColor}; height:{scale * 8}px; width:{scale * 8}px"
+  style="height:{scale * 8}px; width:{scale * 8}px"
   on:click>
   <div
     class="round-button-circle"

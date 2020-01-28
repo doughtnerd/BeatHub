@@ -34,6 +34,7 @@
     "svelte-preprocess": "~3.3.0"
   },
   "dependencies": {
+    "adm-zip": "~0.4.13",
     "electron-log": "^4.0.3",
     "electron-store": "~5.1.0",
     "electron-updater": "^4.2.0",

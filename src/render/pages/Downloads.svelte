@@ -1,9 +1,6 @@
 <script>
-  import DownloadsListItem from "../components/DownloadsListItem.svelte";
-  import { downloads } from "../stores/downloads.store";
-
-  $: queuedBeatmaps = Object.values($downloads.downloading);
-  $: downloadedBeatmaps = Object.values($downloads.completed);
+  import QueuedDownloadsList from "../components/QueuedDownloadsList.svelte";
+  import CompletedDownloadsList from "../components/CompletedDownloadsList.svelte";
 </script>
 
 <style>
@@ -26,29 +23,12 @@
     );
     border: 2px solid var(--background);
   }
-
-  .list {
-    display: flex;
-    flex-direction: column;
-
-    padding: 16px;
-  }
 </style>
 
 <div class="downloads-container">
 
-  <h1>Queued</h1>
-  {#each queuedBeatmaps as item}
-    <div class="list">
-      <DownloadsListItem beatmap={item.beatmap} isDownloading={true} />
-    </div>
-  {/each}
+  <QueuedDownloadsList />
 
-  <h1>Completed</h1>
-  {#each downloadedBeatmaps as item}
-    <div class="list">
-      <DownloadsListItem beatmap={item} isDownloading={false} />
-    </div>
-  {/each}
+  <CompletedDownloadsList />
 
 </div>

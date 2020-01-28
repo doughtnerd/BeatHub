@@ -33,7 +33,7 @@ button.primary {
 
   --primary: #1598ef;
   --secondary: #ff6347;
-  --error: #d12844;
+  --error: #d42d44;
 
   --listDividerColor: rgba(255, 255, 255, 0.75);
 
@@ -42,7 +42,7 @@ button.primary {
   --modeChipBackgroundColor: #d8d8d8;
   --modeChipTextColor: rgb(0, 0, 0);
 
-  --easyChipBackgroundColor: #29bd6c;
+  --easyChipBackgroundColor: #2cc973;
   --easyChipTextColor: white;
 
   --normalChipBackgroundColor: #1598ef;
@@ -51,7 +51,7 @@ button.primary {
   --hardChipBackgroundColor: #ff6347;
   --hardChipTextColor: white;
 
-  --expertChipBackgroundColor: #d12844;
+  --expertChipBackgroundColor: #d42d44;
   --expertChipTextColor: white;
 
   --expertPlusChipBackgroundColor: #8f47db;
@@ -61,8 +61,15 @@ button.primary {
   --scrollbarSecondaryColor: var(--secondary);
 
   --beatmapKeyIconColor: gold;
-  --beatmapUpvotesIconColor: #29bd6c;
-  --beatmapDownvotesIconColor: #d12844;
+  --beatmapUpvotesIconColor: #2cc973;
+  --beatmapDownvotesIconColor: #d42d44;
   --beatmapDownloadsIconColor: #1598ef;
   --beatmapRatingIconColor: #ff6347;
+
+  --beatmapListItemCoverImgSize: 150px;
+
+  --toastBackgroundColor: var(--primary);
+  --toastTextColor: white;
+
+  --buttonHoverColor: #1598ef6c;
 }

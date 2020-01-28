@@ -64,4 +64,11 @@ button.primary {
   --beatmapDownvotesIconColor: #be2942;
   --beatmapDownloadsIconColor: #2755a0;
   --beatmapRatingIconColor: #e62200;
+
+  --beatmapListItemCoverImgSize: 150px;
+
+  --toastBackgroundColor: var(--primary);
+  --toastTextColor: white;
+
+  --buttonHoverColor: #2757a063;
 }

@@ -7,7 +7,7 @@ const storage = new Store();
 const { fork } = require("child_process");
 
 const {
-  BEATMAP_DOWNLOAD_ERROR,
+  DOWNLOAD_ERROR,
   DOWNLOAD_BEATMAP,
   CHANGE_DOWNLOAD_DIRECTORY,
   GET_DOWNLOAD_DIRECTORY
@@ -56,7 +56,7 @@ function register(mainWindow) {
     console.log(`Download manager child process quit...`);
   });
   childProcess.on("error", error => {
-    sendStatusToWindow(BEATMAP_DOWNLOAD_ERROR, { error });
+    sendStatusToWindow(DOWNLOAD_ERROR, { error });
   });
   childProcess.on("message", message => {
     sendStatusToWindow(message.messageType, message);

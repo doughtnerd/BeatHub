@@ -11,7 +11,11 @@ module.exports = {
   DOWNLOAD_BEATMAP: "downloadBeatmap",
   DOWNLOAD_PROGRESS: "downloadProgress",
   DOWNLOAD_COMPLETE: "downloadComplete",
+  DOWNLOAD_ERROR: "downloadError",
   CHANGE_DOWNLOAD_DIRECTORY: "changeDownloadDirectory",
   GET_DOWNLOAD_DIRECTORY: "getDownloadDirectory",
-  BEATMAP_DOWNLOAD_ERROR: "beatmapDownloadError"
+  BEATMAP_DOWNLOAD_ERROR: "beatmapDownloadError",
+  PREVIEW_BEATMAP: "previewBeatmap",
+  PREVIEW_LOADED: "previewLoaded",
+  PREVIEW_ERROR: "previewError"
 };

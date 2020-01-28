@@ -33,8 +33,8 @@ export default {
         importee === "svelte" || importee.startsWith("svelte/")
     }),
     commonjs(),
-    globals(),
-    builtins(),
+    // globals(),
+    // builtins(),
     postcss({
       extract: true,
       minimize: true,

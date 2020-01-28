@@ -125,7 +125,6 @@
         on:click={handlePlayClick}
         iconColor="var(--backgroundText)"
         color="var(--background)"
-        hoverColor="var(--foreground)"
         iconData={play}
         iconScale={1.25} />
     {:else}
@@ -133,7 +132,6 @@
         on:click={handlePauseClick}
         iconColor="var(--backgroundText)"
         color="var(--background)"
-        hoverColor="var(--foreground)"
         iconData={pause}
         iconScale={1.25} />
     {/if}
@@ -151,7 +149,6 @@
     <Fab
       on:click={handleVolumeClick}
       iconColor="var(--backgroundText)"
-      hoverColor="var(--foreground)"
       color="var(--background)"
       iconData={volumeIcon}
       iconScale={1.25} />
