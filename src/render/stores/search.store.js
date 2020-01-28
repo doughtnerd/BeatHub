@@ -27,6 +27,8 @@ function createSearchStore() {
   return {
     subscribe,
     search: async query => {
+      const storeVal = get(store);
+      if (query === storeVal.query) return;
       try {
         update(current => ({
           ...current,

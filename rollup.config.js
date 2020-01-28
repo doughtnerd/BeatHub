@@ -3,8 +3,6 @@ import commonjs from "rollup-plugin-commonjs";
 import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
 import postcss from "rollup-plugin-postcss";
-import builtins from "rollup-plugin-node-builtins";
-import globals from "rollup-plugin-node-globals";
 import resolve from "@rollup/plugin-node-resolve";
 import { autoPreprocess } from "svelte-preprocess/dist/autoProcess";
 
@@ -33,8 +31,6 @@ export default {
         importee === "svelte" || importee.startsWith("svelte/")
     }),
     commonjs(),
-    // globals(),
-    // builtins(),
     postcss({
       extract: true,
       minimize: true,

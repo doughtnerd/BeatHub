@@ -34,7 +34,7 @@ function createWindow() {
   let watcher;
   if (mode == "development") {
     watcher = require("chokidar").watch(
-      path.join(__dirname, "..", "public", "bundle.js"),
+      [path.join(__dirname, "..", "public", "bundle.js"), path.join(__dirname)],
       { ignoreInitial: true }
     );
     watcher.on("change", () => {
