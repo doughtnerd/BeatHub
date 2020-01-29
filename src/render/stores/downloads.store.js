@@ -3,7 +3,8 @@ import {
   GET_DOWNLOAD_DIRECTORY,
   DOWNLOAD_BEATMAP,
   DOWNLOAD_COMPLETE,
-  DOWNLOAD_ERROR
+  DOWNLOAD_ERROR,
+  CHANGE_DOWNLOAD_DIRECTORY
 } from "../../constants/channelNames";
 
 import { toastStore } from "./toast.store";
@@ -67,8 +68,8 @@ function createDownloadsStore() {
         };
       });
     },
-    changeDownloadDirectory: async newDirectory => {
-      await window.api.invoke(CHANGE_DOWNLOAD_DIRECTORY, newDirectory);
+    changeDownloadDirectory: async () => {
+      const newDirectory = await window.api.invoke(CHANGE_DOWNLOAD_DIRECTORY);
       store.update(current => ({
         ...current,
         downloadDirectory: newDirectory

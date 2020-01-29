@@ -1,11 +1,9 @@
-const { ipcMain } = require("electron");
+const { ipcMain, dialog } = require("electron");
+const { fork } = require("child_process");
+const Store = require("electron-store");
 const fs = require("fs");
 
-const Store = require("electron-store");
-
 const storage = new Store();
-
-const { fork } = require("child_process");
 
 const {
   DOWNLOAD_ERROR,
@@ -55,6 +53,17 @@ async function getDownloadDirectory() {
   }
 }
 
+function openFolderBrowser(startingDirectory) {
+  let options = {
+    title: "Select Beat Saber install directory",
+    defaultPath: startingDirectory,
+    buttonLabel: "Choose folder",
+    properties: ["openDirectory"]
+  };
+
+  return dialog.showOpenDialog(options);
+}
+
 function register(mainWindow) {
   const sendStatusToWindow = (channel, payload) => {
     mainWindow.webContents.send(channel, payload);
@@ -83,8 +92,17 @@ function register(mainWindow) {
     childProcess.send({ beatmap, downloadsFolder, songFolderName });
   });
 
-  ipcMain.on(CHANGE_DOWNLOAD_DIRECTORY, (event, newDirectory) => {
-    storage.set(DOWNLOAD_DIRECTORY, newDirectory);
+  ipcMain.handle(CHANGE_DOWNLOAD_DIRECTORY, async (event, eventData) => {
+    const currentDirectory = await getDownloadDirectory();
+    const selection = await openFolderBrowser(currentDirectory);
+
+    if (!selection.canceled) {
+      const newDir = selection.filePaths[0];
+      storage.set(DOWNLOAD_DIRECTORY, newDir);
+      return newDir;
+    } else {
+      return currentDirectory;
+    }
   });
 
   ipcMain.handle(GET_DOWNLOAD_DIRECTORY, () => {
