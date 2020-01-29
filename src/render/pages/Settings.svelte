@@ -4,10 +4,8 @@
   import { appInfoStore } from "../stores/app-info.store";
   import { availableThemesStore, themeStore } from "../stores/theme.store";
 
-  function handleOnChange(event) {
-    if (event.target.files[0] && event.target.files[0].path) {
-      downloads.changeDownloadDirectory(event.target.files[0].path);
-    }
+  function handleChangeDirectory(event) {
+    downloads.changeDownloadDirectory();
   }
 
   function handleThemeChange(event) {
@@ -46,12 +44,7 @@
 </style>
 
 <div class="container">
-  <input
-    bind:this={installLocInput}
-    type="file"
-    style="display: none"
-    webkitdirectory
-    on:change={handleOnChange} />
+  
   <PrimaryText>
     <h1>App Version</h1>
   </PrimaryText>
@@ -69,9 +62,7 @@
       <button
         class="primary"
         id="folder-selection"
-        on:click={() => {
-          installLocInput.click();
-        }}>
+        on:click={handleChangeDirectory}>
         Choose Location
       </button>
     </div>
