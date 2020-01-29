@@ -9,15 +9,14 @@ export function tooltip(node, tooltipText) {
   style.textContent = `
     .tooltip {
       position: absolute;
-      color: var(--foregroundText);
-      background-color: var(--background);
+      color: var(--backgroundText);
+      background-color: var(--tooltipBackgroundColor);
       border-radius: 8px;
       padding: 8px;
       width: 120px;
       text-align: center;
       transition: opacity .5s;
       transform: translate(5px, -50%);
-      text-shadow: 0 0 2px var(--background);
     }
 
     .tooltip::after {
@@ -28,7 +27,7 @@ export function tooltip(node, tooltipText) {
       margin-top: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent var(--background) transparent transparent;
+      border-color: transparent var(--tooltipBackgroundColor) transparent transparent;
     }
   `;
 

@@ -1,19 +1,14 @@
 <script>
   import Icon from "svelte-awesome";
 
+  export let scale = 5;
   export let color;
-  export let hoverColor = "#30588e";
   export let iconColor;
   export let iconData;
   export let iconScale;
 </script>
 
 <style>
-  .round-button {
-    width: 42px;
-    height: 42px;
-  }
-
   .round-button-circle {
     width: 100%;
     height: 100%;
@@ -22,7 +17,6 @@
 
     background: var(--color);
     color: var(--iconColor);
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
 
     display: flex;
     justify-content: center;
@@ -30,7 +24,7 @@
   }
 
   .round-button-circle:hover {
-    background: var(--hoverColor);
+    background: var(--buttonHoverColor);
   }
 
   .round-button:hover {
@@ -38,7 +32,10 @@
   }
 </style>
 
-<div class="round-button" style="--hoverColor:{hoverColor}" on:click>
+<div
+  class="round-button"
+  style="height:{scale * 8}px; width:{scale * 8}px"
+  on:click>
   <div
     class="round-button-circle"
     style="--color:{color}; --iconColor:{iconColor}">

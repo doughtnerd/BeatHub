@@ -1,11 +1,11 @@
 <style>
   .normal-chip {
-    color: white;
-    background-color: #59b0f3;
+    color: var(--normalChipTextColor);
+    background-color: var(--normalChipBackgroundColor);
     padding: 4px 8px 4px 8px;
     border-radius: 16px;
     font-weight: 500;
-    font-size: 0.8em;
+    font-size: 1rem;
   }
 </style>
 

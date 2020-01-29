@@ -74,6 +74,10 @@
     flex-shrink: 0;
   }
 
+  .time-display {
+    color: var(--backgroundText);
+  }
+
   img {
     border: none;
     outline: none;
@@ -114,22 +118,20 @@
   {:else}
     <div style="height: 56px; width: 56px;" />
   {/if}
-  <div class="time">{formattedCurrentTime} / {formattedDuration}</div>
+  <div class="time-display">{formattedCurrentTime} / {formattedDuration}</div>
   <div class="play-control">
     {#if paused}
       <Fab
         on:click={handlePlayClick}
-        iconColor="var(--foregroundText)"
+        iconColor="var(--backgroundText)"
         color="var(--background)"
-        hoverColor="var(--foreground)"
         iconData={play}
         iconScale={1.25} />
     {:else}
       <Fab
         on:click={handlePauseClick}
-        iconColor="var(--foregroundText)"
+        iconColor="var(--backgroundText)"
         color="var(--background)"
-        hoverColor="var(--foreground)"
         iconData={pause}
         iconScale={1.25} />
     {/if}
@@ -146,8 +148,7 @@
   <div class="volume-control">
     <Fab
       on:click={handleVolumeClick}
-      iconColor="var(--foregroundText)"
-      hoverColor="var(--foreground)"
+      iconColor="var(--backgroundText)"
       color="var(--background)"
       iconData={volumeIcon}
       iconScale={1.25} />

@@ -1,5 +1,5 @@
 <script>
-  import Icon from "svelte-awesome";
+  import BeatmapStat from "./BeatmapStat.svelte";
   import { thumbsDown } from "svelte-awesome/icons";
 
   export let count;
@@ -7,15 +7,6 @@
   $: textVal = count.toLocaleString();
 </script>
 
-<style>
-  div {
-    font-size: 0.8em;
-  }
-</style>
-
-<div>
+<BeatmapStat icon={thumbsDown} iconColor="var(--beatmapDownvotesIconColor)">
   <span>{textVal}</span>
-  <span style="color: red">
-    <Icon scale={0.8} data={thumbsDown} />
-  </span>
-</div>
+</BeatmapStat>

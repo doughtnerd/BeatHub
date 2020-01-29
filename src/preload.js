@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("api", {
   send: (channel, data) => {
-    let validChannels = ["downloadBeatmap"];
+    let validChannels = ["downloadBeatmap", "previewBeatmap"];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
     } else {
@@ -15,7 +15,10 @@ contextBridge.exposeInMainWorld("api", {
       "restartAndUpdate",
       "getDownloadDirectory",
       "getAppVersion",
-      "downloadBeatmap"
+      "downloadBeatmap",
+      "getCurrentTheme",
+      "setCurrentTheme",
+      "previewBeatmap"
     ];
     if (validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, args);
@@ -27,7 +30,10 @@ contextBridge.exposeInMainWorld("api", {
     let validChannels = [
       "downloadProgress",
       "downloadComplete",
-      "updateDownloaded"
+      "downloadError",
+      "updateDownloaded",
+      "previewLoaded",
+      "previewError"
     ];
     if (validChannels.includes(channel)) {
       ipcRenderer.on(channel, (event, args) => func(args));

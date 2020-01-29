@@ -1,4 +1,13 @@
-import { writable } from "svelte/store";
+import { writable, derived } from "svelte/store";
+import {
+  GET_DOWNLOAD_DIRECTORY,
+  DOWNLOAD_BEATMAP,
+  DOWNLOAD_COMPLETE,
+  DOWNLOAD_ERROR
+} from "../../constants/channelNames";
+
+import { toastStore } from "./toast.store";
+import { errorsStore } from "./errors.store";
 
 function createDownloadsStore() {
   const store = writable({
@@ -7,34 +16,36 @@ function createDownloadsStore() {
     completed: {}
   });
 
-  window.api.invoke("getDownloadDirectory").then(dir => {
+  window.api.invoke(GET_DOWNLOAD_DIRECTORY).then(dir => {
     store.update(current => ({
       ...current,
       downloadDirectory: dir
     }));
   });
 
-  // window.api.receive(
-  //   "downloadProgress",
-  //   ({ beatmap, bytesReceived, totalBytes }) => {
-  //     store.update(current => ({
-  //       ...current,
-  //       downloading: {
-  //         ...current.downloading,
-  //         [beatmap.key]: {
-  //           beatmap,
-  //           bytesReceived,
-  //           totalBytes
-  //         }
-  //       }
-  //     }));
-  //   }
-  // );
+  window.api.receive(DOWNLOAD_ERROR, ({ error, beatmap }) => {
+    errorsStore.showMessage(
+      `Encountered error while trying to download ${beatmap.name}`
+    );
 
-  window.api.receive("downloadComplete", ({ beatmap }) => {
     store.update(current => {
       const newDownloading = { ...current.downloading };
       delete newDownloading[beatmap.key];
+
+      return {
+        ...current,
+        downloading: newDownloading
+      };
+    });
+  });
+
+  window.api.receive(DOWNLOAD_COMPLETE, ({ beatmap }) => {
+    store.update(current => {
+      const newDownloading = { ...current.downloading };
+      delete newDownloading[beatmap.key];
+
+      toastStore.show(`Download complete: ${beatmap.metadata.songName}`);
+
       return {
         ...current,
         downloading: newDownloading,
@@ -48,8 +59,16 @@ function createDownloadsStore() {
 
   return {
     subscribe: store.subscribe,
+    clearCompleted() {
+      store.update(current => {
+        return {
+          ...current,
+          completed: {}
+        };
+      });
+    },
     changeDownloadDirectory: async newDirectory => {
-      await window.api.invoke("changeDownloadDirectory", newDirectory);
+      await window.api.invoke(CHANGE_DOWNLOAD_DIRECTORY, newDirectory);
       store.update(current => ({
         ...current,
         downloadDirectory: newDirectory
@@ -69,10 +88,18 @@ function createDownloadsStore() {
           }
         };
       });
-
-      await window.api.invoke("downloadBeatmap", beatmap);
+      await window.api.invoke(DOWNLOAD_BEATMAP, beatmap);
     }
   };
 }
 
 export const downloads = createDownloadsStore();
+export const numberOfDownloads = derived(downloads, $downloads => {
+  return Object.keys($downloads.downloading).length;
+});
+export const queuedBeatmaps = derived(downloads, $downloads => {
+  return Object.values($downloads.downloading);
+});
+export const downloadedBeatmaps = derived(downloads, $downloads => {
+  return Object.values($downloads.completed);
+});

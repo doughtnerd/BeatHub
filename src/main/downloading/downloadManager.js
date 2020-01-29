@@ -1,10 +1,20 @@
 const { ipcMain } = require("electron");
+const fs = require("fs");
 
 const Store = require("electron-store");
 
 const storage = new Store();
 
 const { fork } = require("child_process");
+
+const {
+  DOWNLOAD_ERROR,
+  DOWNLOAD_BEATMAP,
+  CHANGE_DOWNLOAD_DIRECTORY,
+  GET_DOWNLOAD_DIRECTORY
+} = require("../../constants/channelNames");
+
+const { DOWNLOAD_DIRECTORY } = require("../../constants/storageKeys");
 
 const DEFAULT_WINDOWS_STEAM_LOCATION =
   "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber";
@@ -21,11 +31,19 @@ function formatFolderName(beatmap) {
   )} - ${levelAuthorName})`;
 }
 
+function existsAsync(path) {
+  return new Promise((resolve, reject) => {
+    fs.exists(path, exists => {
+      resolve(exists);
+    });
+  });
+}
+
 async function getDownloadDirectory() {
-  const hasDownloadDirectory = storage.has("downloadDirectory");
+  const hasDownloadDirectory = storage.has(DOWNLOAD_DIRECTORY);
 
   if (hasDownloadDirectory) {
-    return storage.get("downloadDirectory");
+    return storage.get(DOWNLOAD_DIRECTORY);
   } else {
     if (await existsAsync(DEFAULT_WINDOWS_OCULUS_LOCATION)) {
       return DEFAULT_WINDOWS_OCULUS_LOCATION;
@@ -36,23 +54,25 @@ async function getDownloadDirectory() {
     return "";
   }
 }
+
 function register(mainWindow) {
+  const sendStatusToWindow = (channel, payload) => {
+    mainWindow.webContents.send(channel, payload);
+  };
+
   const childProcess = fork(`${__dirname}/beatmap_downloader.js`);
+
   childProcess.on("close", () => {
     console.log(`Download manager child process quit...`);
   });
-  childProcess.on("error", err => {
-    console.error(err.message);
+  childProcess.on("error", error => {
+    sendStatusToWindow(DOWNLOAD_ERROR, { error });
   });
   childProcess.on("message", message => {
     sendStatusToWindow(message.messageType, message);
   });
 
-  const sendStatusToWindow = (channel, payload) => {
-    mainWindow.webContents.send(channel, payload);
-  };
-
-  ipcMain.handle("downloadBeatmap", async (event, beatmap) => {
+  ipcMain.handle(DOWNLOAD_BEATMAP, async (event, beatmap) => {
     //Get download folder location
     const downloadsFolder = await getDownloadDirectory();
 
@@ -63,11 +83,11 @@ function register(mainWindow) {
     childProcess.send({ beatmap, downloadsFolder, songFolderName });
   });
 
-  ipcMain.on("changeDownloadDirectory", (event, newDirectory) => {
-    storage.set("downloadDirectory", newDirectory);
+  ipcMain.on(CHANGE_DOWNLOAD_DIRECTORY, (event, newDirectory) => {
+    storage.set(DOWNLOAD_DIRECTORY, newDirectory);
   });
 
-  ipcMain.handle("getDownloadDirectory", () => {
+  ipcMain.handle(GET_DOWNLOAD_DIRECTORY, () => {
     return getDownloadDirectory();
   });
 }

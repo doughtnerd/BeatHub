@@ -23,8 +23,6 @@
     "rollup": "^1.12.0",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-node-builtins": "~2.1.2",
-    "rollup-plugin-node-globals": "~1.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "~2.0.3",
     "rollup-plugin-svelte": "^5.0.3",
@@ -34,10 +32,12 @@
     "svelte-preprocess": "~3.3.0"
   },
   "dependencies": {
+    "adm-zip": "~0.4.13",
     "electron-log": "^4.0.3",
     "electron-store": "~5.1.0",
     "electron-updater": "^4.2.0",
     "jszip": "~3.2.2",
+    "request": "^2.88.0",
     "svelte-awesome": "~2.2.1",
     "svelte-infinite-scroll": "~0.1.0"
   },

@@ -16,6 +16,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    z-index: 3;
   }
 
   .backdrop {
@@ -25,7 +27,6 @@
   .dialog {
     background-color: var(--foreground);
     padding: 16px;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.25);
     width: 400px;
     height: 200px;
 

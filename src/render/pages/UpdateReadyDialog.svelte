@@ -14,7 +14,7 @@
 
 <style>
   .dialog-content {
-    color: var(--foregroundText);
+    color: var(--backgroundText);
   }
 </style>
 

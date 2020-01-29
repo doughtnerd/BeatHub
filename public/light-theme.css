@@ -1,10 +1,74 @@
-:root {
-  --background: #cccccc;
-  --foreground: #ffffff;
-  --backgroundTextColor: #000000;
-  --foregroundTextColor: #555555;
+body {
+  color: var(--backgroundText);
+}
 
-  --primary: #11998e;
-  --secondary: #ff9d00;
-  --error: #ff3d00;
+button {
+  color: var(--backgroundText);
+  background-color: var(--background);
+}
+
+button:active {
+  background-color: #ddd;
+}
+
+button:focus {
+  border-color: #666;
+}
+
+button:hover {
+  background-color: #8d8d8d;
+}
+
+button.primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+:root {
+  --background: #c5c5c5;
+  --foreground: #ffffff;
+  --backgroundText: #000000;
+  --foregroundText: #555555;
+
+  --primary: #2757a0;
+  --secondary: #e62200;
+  --error: #be2942;
+
+  --listDividerColor: rgba(0, 0, 0, 0.75);
+
+  --tooltipBackgroundColor: var(--background);
+
+  --modeChipBackgroundColor: #37363a;
+  --modeChipTextColor: white;
+
+  --easyChipBackgroundColor: #239557;
+  --easyChipTextColor: white;
+
+  --normalChipBackgroundColor: #2757a0;
+  --normalChipTextColor: white;
+
+  --hardChipBackgroundColor: #e62200;
+  --hardChipTextColor: white;
+
+  --expertChipBackgroundColor: #be2942;
+  --expertChipTextColor: white;
+
+  --expertPlusChipBackgroundColor: #8f47db;
+  --expertPlusChipTextColor: white;
+
+  --scrollbarPrimaryColor: #c5c5c5;
+  --scrollbarSecondaryColor: #c5c5c5;
+
+  --beatmapKeyIconColor: rgb(195, 166, 0);
+  --beatmapUpvotesIconColor: #239557;
+  --beatmapDownvotesIconColor: #be2942;
+  --beatmapDownloadsIconColor: #2755a0;
+  --beatmapRatingIconColor: #e62200;
+
+  --beatmapListItemCoverImgSize: 158px;
+
+  --toastBackgroundColor: var(--primary);
+  --toastTextColor: white;
+
+  --buttonHoverColor: #2757a063;
 }
