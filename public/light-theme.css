@@ -65,7 +65,7 @@ button.primary {
   --beatmapDownloadsIconColor: #2755a0;
   --beatmapRatingIconColor: #e62200;
 
-  --beatmapListItemCoverImgSize: 150px;
+  --beatmapListItemCoverImgSize: 158px;
 
   --toastBackgroundColor: var(--primary);
   --toastTextColor: white;

@@ -37,6 +37,7 @@
     "electron-store": "~5.1.0",
     "electron-updater": "^4.2.0",
     "jszip": "~3.2.2",
+    "request": "^2.88.0",
     "svelte-awesome": "~2.2.1",
     "svelte-infinite-scroll": "~0.1.0"
   },

@@ -1,4 +1,5 @@
 const { ipcMain } = require("electron");
+const fs = require("fs");
 
 const Store = require("electron-store");
 
@@ -30,6 +31,14 @@ function formatFolderName(beatmap) {
   )} - ${levelAuthorName})`;
 }
 
+function existsAsync(path) {
+  return new Promise((resolve, reject) => {
+    fs.exists(path, exists => {
+      resolve(exists);
+    });
+  });
+}
+
 async function getDownloadDirectory() {
   const hasDownloadDirectory = storage.has(DOWNLOAD_DIRECTORY);
 
@@ -45,6 +54,7 @@ async function getDownloadDirectory() {
     return "";
   }
 }
+
 function register(mainWindow) {
   const sendStatusToWindow = (channel, payload) => {
     mainWindow.webContents.send(channel, payload);
