@@ -6,7 +6,7 @@
     "email": "doughtnerd@gmail.com",
     "url": "https://github.com/Doughtnerd"
   },
-  "version": "1.5.4",
+  "version": "1.6.1",
   "main": "./src/electron.js",
   "license": "(MIT OR Apache-2.0)",
   "repository": {

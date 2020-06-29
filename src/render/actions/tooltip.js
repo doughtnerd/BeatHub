@@ -1,12 +1,12 @@
 import { listen } from "svelte/internal";
 
-export function tooltip(node, tooltipText) {
+export function tooltip(node, { text, position = "right" }) {
   const tooltip = document.createElement("div");
   const style = document.createElement("style");
-  tooltip.textContent = tooltipText;
+  tooltip.textContent = text;
   tooltip.className = "tooltip";
 
-  style.textContent = `
+  const tooltipStyle = `
     .tooltip {
       position: absolute;
       color: var(--backgroundText);
@@ -18,7 +18,22 @@ export function tooltip(node, tooltipText) {
       transition: opacity .5s;
       transform: translate(5px, -50%);
     }
+  `;
 
+  const leftPointerStyle = `
+      .tooltip::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        margin-top: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent var(--tooltipBackgroundColor) ;
+      }
+  `;
+
+  const rightPointerStyle = `
     .tooltip::after {
       content: "";
       position: absolute;
@@ -31,10 +46,30 @@ export function tooltip(node, tooltipText) {
     }
   `;
 
-  function position() {
-    const { top, right, bottom } = node.getBoundingClientRect();
+  switch (position) {
+    case "right": {
+      style.textContent = tooltipStyle + rightPointerStyle;
+      break;
+    }
+    case "left": {
+      style.textContent = tooltipStyle + leftPointerStyle;
+      break;
+    }
+  }
+
+  function positionTooltip() {
+    const { top, right, bottom, left, width } = node.getBoundingClientRect();
     tooltip.style.top = `${(top + bottom) / 2}px`;
-    tooltip.style.left = `${right}px`;
+    switch (position) {
+      case "right": {
+        tooltip.style.left = `${right}px`;
+        break;
+      }
+      case "left": {
+        tooltip.style.left = `${left - width}px`; // = `${left}px`;
+        break;
+      }
+    }
   }
 
   function append() {
@@ -42,7 +77,7 @@ export function tooltip(node, tooltipText) {
     tooltip.prepend(style);
     tooltip.style.opacity = "0";
     setTimeout(() => (tooltip.style.opacity = "1"));
-    position();
+    positionTooltip();
   }
 
   function remove() {
@@ -59,8 +94,8 @@ export function tooltip(node, tooltipText) {
       cancelMouseleave();
     },
 
-    update(newText) {
-      tooltip.textContent = newText;
-    }
+    update({ text, position }) {
+      tooltip.textContent = text;
+    },
   };
 }
