@@ -119,7 +119,9 @@
       <PrimaryText>
         <span style="font-size: 24px">{beatmap.metadata.songName}</span>
       </PrimaryText>
-      <SecondaryText>{beatmap.metadata.songAuthorName}</SecondaryText>
+      <SecondaryText>
+        {beatmap.metadata.songAuthorName.toLowerCase() === beatmap.metadata.levelAuthorName.toLowerCase() ? beatmap.metadata.songSubName : beatmap.metadata.songAuthorName}
+      </SecondaryText>
       <SecondaryText>
         Uploaded by: {beatmap.metadata.levelAuthorName}
       </SecondaryText>

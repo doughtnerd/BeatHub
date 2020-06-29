@@ -37,7 +37,7 @@
 <div
   class="drawer-item"
   class:active={currentActiveView === itemName}
-  use:tooltip={itemName}
+  use:tooltip={{ text: itemName }}
   on:click>
   <Icon scale={2} data={icon} />
 
