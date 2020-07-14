@@ -4,7 +4,7 @@
 
 ## Description
 
-A tiny and fast Beatsaver custom beatmap browser & downloader for your computer.
+A tiny and fast song browser and downloader for Beat Saber!
 
 ## Features
 
