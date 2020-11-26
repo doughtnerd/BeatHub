@@ -25,18 +25,16 @@ function createWindow() {
       sandbox: true,
       enableRemoteModule: false,
       allowRunningInsecureContent: false,
-      preload: path.join(__dirname, "preload.js")
-    }
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
 
   mainWindow.setMenu(null);
 
   let watcher;
   if (mode == "development") {
-    watcher = require("chokidar").watch(
-      [path.join(__dirname, "..", "public", "bundle.js"), path.join(__dirname)],
-      { ignoreInitial: true }
-    );
+    mainWindow.openDevTools();
+    watcher = require("chokidar").watch([path.join(__dirname, "..", "public", "bundle.js"), path.join(__dirname)], { ignoreInitial: true });
     watcher.on("change", () => {
       mainWindow.reload();
     });
@@ -46,7 +44,7 @@ function createWindow() {
     url.format({
       pathname: path.join(__dirname, "..", "public", "index.html"),
       protocol: "file:",
-      slashes: true
+      slashes: true,
     })
   );
   mainWindow.on("closed", () => {
@@ -64,10 +62,10 @@ app.on("ready", () => {
     callback({
       responseHeaders: Object.assign(
         {
-          "Content-Security-Policy": ["default-src 'self'"]
+          "Content-Security-Policy": ["default-src 'self'"],
         },
         details.responseHeaders
-      )
+      ),
     });
   });
 
