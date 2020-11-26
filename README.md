@@ -4,7 +4,7 @@
 
 ## Description
 
-A tiny and fast Beatsaver custom beatmap browser & downloader for your computer.
+A tiny and fast song browser and downloader for Beat Saber!
 
 ## Features
 
@@ -30,7 +30,7 @@ A tiny and fast Beatsaver custom beatmap browser & downloader for your computer.
 
 ## How to get
 
-[Go to releases](https://github.com/doughtnerd/BeatHub/releases/tag/1.0.0)
+[Go to releases](https://github.com/doughtnerd/BeatHub/releases) and download the latest version.
 
 ## Background
 
