@@ -8,6 +8,14 @@
   export let beatmap;
 </script>
 
+<div class="beatmap-stats">
+  <BeatmapKey>{beatmap.id}</BeatmapKey>
+  <Upvotes count={beatmap.stats.upvotes} />
+  <Downvotes count={beatmap.stats.downvotes} />
+  <!-- <Downloads count={beatmap.stats.downloads} /> -->
+  <Rating percentage={beatmap.stats.score} />
+</div>
+
 <style>
   .beatmap-stats {
     display: flex;
@@ -17,11 +25,3 @@
     overflow: hidden;
   }
 </style>
-
-<div class="beatmap-stats">
-  <BeatmapKey>{beatmap.key}</BeatmapKey>
-  <Upvotes count={beatmap.stats.upVotes} />
-  <Downvotes count={beatmap.stats.downVotes} />
-  <Downloads count={beatmap.stats.downloads} />
-  <Rating percentage={beatmap.stats.rating} />
-</div>

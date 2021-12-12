@@ -81,7 +81,7 @@ function createDownloadsStore() {
           ...current,
           downloading: {
             ...current.downloading,
-            [beatmap.key]: {
+            [beatmap.id]: {
               beatmap,
               bytesReceived: 0,
               totalBytes: 0

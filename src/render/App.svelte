@@ -94,7 +94,7 @@
           on:click={() => {
             activeView.set(TOP_RATED_MAPS);
           }} />
-        <DrawerItem
+        <!-- <DrawerItem
           itemName={TOP_DOWNLOADED_MAPS}
           currentActiveView={$activeView}
           icon={arrowCircleDown}
@@ -114,7 +114,7 @@
           icon={exclamation}
           on:click={() => {
             activeView.set(NEW_MAPS);
-          }} />
+          }} /> -->
         <DrawerItem
           itemName={DOWNLOADS}
           currentActiveView={$activeView}

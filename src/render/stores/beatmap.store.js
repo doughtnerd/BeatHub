@@ -5,6 +5,7 @@ import {
   TOP_RATED_MAPS_API,
   NEW_MAPS_API
 } from "../constants/beatsaver-api.constants";
+import { fetchMapsByRating } from "../services/beatsaver-api";
 
 function makeQuery(endpoint, nextPage) {
   return fetch(`${endpoint}${nextPage}`)
@@ -16,7 +17,7 @@ function makeQuery(endpoint, nextPage) {
     });
 }
 
-function createBeatmapStore(endpoint) {
+function createBeatmapStore(endpoint, queryFn) {
   const store = writable({
     nextPage: 0,
     maps: [],
@@ -31,7 +32,7 @@ function createBeatmapStore(endpoint) {
         ...current,
         loading: true
       }));
-      const newSongs = await makeQuery(endpoint, 0);
+      const newSongs = await queryFn(0)
 
       store.update(current => ({
         nextPage: current.nextPage + 1,
@@ -48,7 +49,7 @@ function createBeatmapStore(endpoint) {
           ...current,
           loading: true
         }));
-        const newSongs = await makeQuery(endpoint, nextPage);
+        const newSongs = await queryFn(nextPage)
 
         store.update(current => {
           return {
@@ -69,9 +70,9 @@ function createBeatmapStore(endpoint) {
   };
 }
 
-export const hotMapsStore = createBeatmapStore(HOT_MAPS_API);
+export const hotMapsStore = createBeatmapStore(HOT_MAPS_API, () => {});
 export const topDownloadedMapsStore = createBeatmapStore(
   TOP_DOWNLOADED_MAPS_API
-);
-export const topRatedMapsStore = createBeatmapStore(TOP_RATED_MAPS_API);
-export const newMapsStore = createBeatmapStore(NEW_MAPS_API);
+, () => {});
+export const topRatedMapsStore = createBeatmapStore(TOP_RATED_MAPS_API, fetchMapsByRating);
+export const newMapsStore = createBeatmapStore(NEW_MAPS_API, () => {});

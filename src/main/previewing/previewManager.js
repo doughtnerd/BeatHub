@@ -10,7 +10,7 @@ function register(mainWindow) {
 
   ipcMain.handle(PREVIEW_BEATMAP, (event, { beatmap }) => {
     download(
-      `https://beatsaver.com${beatmap.directDownload}`,
+      beatmap.versions[0].downloadURL,
       () => {},
       async (buffer) => {
         try {
@@ -44,6 +44,7 @@ function register(mainWindow) {
         }
       },
       (error) => {
+        console.log(error.message);
         sendStatusToWindow(PREVIEW_ERROR, { beatmap, error });
       }
     );

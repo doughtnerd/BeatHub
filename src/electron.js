@@ -58,16 +58,16 @@ function createWindow() {
 }
 
 app.on("ready", () => {
-  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    callback({
-      responseHeaders: Object.assign(
-        {
-          "Content-Security-Policy": ["default-src 'self'"],
-        },
-        details.responseHeaders
-      ),
-    });
-  });
+  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+  //   callback({
+  //     responseHeaders: Object.assign(
+  //       {
+  //         "Content-Security-Policy": ["default-src 'self'"],
+  //       },
+  //       details.responseHeaders
+  //     ),
+  //   });
+  // });
 
   const mainWindow = createWindow();
 

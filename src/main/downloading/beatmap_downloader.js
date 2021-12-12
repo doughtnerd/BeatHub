@@ -20,7 +20,7 @@ process.on("message", (message, sendHandle) => {
   const { beatmap, downloadsFolder, songFolderName } = message;
 
   download(
-    `https://beatsaver.com${beatmap.directDownload}`,
+    beatmap.versions[0].downloadURL,
     (bytesReceived, totalBytes) => {
       process.send({
         messageType: DOWNLOAD_PROGRESS,

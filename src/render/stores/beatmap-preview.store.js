@@ -39,11 +39,12 @@ function createBeatmapPreviewStore() {
       store.set({
         beatmapToPreview: beatmap,
         activebeatmapToPreviewPreview: null,
-        previewUrl: "",
+        // previewUrl: null,//beatmap.versions[0].previewURL,
+        previewUrl: beatmap.versions[0].previewURL,
         loading: true,
       });
 
-      window.api.invoke(PREVIEW_BEATMAP, { beatmap });
+      // window.api.invoke(PREVIEW_BEATMAP, { beatmap });
     },
     stop: () => {
       store.set({

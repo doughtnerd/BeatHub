@@ -14,22 +14,15 @@
   import ModeChip from "./ModeChip.svelte";
   import ListDivider from "./ListDivider.svelte";
 
-  import {
-    beatmapPreviewStore,
-    activeBeatmapPreviewKey,
-    beatmapToPreviewKey
-  } from "../stores/beatmap-preview.store";
+  import { beatmapPreviewStore, activeBeatmapPreviewKey, beatmapToPreviewKey } from "../stores/beatmap-preview.store";
 
   import { downloads } from "../stores/downloads.store";
 
   export let beatmap;
 
   $: isCurrentlyPlaying = $activeBeatmapPreviewKey === beatmap.key;
-  $: isCurrentlyDownloading = $downloads.downloading.hasOwnProperty(
-    beatmap.key
-  );
-  $: isCurrentlyLoading =
-    $beatmapToPreviewKey === beatmap.key && $beatmapPreviewStore.loading;
+  $: isCurrentlyDownloading = $downloads.downloading.hasOwnProperty(beatmap.key);
+  $: isCurrentlyLoading = $beatmapToPreviewKey === beatmap.key && $beatmapPreviewStore.loading;
 
   const dispatch = createEventDispatcher();
 
@@ -45,6 +38,78 @@
     dispatch("stop", beatmap);
   }
 </script>
+
+<div class="beatmap-list-item">
+  <div class="beatmap-graphic-container">
+    <img src={beatmap.versions[0].coverURL} alt="beatmap cover" />
+  </div>
+
+  <div class="beatmap-info-container">
+    <div class="beatmap-song-info">
+      <PrimaryText>
+        <span style="font-size: 24px">{beatmap.metadata.songName}</span>
+      </PrimaryText>
+      <SecondaryText>
+        {beatmap.metadata.songAuthorName.toLowerCase() === beatmap.metadata.levelAuthorName.toLowerCase()
+          ? beatmap.metadata.songSubName
+          : beatmap.metadata.songAuthorName}
+      </SecondaryText>
+      <SecondaryText>
+        Uploaded by: {beatmap.metadata.levelAuthorName}
+      </SecondaryText>
+    </div>
+
+    <div class="beatmap-difficulties">
+      {#each beatmap.versions[0].diffs as mapDifficultyInfo}
+        {#if mapDifficultyInfo.difficulty === "Easy"}
+          <EasyChip />
+        {/if}
+        {#if mapDifficultyInfo.difficulty === "Normal"}
+          <NormalChip />
+        {/if}
+        {#if mapDifficultyInfo.difficulty === "Hard"}
+          <HardChip />
+        {/if}
+        {#if mapDifficultyInfo.difficulty === "Expert"}
+          <ExpertChip />
+        {/if}
+        {#if mapDifficultyInfo.difficulty === "ExpertPlus"}
+          <ExpertPlusChip />
+        {/if}
+      {/each}
+    </div>
+
+    <!-- <div class="beatmap-modes">
+      {#each beatmap.metadata.characteristics as characteristic}
+        <ModeChip>{characteristic.name}</ModeChip>
+      {/each}
+    </div> -->
+  </div>
+
+  <div class="beatmap-meta">
+    <BeatmapStats {beatmap} />
+
+    <div class="beatmap-audio-controls">
+      <div>
+        {#if isCurrentlyLoading}
+          <LoadingSpinner />
+        {:else if !isCurrentlyPlaying}
+          <Fab on:click={handlePreviewClick} scale={6} iconColor="white" color="var(--primary)" iconData={play} iconScale={1.5} />
+        {:else}
+          <Fab on:click={handleStopClick} scale={6} iconColor="white" color="#BD2942" iconData={stop} iconScale={1.5} />
+        {/if}
+      </div>
+      <div>
+        {#if isCurrentlyDownloading}
+          <LoadingSpinner />
+        {:else}
+          <Fab on:click={handleDownloadClick} scale={6} iconColor="white" color="var(--secondary)" iconData={download} iconScale={1.5} />
+        {/if}
+      </div>
+    </div>
+  </div>
+</div>
+<ListDivider />
 
 <style type="text/scss">
   .beatmap-list-item {
@@ -107,95 +172,3 @@
     margin-right: 8px;
   }
 </style>
-
-<div class="beatmap-list-item">
-  <div class="beatmap-graphic-container">
-    <img src="https://beatsaver.com{beatmap.coverURL}" alt="beatmap cover" />
-  </div>
-
-  <div class="beatmap-info-container">
-
-    <div class="beatmap-song-info">
-      <PrimaryText>
-        <span style="font-size: 24px">{beatmap.metadata.songName}</span>
-      </PrimaryText>
-      <SecondaryText>
-        {beatmap.metadata.songAuthorName.toLowerCase() === beatmap.metadata.levelAuthorName.toLowerCase() ? beatmap.metadata.songSubName : beatmap.metadata.songAuthorName}
-      </SecondaryText>
-      <SecondaryText>
-        Uploaded by: {beatmap.metadata.levelAuthorName}
-      </SecondaryText>
-    </div>
-
-    <div class="beatmap-difficulties">
-      {#if beatmap.metadata.difficulties.easy}
-        <EasyChip />
-      {/if}
-      {#if beatmap.metadata.difficulties.normal}
-        <NormalChip />
-      {/if}
-      {#if beatmap.metadata.difficulties.hard}
-        <HardChip />
-      {/if}
-      {#if beatmap.metadata.difficulties.expert}
-        <ExpertChip />
-      {/if}
-      {#if beatmap.metadata.difficulties.expertPlus}
-        <ExpertPlusChip />
-      {/if}
-    </div>
-
-    <div class="beatmap-modes">
-      {#each beatmap.metadata.characteristics as characteristic}
-        <ModeChip>{characteristic.name}</ModeChip>
-      {/each}
-    </div>
-
-  </div>
-
-  <div class="beatmap-meta">
-    <BeatmapStats {beatmap} />
-
-    <div class="beatmap-audio-controls">
-      <div>
-        {#if isCurrentlyLoading}
-          <LoadingSpinner />
-        {:else if !isCurrentlyPlaying}
-          <Fab
-            on:click={handlePreviewClick}
-            scale={6}
-            iconColor="white"
-            color="var(--primary)"
-            iconData={play}
-            iconScale={1.5} />
-        {:else}
-          <Fab
-            on:click={handleStopClick}
-            scale={6}
-            iconColor="white"
-            color="#BD2942"
-            iconData={stop}
-            iconScale={1.5} />
-        {/if}
-
-      </div>
-      <div>
-        {#if isCurrentlyDownloading}
-          <LoadingSpinner />
-        {:else}
-          <Fab
-            on:click={handleDownloadClick}
-            scale={6}
-            iconColor="white"
-            color="var(--secondary)"
-            iconData={download}
-            iconScale={1.5} />
-        {/if}
-
-      </div>
-    </div>
-
-  </div>
-
-</div>
-<ListDivider />
