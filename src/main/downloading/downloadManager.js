@@ -20,7 +20,7 @@ const DEFAULT_WINDOWS_OCULUS_LOCATION =
   "C:/Program Files/Oculus/Software/Software/hyperbolic-magnetism-beat-saber";
 
 function formatFolderName(beatmap) {
-  const key = beatmap.key;
+  const key = beatmap.id;
   const { songName, levelAuthorName } = beatmap.metadata;
 
   return `${key} (${songName.replace(

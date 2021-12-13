@@ -31,7 +31,7 @@ function createDownloadsStore() {
 
     store.update(current => {
       const newDownloading = { ...current.downloading };
-      delete newDownloading[beatmap.key];
+      delete newDownloading[beatmap.id];
 
       return {
         ...current,
@@ -43,7 +43,7 @@ function createDownloadsStore() {
   window.api.receive(DOWNLOAD_COMPLETE, ({ beatmap }) => {
     store.update(current => {
       const newDownloading = { ...current.downloading };
-      delete newDownloading[beatmap.key];
+      delete newDownloading[beatmap.id];
 
       toastStore.show(`Download complete: ${beatmap.metadata.songName}`);
 
@@ -52,7 +52,7 @@ function createDownloadsStore() {
         downloading: newDownloading,
         completed: {
           ...current.completed,
-          [beatmap.key]: beatmap
+          [beatmap.id]: beatmap
         }
       };
     });

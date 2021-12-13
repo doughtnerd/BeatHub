@@ -66,20 +66,20 @@
       <LoadingSpinner />
     </div>
   {:else if $beatmapPreviewStore.activePreview}
-    <img src={$beatmapPreviewStore.activePreview.coverURL} alt="song image" />
+    <img src={$beatmapPreviewStore.activePreview.versions[0].coverURL} alt="song image" />
   {:else}
     <div style="height: 56px; width: 56px;" />
   {/if}
   <div class="time-display">{formattedCurrentTime} / {formattedDuration}</div>
+  <div class="time-control">
+    <input type="range" name="points" min={0} on:input={handleOnInput} max={duration} value={currentTime} />
+  </div>
   <div class="play-control">
     {#if paused}
       <Fab on:click={handlePlayClick} iconColor="var(--backgroundText)" color="var(--background)" iconData={play} iconScale={1.25} />
     {:else}
       <Fab on:click={handlePauseClick} iconColor="var(--backgroundText)" color="var(--background)" iconData={pause} iconScale={1.25} />
     {/if}
-  </div>
-  <div class="time-control">
-    <input type="range" name="points" min={0} on:input={handleOnInput} max={duration} value={currentTime} />
   </div>
   <div class="volume-control">
     <Fab on:click={handleVolumeClick} iconColor="var(--backgroundText)" color="var(--background)" iconData={volumeIcon} iconScale={1.25} />

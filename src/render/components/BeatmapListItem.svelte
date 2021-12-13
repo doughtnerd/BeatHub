@@ -20,9 +20,9 @@
 
   export let beatmap;
 
-  $: isCurrentlyPlaying = $activeBeatmapPreviewKey === beatmap.key;
-  $: isCurrentlyDownloading = $downloads.downloading.hasOwnProperty(beatmap.key);
-  $: isCurrentlyLoading = $beatmapToPreviewKey === beatmap.key && $beatmapPreviewStore.loading;
+  $: isCurrentlyPlaying = $activeBeatmapPreviewKey === beatmap.id;
+  $: isCurrentlyDownloading = $downloads.downloading.hasOwnProperty(beatmap.id);
+  $: isCurrentlyLoading = $beatmapToPreviewKey === beatmap.id && $beatmapPreviewStore.loading;
 
   const dispatch = createEventDispatcher();
 

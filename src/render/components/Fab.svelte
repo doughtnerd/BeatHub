@@ -8,6 +8,12 @@
   export let iconScale;
 </script>
 
+<div class="round-button" style="height:{scale * 8}px; width:{scale * 8}px" on:click>
+  <div class="round-button-circle" style="--color:{color}; --iconColor:{iconColor}">
+    <Icon scale={iconScale} data={iconData} />
+  </div>
+</div>
+
 <style>
   .round-button-circle {
     width: 100%;
@@ -31,16 +37,3 @@
     cursor: pointer;
   }
 </style>
-
-<div
-  class="round-button"
-  style="height:{scale * 8}px; width:{scale * 8}px"
-  on:click>
-  <div
-    class="round-button-circle"
-    style="--color:{color}; --iconColor:{iconColor}">
-    <div>
-      <Icon scale={iconScale} data={iconData} />
-    </div>
-  </div>
-</div>

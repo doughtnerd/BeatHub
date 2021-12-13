@@ -1,14 +1,6 @@
 <script>
   import Drawer from "./components/Drawer.svelte";
-  import {
-    search,
-    fire,
-    star,
-    exclamation,
-    arrowCircleDown,
-    tasks,
-    cog
-  } from "svelte-awesome/icons";
+  import { search, fire, star, exclamation, arrowCircleDown, tasks, cog } from "svelte-awesome/icons";
   import {
     NEW_MAPS,
     SEARCH,
@@ -17,7 +9,7 @@
     TOP_DOWNLOADED_MAPS,
     SETTINGS,
     DOWNLOADS,
-    activeView
+    activeView,
   } from "./stores/active-view.store";
   import NewSongs from "./pages/NewSongs.svelte";
   import Downloads from "./pages/Downloads.svelte";
@@ -37,45 +29,6 @@
   import { themeStore } from "./stores/theme.store";
 </script>
 
-<style>
-  .app-container {
-    height: 100vh;
-    width: 100vw;
-
-    display: flex;
-    flex-direction: column;
-  }
-
-  .drawer-content {
-    position: static;
-  }
-
-  .app-container::-webkit-scrollbar {
-    display: none;
-  }
-
-  .main {
-    overflow: hidden;
-    flex-grow: 2;
-  }
-
-  .main::-webkit-scrollbar {
-    display: none;
-  }
-
-  footer {
-    color: var(--foregroundText);
-    background-color: var(--background);
-
-    height: 56px;
-    flex-shrink: 0;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-</style>
-
 <div class="app-container">
   <div class="main">
     <Drawer mode="slim">
@@ -86,14 +39,16 @@
           icon={search}
           on:click={() => {
             activeView.set(SEARCH);
-          }} />
+          }}
+        />
         <DrawerItem
           itemName={TOP_RATED_MAPS}
           currentActiveView={$activeView}
           icon={star}
           on:click={() => {
             activeView.set(TOP_RATED_MAPS);
-          }} />
+          }}
+        />
         <!-- <DrawerItem
           itemName={TOP_DOWNLOADED_MAPS}
           currentActiveView={$activeView}
@@ -107,21 +62,23 @@
           icon={fire}
           on:click={() => {
             activeView.set(HOT_MAPS);
-          }} />
+          }} /> -->
         <DrawerItem
           itemName={NEW_MAPS}
           currentActiveView={$activeView}
           icon={exclamation}
           on:click={() => {
             activeView.set(NEW_MAPS);
-          }} /> -->
+          }}
+        />
         <DrawerItem
           itemName={DOWNLOADS}
           currentActiveView={$activeView}
           icon={tasks}
           on:click={() => {
             activeView.set(DOWNLOADS);
-          }}>
+          }}
+        >
           <div style="position: absolute; left: 8px;">
             <Badge color="white" background="var(--error)">
               <span>{$numberOfDownloads}</span>
@@ -134,7 +91,8 @@
           icon={cog}
           on:click={() => {
             activeView.set(SETTINGS);
-          }} />
+          }}
+        />
       </div>
 
       {#if $activeView === NEW_MAPS}
@@ -158,7 +116,6 @@
       {#if $activeView === DOWNLOADS}
         <Downloads />
       {/if}
-
     </Drawer>
   </div>
   <footer>
@@ -175,3 +132,43 @@
 <svelte:head>
   <link rel="stylesheet" href={$themeStore.currentThemeCss} />
 </svelte:head>
+
+<style>
+  .app-container {
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .drawer-content {
+    position: static;
+  }
+
+  .app-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .main {
+    overflow-y: scroll;
+
+    flex-grow: 2;
+  }
+
+  .main::-webkit-scrollbar {
+    display: none;
+  }
+
+  footer {
+    color: var(--foregroundText);
+    background-color: var(--background);
+
+    height: 56px;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+</style>

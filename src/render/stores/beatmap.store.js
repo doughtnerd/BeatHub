@@ -5,7 +5,7 @@ import {
   TOP_RATED_MAPS_API,
   NEW_MAPS_API
 } from "../constants/beatsaver-api.constants";
-import { fetchMapsByRating } from "../services/beatsaver-api";
+import { fetchMapsByLatest, fetchMapsByRating } from "../services/beatsaver-api";
 
 function makeQuery(endpoint, nextPage) {
   return fetch(`${endpoint}${nextPage}`)
@@ -75,4 +75,4 @@ export const topDownloadedMapsStore = createBeatmapStore(
   TOP_DOWNLOADED_MAPS_API
 , () => {});
 export const topRatedMapsStore = createBeatmapStore(TOP_RATED_MAPS_API, fetchMapsByRating);
-export const newMapsStore = createBeatmapStore(NEW_MAPS_API, () => {});
+export const newMapsStore = createBeatmapStore(NEW_MAPS_API, fetchMapsByLatest);

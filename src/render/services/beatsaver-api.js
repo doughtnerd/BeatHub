@@ -18,3 +18,12 @@ export function fetchMapsByRating(page) {
         return data.docs;
       });;
 }
+
+export function fetchMapsByLatest(page) {
+    return fetch(`https://beatsaver.com/api/search/text/${page}?sortOrder=Latest`).then(res => {
+        return res.json();
+      })
+      .then(data => {
+        return data.docs;
+      });;
+}

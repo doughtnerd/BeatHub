@@ -7,18 +7,6 @@
   export let beatmap;
 </script>
 
-<style>
-  .list-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .list-item * {
-    margin-right: 16px;
-  }
-</style>
-
 <div class="list-item">
   {#if isDownloading}
     <div>
@@ -30,6 +18,18 @@
     </div>
   {/if}
   <span>
-    {beatmap.key} - {beatmap.metadata.songName} ({beatmap.metadata.songAuthorName})
+    {beatmap.id} - {beatmap.metadata.songName} ({beatmap.metadata.songAuthorName})
   </span>
 </div>
+
+<style>
+  .list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .list-item * {
+    margin-right: 16px;
+  }
+</style>
