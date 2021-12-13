@@ -27,6 +27,8 @@
   import ErrorNotificationBar from "./components/ErrorNotificationBar.svelte";
   import { downloads, numberOfDownloads } from "./stores/downloads.store";
   import { themeStore } from "./stores/theme.store";
+  import Dialog from "./components/Dialog.svelte";
+  import VideoPreviewDialog from "./components/VideoPreviewDialog.svelte";
 </script>
 
 <div class="app-container">
@@ -98,15 +100,15 @@
       {#if $activeView === NEW_MAPS}
         <NewSongs />
       {/if}
-      {#if $activeView === HOT_MAPS}
+      <!-- {#if $activeView === HOT_MAPS}
         <HotSongs />
-      {/if}
+      {/if} -->
       {#if $activeView === TOP_RATED_MAPS}
         <TopRatedSongs />
       {/if}
-      {#if $activeView === TOP_DOWNLOADED_MAPS}
+      <!-- {#if $activeView === TOP_DOWNLOADED_MAPS}
         <TopDownloadedSongs />
-      {/if}
+      {/if} -->
       {#if $activeView === SEARCH}
         <Search />
       {/if}
@@ -128,6 +130,8 @@
 <UpdateReadyDialog />
 
 <Toast />
+
+<VideoPreviewDialog />
 
 <svelte:head>
   <link rel="stylesheet" href={$themeStore.currentThemeCss} />

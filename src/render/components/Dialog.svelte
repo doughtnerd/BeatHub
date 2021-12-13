@@ -1,8 +1,31 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+
   export let mode = "standard";
 
+  export let height = "200px";
+  export let width = "400px";
+
   $: hasBackdrop = mode === "standard";
+
+  const dispatch = createEventDispatcher();
+
+  const handleBackgroundClick = () => {
+    dispatch("backgroundClick");
+  };
 </script>
+
+<div class="dialog-container" on:click={handleBackgroundClick} class:backdrop={hasBackdrop}>
+  <div class="dialog" style="height:{height}; width:{width}">
+    <div class="dialog-content">
+      <slot name="dialog-content" />
+    </div>
+
+    <div class="dialog-actions">
+      <slot name="dialog-actions" />
+    </div>
+  </div>
+</div>
 
 <style>
   .dialog-container {
@@ -27,8 +50,8 @@
   .dialog {
     background-color: var(--foreground);
     padding: 16px;
-    width: 400px;
-    height: 200px;
+    /* width: 400px;
+    height: 200px; */
 
     display: flex;
     flex-direction: column;
@@ -44,15 +67,3 @@
     justify-content: flex-end;
   }
 </style>
-
-<div class="dialog-container" class:backdrop={hasBackdrop}>
-  <div class="dialog">
-    <div class="dialog-content">
-      <slot name="dialog-content" />
-    </div>
-
-    <div class="dialog-actions">
-      <slot name="dialog-actions" />
-    </div>
-  </div>
-</div>

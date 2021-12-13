@@ -3,6 +3,7 @@
   import InfiniteBeatmapList from "../components/InfiniteBeatmapList.svelte";
   import { searchStore } from "../stores/search.store";
   import { beatmapPreviewStore } from "../stores/beatmap-preview.store";
+  import { beatmapVideoPreviewStore } from "../stores/beatmap-video-preview.store";
   import { downloads } from "../stores/downloads.store";
 
   async function handleLoadMore() {
@@ -21,6 +22,11 @@
     downloads.download(detail);
   }
 
+  function handleVideoPreview({ detail }) {
+    beatmapPreviewStore.stop();
+    beatmapVideoPreviewStore.preview(detail);
+  }
+
   function handleSearch(event) {
     searchStore.search(event.target.value);
   }
@@ -36,6 +42,42 @@
     };
   }
 </script>
+
+<div style="display: flex; flex-direction: column; height: 100%">
+  <div class="search-container">
+    <div class="form__group field">
+      <input
+        on:change={handleSearch}
+        on:input={debounce(handleSearch, 500)}
+        type="search"
+        class="form__field"
+        placeholder="Name"
+        name="search"
+        id="search"
+        required
+      />
+      <label for="search" class="form__label">Search</label>
+    </div>
+  </div>
+
+  {#if $searchStore.searching}
+    <LoadingScreen />
+  {:else}
+    <InfiniteBeatmapList
+      maps={$searchStore.maps}
+      on:preview={handlePreview}
+      on:stop={handleStop}
+      on:download={handleDownload}
+      on:loadMore={handleLoadMore}
+      on:videoPreview={handleVideoPreview}
+    />
+    {#if $searchStore.loading}
+      <div style="height: 80px">
+        <LoadingScreen />
+      </div>
+    {/if}
+  {/if}
+</div>
 
 <style>
   .search-container {
@@ -113,37 +155,3 @@
     max-height: calc(100% - 72px);
   }
 </style>
-
-<div style="display: flex; flex-direction: column; height: 100%">
-  <div class="search-container">
-    <div class="form__group field">
-      <input
-        on:change={handleSearch}
-        on:input={debounce(handleSearch, 500)}
-        type="search"
-        class="form__field"
-        placeholder="Name"
-        name="search"
-        id="search"
-        required />
-      <label for="search" class="form__label">Search</label>
-    </div>
-
-  </div>
-
-  {#if $searchStore.searching}
-    <LoadingScreen />
-  {:else}
-    <InfiniteBeatmapList
-      maps={$searchStore.maps}
-      on:preview={handlePreview}
-      on:stop={handleStop}
-      on:download={handleDownload}
-      on:loadMore={handleLoadMore} />
-    {#if $searchStore.loading}
-      <div style="height: 80px">
-        <LoadingScreen />
-      </div>
-    {/if}
-  {/if}
-</div>

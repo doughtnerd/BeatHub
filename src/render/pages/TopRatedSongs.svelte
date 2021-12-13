@@ -3,6 +3,7 @@
   import LoadingScreen from "../components/LoadingScreen.svelte";
   import { topRatedMapsStore } from "../stores/beatmap.store";
   import { beatmapPreviewStore } from "../stores/beatmap-preview.store";
+  import { beatmapVideoPreviewStore } from "../stores/beatmap-video-preview.store";
   import { downloads } from "../stores/downloads.store";
   import { onMount } from "svelte";
 
@@ -29,6 +30,11 @@
   function handleDownload({ detail }) {
     downloads.download(detail);
   }
+
+  function handleVideoPreview({ detail }) {
+    beatmapPreviewStore.stop();
+    beatmapVideoPreviewStore.preview(detail);
+  }
 </script>
 
 {#await init}
@@ -39,7 +45,9 @@
     on:preview={handlePreview}
     on:stop={handleStop}
     on:download={handleDownload}
-    on:loadMore={handleLoadMore} />
+    on:loadMore={handleLoadMore}
+    on:videoPreview={handleVideoPreview}
+  />
   {#if $topRatedMapsStore.loading}
     <div style="height: 80px">
       <LoadingScreen />

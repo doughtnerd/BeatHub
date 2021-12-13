@@ -1,22 +1,17 @@
 <script>
-  import { download, play, stop } from "svelte-awesome/icons";
+  import { download, play, stop, eye } from "svelte-awesome/icons";
   import { createEventDispatcher } from "svelte";
   import LoadingSpinner from "./LoadingSpinner.svelte";
   import BeatmapStats from "./BeatmapStats.svelte";
   import Fab from "./Fab.svelte";
   import PrimaryText from "./PrimaryText.svelte";
   import SecondaryText from "./SecondaryText.svelte";
-  import NormalChip from "./NormalChip.svelte";
-  import EasyChip from "./EasyChip.svelte";
-  import HardChip from "./HardChip.svelte";
-  import ExpertChip from "./ExpertChip.svelte";
-  import ExpertPlusChip from "./ExpertPlusChip.svelte";
-  import ModeChip from "./ModeChip.svelte";
   import ListDivider from "./ListDivider.svelte";
 
   import { beatmapPreviewStore, activeBeatmapPreviewKey, beatmapToPreviewKey } from "../stores/beatmap-preview.store";
 
   import { downloads } from "../stores/downloads.store";
+  import CharacteristicChip from "./CharacteristicChip.svelte";
 
   export let beatmap;
 
@@ -36,6 +31,10 @@
 
   function handleStopClick() {
     dispatch("stop", beatmap);
+  }
+
+  function handleVideoPreviewClick() {
+    dispatch("videoPreview", beatmap);
   }
 </script>
 
@@ -61,29 +60,11 @@
 
     <div class="beatmap-difficulties">
       {#each beatmap.versions[0].diffs as mapDifficultyInfo}
-        {#if mapDifficultyInfo.difficulty === "Easy"}
-          <EasyChip />
-        {/if}
-        {#if mapDifficultyInfo.difficulty === "Normal"}
-          <NormalChip />
-        {/if}
-        {#if mapDifficultyInfo.difficulty === "Hard"}
-          <HardChip />
-        {/if}
-        {#if mapDifficultyInfo.difficulty === "Expert"}
-          <ExpertChip />
-        {/if}
-        {#if mapDifficultyInfo.difficulty === "ExpertPlus"}
-          <ExpertPlusChip />
-        {/if}
+        <div>
+          <CharacteristicChip difficulty={mapDifficultyInfo.difficulty} characteristic={mapDifficultyInfo.characteristic} />
+        </div>
       {/each}
     </div>
-
-    <!-- <div class="beatmap-modes">
-      {#each beatmap.metadata.characteristics as characteristic}
-        <ModeChip>{characteristic.name}</ModeChip>
-      {/each}
-    </div> -->
   </div>
 
   <div class="beatmap-meta">
@@ -91,8 +72,20 @@
 
     <div class="beatmap-audio-controls">
       <div>
+        <Fab
+          on:click={handleVideoPreviewClick}
+          scale={6}
+          iconColor="white"
+          color="var(--beatmapUpvotesIconColor)"
+          iconData={eye}
+          iconScale={1.5}
+        />
+      </div>
+      <div>
         {#if isCurrentlyLoading}
-          <LoadingSpinner />
+          <div class="spinner-wrapper">
+            <LoadingSpinner />
+          </div>
         {:else if !isCurrentlyPlaying}
           <Fab on:click={handlePreviewClick} scale={6} iconColor="white" color="var(--primary)" iconData={play} iconScale={1.5} />
         {:else}
@@ -101,7 +94,9 @@
       </div>
       <div>
         {#if isCurrentlyDownloading}
-          <LoadingSpinner />
+          <div class="spinner-wrapper">
+            <LoadingSpinner />
+          </div>
         {:else}
           <Fab on:click={handleDownloadClick} scale={6} iconColor="white" color="var(--secondary)" iconData={download} iconScale={1.5} />
         {/if}
@@ -112,6 +107,13 @@
 <ListDivider />
 
 <style type="text/scss">
+  .spinner-wrapper {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .beatmap-list-item {
     height: var(--beatmapListItemCoverImgSize);
     max-height: var(--beatmapListItemCoverImgSize);
@@ -146,11 +148,21 @@
       }
     }
 
+    .beatmap-difficulties {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      & > *:not(:last-child) {
+        margin-right: 4px;
+      }
+    }
+
     .beatmap-meta {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      width: 104px;
+      flex-grow: 0.033;
 
       .beatmap-audio-controls {
         width: 100%;
@@ -158,17 +170,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-
-        // div {
-        //   margin-left: 8px;
-        //   flex-shrink: 0;
-        //   flex-grow: 0;
-        // }
       }
     }
-  }
-
-  .beatmap-modes * {
-    margin-right: 8px;
   }
 </style>
