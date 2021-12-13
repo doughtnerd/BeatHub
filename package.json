@@ -47,7 +47,7 @@
     "windows:electron-dev": "run-p autobuild windows:pure-electron-dev",
     "pure-electron-dev": "NODE_ENV=development electron --inspect=3000 .",
     "windows:pure-electron-dev": "set NODE_ENV=development&&set ROLLUP_WATCH=true&&electron --inspect=3000 .",
-    "publish": "electron-builder --win -p always ."
+    "publish": "electron-builder --win -p always --projectDir=."
   },
   "build": {
     "publish": [

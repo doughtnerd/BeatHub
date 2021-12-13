@@ -92,6 +92,7 @@
           <Fab on:click={handleStopClick} scale={6} iconColor="white" color="#BD2942" iconData={stop} iconScale={1.5} />
         {/if}
       </div>
+
       <div>
         {#if isCurrentlyDownloading}
           <div class="spinner-wrapper">
