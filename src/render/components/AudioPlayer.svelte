@@ -66,7 +66,7 @@
       <LoadingSpinner />
     </div>
   {:else if $beatmapPreviewStore.activePreview}
-    <img src={$beatmapPreviewStore.activePreview.versions[0].coverURL} alt="song image" />
+    <img src={$beatmapPreviewStore.activePreview.versions[0].coverURL} alt="song" />
   {:else}
     <div style="height: 56px; width: 56px;" />
   {/if}

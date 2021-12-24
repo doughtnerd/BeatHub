@@ -149,9 +149,9 @@
     box-shadow: none;
   }
 
-  .song-list-container {
+  /* .song-list-container {
     padding-top: 72px;
     overflow: hidden;
     max-height: calc(100% - 72px);
-  }
+  } */
 </style>

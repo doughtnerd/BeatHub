@@ -107,7 +107,7 @@
 </div>
 <ListDivider />
 
-<style type="text/scss">
+<style>
   .spinner-wrapper {
     width: 48px;
     height: 48px;
@@ -115,6 +115,57 @@
     align-items: center;
     justify-content: center;
   }
+
+  .beatmap-list-item > .beatmap-graphic-container {
+    position: relative;
+    text-align: center;
+    flex-shrink: 0.2;
+  }
+  
+  .beatmap-graphic-container > img {
+    width: var(--beatmapListItemCoverImgSize);
+    height: var(--beatmapListItemCoverImgSize);
+  }
+
+  .beatmap-list-item > .beatmap-info-container {
+    flex-grow: 2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 0 8px 8px;
+  }
+
+  .beatmap-info-container > .beatmap-song-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .beatmap-difficulties {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  } 
+
+  .beatmap-difficulties > *:not(:last-child) {
+    margin-right: 4px;
+  }
+
+  .beatmap-list-item > .beatmap-meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 0.033;
+  }
+  .beatmap-meta > .beatmap-audio-controls {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .beatmap-list-item {
     height: var(--beatmapListItemCoverImgSize);
     max-height: var(--beatmapListItemCoverImgSize);
@@ -122,56 +173,5 @@
 
     display: flex;
     flex-flow: row;
-
-    .beatmap-graphic-container {
-      position: relative;
-      text-align: center;
-      flex-shrink: 0.2;
-
-      img {
-        width: var(--beatmapListItemCoverImgSize);
-        height: var(--beatmapListItemCoverImgSize);
-      }
-    }
-
-    .beatmap-info-container {
-      flex-grow: 2;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 0 0 8px 8px;
-
-      .beatmap-song-info {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-      }
-    }
-
-    .beatmap-difficulties {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-
-      & > *:not(:last-child) {
-        margin-right: 4px;
-      }
-    }
-
-    .beatmap-meta {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex-grow: 0.033;
-
-      .beatmap-audio-controls {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
   }
 </style>
