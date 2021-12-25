@@ -7,6 +7,9 @@ const themeManager = require("./main/theming/themeManager");
 const previewManager = require("./main/previewing/previewManager");
 const url = require("url");
 
+const dbConnectionConfig = require('./main/db/knexfile')
+const { connectDB } = require("./main/db/connect");
+
 let mainWindow;
 
 ipcMain.handle("getAppVersion", () => {
@@ -57,7 +60,7 @@ function createWindow() {
   return mainWindow;
 }
 
-app.on("ready", () => {
+app.on("ready", async () => {
   // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
   //   callback({
   //     responseHeaders: Object.assign(
@@ -68,6 +71,11 @@ app.on("ready", () => {
   //     ),
   //   });
   // });
+  const dbConnection = await connectDB(dbConnectionConfig)
+
+  ipcMain.handle('loadLibrary', () => {
+    return dbConnection('library').select()
+  })
 
   const mainWindow = createWindow();
 

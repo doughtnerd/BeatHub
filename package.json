@@ -34,7 +34,9 @@
     "electron-log": "^4.0.3",
     "electron-store": "~5.1.0",
     "electron-updater": "^4.2.0",
+    "knex": "^0.95.15",
     "request": "^2.88.0",
+    "sqlite3": "^5.0.2",
     "svelte-awesome": "~2.2.1",
     "svelte-infinite-scroll": "~0.1.0",
     "svelte-spa-router": "^3.2.0"
@@ -46,7 +48,13 @@
     "windows:electron-dev": "run-p autobuild windows:pure-electron-dev",
     "pure-electron-dev": "NODE_ENV=development electron --inspect=3000 .",
     "windows:pure-electron-dev": "set NODE_ENV=development&&set ROLLUP_WATCH=true&&electron --inspect=3000 .",
-    "publish": "electron-builder --win -p always --projectDir=."
+    "publish": "electron-builder --win -p always --projectDir=.",
+    "postinstall": "install-app-deps",
+    "knex:migrate:make": "knex --knexfile ./src/main/db/knexfile.js migrate:make",
+    "knex:seed:make": "knex --knexfile ./src/main/db/knexfile.js seed:make",
+    "knex:seed:run": "knex --knexfile ./src/main/db/knexfile.js seed:run",
+    "knex:migrate:latest": "knex --knexfile ./src/main/db/knexfile.js migrate:latest",
+    "knex": "knex --knexfile ./src/main/db/knexfile.js"
   },
   "build": {
     "publish": [

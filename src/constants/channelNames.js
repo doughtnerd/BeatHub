@@ -17,5 +17,6 @@ module.exports = {
   BEATMAP_DOWNLOAD_ERROR: "beatmapDownloadError",
   PREVIEW_BEATMAP: "previewBeatmap",
   PREVIEW_LOADED: "previewLoaded",
-  PREVIEW_ERROR: "previewError"
+  PREVIEW_ERROR: "previewError",
+  LOAD_LIBRARY: "loadLibrary",
 };

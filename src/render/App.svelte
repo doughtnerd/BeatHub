@@ -1,5 +1,5 @@
 <script>
-  import { cog,exclamation,search,star,tasks } from "svelte-awesome/icons";
+  import { book,cog,exclamation,search,star,tasks } from "svelte-awesome/icons";
   import Router,{ location,push } from 'svelte-spa-router';
   import AudioPlayer from "./components/AudioPlayer.svelte";
   import Badge from "./components/Badge.svelte";
@@ -14,6 +14,7 @@
   import Settings from "./pages/Settings.svelte";
   import TopRatedSongs from "./pages/TopRatedSongs.svelte";
   import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
+  import { activeView } from "./stores/active-view.store";
   import { numberOfDownloads } from "./stores/downloads.store";
   import { themeStore } from "./stores/theme.store";
 
@@ -56,6 +57,15 @@
           }}
         />
         <DrawerItem
+          itemName={"Library"}
+          isActive={$location === '/library'}
+          currentActiveView={$activeView}
+          icon={book}
+          on:click={() => {
+            push('/library');
+          }}
+        />
+        <DrawerItem
           itemName={"Downloads"}
           isActive={$location === '/downloads'}
           icon={tasks}
@@ -80,6 +90,7 @@
       </div>
 
       <Router {routes} />
+      
     </Drawer>
   </div>
   <footer>

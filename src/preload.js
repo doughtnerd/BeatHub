@@ -18,7 +18,8 @@ contextBridge.exposeInMainWorld("api", {
       "downloadBeatmap",
       "getCurrentTheme",
       "setCurrentTheme",
-      "previewBeatmap"
+      "previewBeatmap",
+      "loadLibrary"
     ];
     if (validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, args);
