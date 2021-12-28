@@ -1,12 +1,6 @@
 import { listen } from "svelte/internal";
 
-export function tooltip(node, { text, position = "right" }) {
-  const tooltip = document.createElement("div");
-  const style = document.createElement("style");
-  tooltip.textContent = text;
-  tooltip.className = "tooltip";
-
-  const tooltipStyle = `
+const tooltipStyle = `
     .tooltip {
       position: absolute;
       color: var(--backgroundText);
@@ -45,6 +39,12 @@ export function tooltip(node, { text, position = "right" }) {
       border-color: transparent var(--tooltipBackgroundColor) transparent transparent;
     }
   `;
+
+export function tooltip(node, { text, position = "right" }) {
+  const tooltip = document.createElement("div");
+  const style = document.createElement("style");
+  tooltip.textContent = text;
+  tooltip.className = "tooltip";
 
   switch (position) {
     case "right": {

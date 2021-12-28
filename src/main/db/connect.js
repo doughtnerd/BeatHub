@@ -8,8 +8,8 @@ async function connectDB(config) {
         console.log('Ran Migrations ', migrations)
 
         // if (process.NODE_ENV === 'development') {
-        //     const seeds = await instance.seed.run()
-        //     console.log('Ran Seeds ', seeds)
+            // const seeds = await instance.seed.run()
+            // console.log('Ran Seeds ', seeds)
         // }
     } catch(e) { 
         console.error(`Failed to start db connection: ${e.message}`)

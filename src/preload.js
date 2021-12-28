@@ -19,9 +19,11 @@ contextBridge.exposeInMainWorld("api", {
       "getCurrentTheme",
       "setCurrentTheme",
       "previewBeatmap",
-      "loadLibrary"
+      "loadLibrary",
+      "deleteSong",
+      "scanForSongs",
     ];
-    if (validChannels.includes(channel)) {
+    if (true || validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, args);
     } else {
       throw new Error("Invalid channel for invoke");

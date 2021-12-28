@@ -1,4 +1,5 @@
 const request = require("request");
+const {readdir, readFile} = require('fs/promises');
 
 function download(url, onProgress, onEnd, onErr = () => {}) {
   const options = {
@@ -40,4 +41,17 @@ function download(url, onProgress, onEnd, onErr = () => {}) {
   return req;
 }
 
-module.exports = { download };
+async function getDirectoryNames (source) {
+  return (await readdir(source, { withFileTypes: true }))
+    .filter(direct => direct.isDirectory())
+    .map(direct => `${source}/${direct.name}`)
+}
+
+async function getFileNames (source) {
+  const dirs = await readdir(source, {withFileTypes: true})
+  return dirs.filter(direct => direct.isFile())
+    .map(direct => `${source}/${direct.name}`)
+}
+    
+
+module.exports = { download, getDirectoryNames, getFileNames };

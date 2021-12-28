@@ -4,11 +4,15 @@ const log = require("electron-log");
 const autoUpdater = require("./main/updating/autoUpdate");
 const downloadManager = require("./main/downloading/downloadManager");
 const themeManager = require("./main/theming/themeManager");
+const libraryManager = require('./main/library/libraryManager');
 const previewManager = require("./main/previewing/previewManager");
 const url = require("url");
+const {readdir, readFile, unlink, rmdir, rm} = require('fs/promises');
 
 const dbConnectionConfig = require('./main/db/knexfile')
 const { connectDB } = require("./main/db/connect");
+const { getFileNames, getDirectoryNames } = require("./main/utils");
+const { insertSongs, getAllSongs, deleteSongByKeyAndName, getSongByKeyAndName } = require("./main/db/queries/library");
 
 let mainWindow;
 
@@ -60,6 +64,8 @@ function createWindow() {
   return mainWindow;
 }
 
+
+
 app.on("ready", async () => {
   // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
   //   callback({
@@ -71,10 +77,27 @@ app.on("ready", async () => {
   //     ),
   //   });
   // });
+
   const dbConnection = await connectDB(dbConnectionConfig)
 
   ipcMain.handle('loadLibrary', () => {
-    return dbConnection('library').select()
+    return getAllSongs(dbConnection)
+  })
+
+  ipcMain.handle('deleteSong', async (event, {key, name}) => {
+    return getSongByKeyAndName(dbConnection, key, name)
+    .then(async song => {
+      const diskLocation = song.disk_location;
+      await rm(diskLocation, {recursive: true, force: true})
+      return song
+    })
+    .then(() => {
+      return deleteSongByKeyAndName(dbConnection, key, name)
+    })
+    .catch(err => {
+      log.error(err)
+    })
+    
   })
 
   const mainWindow = createWindow();
@@ -82,6 +105,7 @@ app.on("ready", async () => {
   downloadManager.register(mainWindow);
   themeManager.register(mainWindow);
   previewManager.register(mainWindow);
+  libraryManager.register(mainWindow, dbConnection);
 
   const updater = autoUpdater.register(mainWindow);
   updater.checkForUpdatesAndNotify();

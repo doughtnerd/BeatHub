@@ -6,6 +6,7 @@ function createBeatmapPreviewStore() {
   const store = writable({
     beatmapToPreview: null,
     activePreview: null,
+    activePreview2: null,
     previewUrl: "",
     loading: false,
   });
@@ -17,13 +18,13 @@ function createBeatmapPreviewStore() {
     store.set({
       beatmapToPreview: null,
       activePreview: beatmap,
+      activePreview2: null,
       previewUrl,
       loading: false,
     });
   });
 
   window.api.receive(PREVIEW_ERROR, ({ beatmap, error }) => {
-    console.log(error);
     errorsStore.showMessage("Encountered error while trying to preview " + beatmap.name);
     store.set({
       beatmapToPreview: null,
