@@ -5,7 +5,7 @@ const { getDirectoryNames, getFileNames } = require("../utils");
 
 const { readFile } = require('fs/promises');
 
-const { insertSongs, getSongByHash, getUploaders } = require("../db/queries/library");
+const { insertSongs, getSongByHash, getUploaders, getSongsByUploader, getSongsByAuthor, getSongAuthors, getAllSongs } = require("../db/queries/library");
 
 async function generateEntry(directory) {
   const hash = await hashElement(directory)
@@ -50,6 +50,14 @@ function register(mainWindow, dbConnection) {
   ipcMain.handle('scanForSongs', (rootDir) => handleScanForSongs("/Users/ccarlson/Desktop/Beatsaber/Beat Saber_data/CustomLevels", dbConnection))
 
   ipcMain.handle('getUploaders', (author) => getUploaders(dbConnection, author))
+
+  ipcMain.handle('getAllSongs', () => getAllSongs(dbConnection))
+
+  ipcMain.handle('getSongsByUploader', (event, {uploader}) => getSongsByUploader(dbConnection, uploader))
+
+  ipcMain.handle('getArtists', (event) => getSongAuthors(dbConnection))
+
+  ipcMain.handle('getSongsByArtist', (event, {artist}) => getSongsByAuthor(dbConnection, artist))
 }
 
 module.exports = {

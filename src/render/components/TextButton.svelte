@@ -9,6 +9,9 @@
     background-color: var(--background);
     color:var(--backgroundText);
     box-shadow:none;
+    border-radius: none;
+    justify-content: center;
+    align-items: center;
   }
 
   .text-button:hover {

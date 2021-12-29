@@ -1,7 +1,5 @@
 <script>
-import TextButton from "./TextButton.svelte";
-
-
+  import TextButton from "./TextButton.svelte";
 
   export let tabs = ["Artists", "Uploaders", "Songs"]
 

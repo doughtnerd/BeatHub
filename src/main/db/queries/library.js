@@ -1,5 +1,5 @@
 function getAllSongs(knex) {
-  return knex('library').select().orderBy('added_at', 'desc')  
+  return knex('library').select().orderBy('song_title')  
 }
 
 function getSongsByHash(knex, hashes) {
@@ -16,15 +16,19 @@ function getSongsPage(knex, pageNumber, pageSize) {
 }
 
 function getSongsByUploader(knex, uploader) {
-  return knex('library').select().where({uploader: uploader}).orderBy('added_at', 'desc')
+  return knex('library').select().where({uploader: uploader}).orderBy('song_title')
 }
 
 function getSongsByAuthor(knex, author) {
-  return knex('library').select().where({song_author: author}).orderBy('added_at', 'desc')
+  return knex('library').select().where({song_author: author}).orderBy('song_title')
 }
 
 function getUploaders(knex) {
-  return knex('library').select('uploader').distinct()
+  return knex('library').select('uploader').distinct().orderBy('uploader')
+}
+
+function getSongAuthors(knex) {
+  return knex('library').select('song_author').distinct().orderBy('song_author')
 }
 
 function getSongByKey(knex, key) {
@@ -69,6 +73,7 @@ module.exports = {
   getSongsByUploader,
   getSongsByAuthor,
   getUploaders,
+  getSongAuthors,
   insertSong,
   insertSongs,
   deleteSongByKeyAndName,

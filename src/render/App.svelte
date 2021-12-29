@@ -9,12 +9,12 @@
   import Toast from "./components/Toast.svelte";
   import VideoPreviewDialog from "./components/VideoPreviewDialog.svelte";
   import Downloads from "./pages/Downloads.svelte";
+  import Library from "./pages/Library/Library.svelte";
   import NewSongs from "./pages/NewSongs.svelte";
   import Search from "./pages/Search.svelte";
   import Settings from "./pages/Settings.svelte";
   import TopRatedSongs from "./pages/TopRatedSongs.svelte";
   import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
-  import { activeView } from "./stores/active-view.store";
   import { numberOfDownloads } from "./stores/downloads.store";
   import { themeStore } from "./stores/theme.store";
 
@@ -23,6 +23,8 @@
     '/search': Search,
     '/top': TopRatedSongs,
     '/new': NewSongs,
+    '/library': Library,
+    '/library/*': Library,
     '/downloads': Downloads,
     '/settings': Settings
   };
@@ -41,7 +43,7 @@
           }}
         />
         <DrawerItem
-          itemName={"Top Rated"}
+          itemName="Top Rated"
           isActive={$location === '/top'}
           icon={star}
           on:click={() => {
@@ -49,7 +51,7 @@
           }}
         />
         <DrawerItem
-          itemName={"New Maps"}
+          itemName="New Maps"
           isActive={$location === '/new'}
           icon={exclamation}
           on:click={() => {
@@ -57,16 +59,15 @@
           }}
         />
         <DrawerItem
-          itemName={"Library"}
-          isActive={$location === '/library'}
-          currentActiveView={$activeView}
+          itemName="Library"
+          isActive={$location.includes('/library')}
           icon={book}
           on:click={() => {
             push('/library');
           }}
         />
         <DrawerItem
-          itemName={"Downloads"}
+          itemName="Downloads"
           isActive={$location === '/downloads'}
           icon={tasks}
           on:click={() => {
