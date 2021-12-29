@@ -1,34 +1,30 @@
 <script>
-  import Drawer from "./components/Drawer.svelte";
-  import { search, fire, star, exclamation, arrowCircleDown, tasks, cog } from "svelte-awesome/icons";
-  import {
-    NEW_MAPS,
-    SEARCH,
-    HOT_MAPS,
-    TOP_RATED_MAPS,
-    TOP_DOWNLOADED_MAPS,
-    SETTINGS,
-    DOWNLOADS,
-    activeView,
-  } from "./stores/active-view.store";
-  import NewSongs from "./pages/NewSongs.svelte";
-  import Downloads from "./pages/Downloads.svelte";
-  import HotSongs from "./pages/HotSongs.svelte";
-  import TopRatedSongs from "./pages/TopRatedSongs.svelte";
-  import TopDownloadedSongs from "./pages/TopDownloadedSongs.svelte";
-  import Search from "./pages/Search.svelte";
-  import Settings from "./pages/Settings.svelte";
+  import { cog,exclamation,search,star,tasks } from "svelte-awesome/icons";
+  import Router,{ location,push } from 'svelte-spa-router';
   import AudioPlayer from "./components/AudioPlayer.svelte";
   import Badge from "./components/Badge.svelte";
-  import Tooltip from "./components/Tooltip.svelte";
-  import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
+  import Drawer from "./components/Drawer.svelte";
   import DrawerItem from "./components/DrawerItem.svelte";
-  import Toast from "./components/Toast.svelte";
   import ErrorNotificationBar from "./components/ErrorNotificationBar.svelte";
-  import { downloads, numberOfDownloads } from "./stores/downloads.store";
-  import { themeStore } from "./stores/theme.store";
-  import Dialog from "./components/Dialog.svelte";
+  import Toast from "./components/Toast.svelte";
   import VideoPreviewDialog from "./components/VideoPreviewDialog.svelte";
+  import Downloads from "./pages/Downloads.svelte";
+  import NewSongs from "./pages/NewSongs.svelte";
+  import Search from "./pages/Search.svelte";
+  import Settings from "./pages/Settings.svelte";
+  import TopRatedSongs from "./pages/TopRatedSongs.svelte";
+  import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
+  import { numberOfDownloads } from "./stores/downloads.store";
+  import { themeStore } from "./stores/theme.store";
+
+  const routes = {
+    '/': Search,
+    '/search': Search,
+    '/top': TopRatedSongs,
+    '/new': NewSongs,
+    '/downloads': Downloads,
+    '/settings': Settings
+  };
 </script>
 
 <div class="app-container">
@@ -36,49 +32,35 @@
     <Drawer mode="slim">
       <div class="drawer-content" slot="drawer-content">
         <DrawerItem
-          itemName={SEARCH}
-          currentActiveView={$activeView}
+          itemName="Search"
+          isActive={$location === '/search'}
           icon={search}
           on:click={() => {
-            activeView.set(SEARCH);
+            push('/search');
           }}
         />
         <DrawerItem
-          itemName={TOP_RATED_MAPS}
-          currentActiveView={$activeView}
+          itemName={"Top Rated"}
+          isActive={$location === '/top'}
           icon={star}
           on:click={() => {
-            activeView.set(TOP_RATED_MAPS);
+            push('/top');
           }}
         />
-        <!-- <DrawerItem
-          itemName={TOP_DOWNLOADED_MAPS}
-          currentActiveView={$activeView}
-          icon={arrowCircleDown}
-          on:click={() => {
-            activeView.set(TOP_DOWNLOADED_MAPS);
-          }} />
         <DrawerItem
-          itemName={HOT_MAPS}
-          currentActiveView={$activeView}
-          icon={fire}
-          on:click={() => {
-            activeView.set(HOT_MAPS);
-          }} /> -->
-        <DrawerItem
-          itemName={NEW_MAPS}
-          currentActiveView={$activeView}
+          itemName={"New Maps"}
+          isActive={$location === '/new'}
           icon={exclamation}
           on:click={() => {
-            activeView.set(NEW_MAPS);
+            push('/new');
           }}
         />
         <DrawerItem
-          itemName={DOWNLOADS}
-          currentActiveView={$activeView}
+          itemName={"Downloads"}
+          isActive={$location === '/downloads'}
           icon={tasks}
           on:click={() => {
-            activeView.set(DOWNLOADS);
+            push('/downloads');
           }}
         >
           <div style="position: absolute; left: 8px;">
@@ -88,36 +70,16 @@
           </div>
         </DrawerItem>
         <DrawerItem
-          itemName={SETTINGS}
-          currentActiveView={$activeView}
+          itemName="Settings"
+          isActive={$location === '/settings'}
           icon={cog}
           on:click={() => {
-            activeView.set(SETTINGS);
+            push('/settings');
           }}
         />
       </div>
 
-      {#if $activeView === NEW_MAPS}
-        <NewSongs />
-      {/if}
-      <!-- {#if $activeView === HOT_MAPS}
-        <HotSongs />
-      {/if} -->
-      {#if $activeView === TOP_RATED_MAPS}
-        <TopRatedSongs />
-      {/if}
-      <!-- {#if $activeView === TOP_DOWNLOADED_MAPS}
-        <TopDownloadedSongs />
-      {/if} -->
-      {#if $activeView === SEARCH}
-        <Search />
-      {/if}
-      {#if $activeView === SETTINGS}
-        <Settings />
-      {/if}
-      {#if $activeView === DOWNLOADS}
-        <Downloads />
-      {/if}
+      <Router {routes} />
     </Drawer>
   </div>
   <footer>

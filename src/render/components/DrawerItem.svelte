@@ -1,10 +1,8 @@
 <script>
   import Icon from "svelte-awesome";
-  import Tooltip from "./Tooltip.svelte";
-  import Badge from "./Badge.svelte";
   import { tooltip } from "../actions/tooltip";
 
-  export let currentActiveView;
+  export let isActive;
   export let itemName;
   export let icon;
 </script>
@@ -36,7 +34,7 @@
 
 <div
   class="drawer-item"
-  class:active={currentActiveView === itemName}
+  class:active={isActive}
   use:tooltip={{ text: itemName }}
   on:click>
   <Icon scale={2} data={icon} />
