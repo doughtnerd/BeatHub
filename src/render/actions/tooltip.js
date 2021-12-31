@@ -5,6 +5,7 @@ const tooltipStyle = `
       position: absolute;
       color: var(--backgroundText);
       background-color: var(--tooltipBackgroundColor);
+      box-shadow: 0 0 1px 1px var(--primary);
       border-radius: 8px;
       padding: 8px;
       width: 120px;
@@ -41,6 +42,7 @@ const tooltipStyle = `
   `;
 
 export function tooltip(node, { text, position = "right" }) {
+  if (!text) return;
   const tooltip = document.createElement("div");
   const style = document.createElement("style");
   tooltip.textContent = text;
@@ -66,7 +68,7 @@ export function tooltip(node, { text, position = "right" }) {
         break;
       }
       case "left": {
-        tooltip.style.left = `${left - width}px`; // = `${left}px`;
+        tooltip.style.left = `${left - 8}px`;
         break;
       }
     }

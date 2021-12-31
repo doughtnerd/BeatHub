@@ -1,6 +1,5 @@
 <script>
   import Icon from "svelte-awesome";
-
   import {tooltip} from '../actions/tooltip'
 
   export let scale = 5;
@@ -8,11 +7,13 @@
   export let iconColor;
   export let iconData;
   export let iconScale;
-  // export let tooltipText = '';
+
+  export let disabled = false;
+  export let tooltipText = '';
 </script>
 
 <div class="round-button" style="height:{scale * 8}px; width:{scale * 8}px" on:click>
-  <div class="round-button-circle" style="--color:{color}; --iconColor:{iconColor}">
+  <div class:disabled  class="round-button-circle" style="--color:{color}; --iconColor:{iconColor}">
     <Icon scale={iconScale} data={iconData} />
   </div>
 </div>
@@ -32,7 +33,15 @@
     align-items: center;
   }
 
-  .round-button-circle:hover {
+  .round-button-circle.disabled {
+    filter:grayscale(100%);
+  }
+
+  .round-button-circle.disabled:hover {
+    filter:grayscale(100%);
+  }
+
+  .round-button-circle:not(.disabled):hover {
     background: var(--buttonHoverColor);
   }
 

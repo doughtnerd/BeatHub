@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
+  import LoadingScreen from '../../../components/LoadingScreen.svelte';
   import SongList from '../SongList.svelte';
 
   const songsStore = writable([]);
@@ -20,11 +21,14 @@
   }
 </script>
 
-{#if $songsStore.length > 0}
-  <SongList songs={$songsStore} on:delete={(event) => handleDeleteSong(event.detail.song)} />
-{:else}
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-    <h1>No Songs Found</h1>
-  </div>
-{/if}
-
+{#await $songsStore}
+  <LoadingScreen />
+{:then songs}
+  {#if songs.length > 0}
+    <SongList songs={songs} on:delete={(event) => handleDeleteSong(event.detail.song)} />
+  {:else}
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <h1>No Songs Found</h1>
+    </div>
+  {/if}
+{/await}

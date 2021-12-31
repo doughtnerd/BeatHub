@@ -36,7 +36,7 @@ function getSongsByAuthor(knex, author) {
 }
 
 function getUploaders(knex) {
-  return knex('library').select('uploader').distinct().orderBy('uploader')
+  return knex('library').select(knex.raw('lower(??) AS uploader', ['uploader'])).distinct().orderBy('uploader')
 }
 
 function getSongAuthors(knex) {

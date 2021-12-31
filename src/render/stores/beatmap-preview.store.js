@@ -6,7 +6,6 @@ function createBeatmapPreviewStore() {
   const store = writable({
     beatmapToPreview: null,
     activePreview: null,
-    activePreview2: null,
     previewUrl: "",
     loading: false,
   });
@@ -18,7 +17,6 @@ function createBeatmapPreviewStore() {
     store.set({
       beatmapToPreview: null,
       activePreview: beatmap,
-      activePreview2: null,
       previewUrl,
       loading: false,
     });
@@ -46,6 +44,20 @@ function createBeatmapPreviewStore() {
       });
 
       window.api.invoke(PREVIEW_BEATMAP, { beatmap });
+    },
+    previewWithUrl: (url, coverUrl) => {
+      store.set({
+        beatmapToPreview: null,
+        activePreview: {
+          versions: [
+            {
+              coverURL: coverUrl,
+            }
+          ]
+        },
+        previewUrl: url,
+        loading: false,
+      });
     },
     stop: () => {
       store.set({

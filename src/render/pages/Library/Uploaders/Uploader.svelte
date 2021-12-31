@@ -5,7 +5,8 @@
   import TextButton from "../../../components/TextButton.svelte";
   import SongList from "../SongList.svelte";
   import Icon from 'svelte-awesome'
-import { arrowLeft } from "svelte-awesome/icons";
+  import { arrowLeft } from "svelte-awesome/icons";
+  import Grid from "../../../components/Grid.svelte";
 
   export let params = {}
 
@@ -26,12 +27,13 @@ import { arrowLeft } from "svelte-awesome/icons";
   }
 </script>
 
-<div style="display:flex;flex-direction:row;">
-  <TextButton on:click={() => pop()}><Icon data={arrowLeft} scale=.75 /> Back</TextButton>
-</div>
+<Grid columns="1fr 1fr 1fr">
+  <TextButton style="place-self:center start;" on:click={() => pop()}><Icon data={arrowLeft} scale=.75 /> Back</TextButton>
+  <h3 style="place-self:center">{params.uploader}</h3>
+</Grid>
 
 {#if $songsByUploaderStore.length > 0}
-  <SongList songs={$songsByUploaderStore} on:deleteSong={handleDeleteSong} />
+  <SongList songs={$songsByUploaderStore} on:delete={(event) => handleDeleteSong(event.detail.song)} />
 {:else}
   <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <h1>No songs found</h1>

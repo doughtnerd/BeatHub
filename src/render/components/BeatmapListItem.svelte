@@ -72,7 +72,8 @@
 
     <div class="beatmap-audio-controls">
       <div>
-        <Fab
+        <Fab 
+          tooltipText="Visual Preview"
           on:click={handleVideoPreviewClick}
           scale={6}
           iconColor="white"
@@ -87,9 +88,9 @@
             <LoadingSpinner />
           </div>
         {:else if !isCurrentlyPlaying}
-          <Fab on:click={handlePreviewClick} scale={6} iconColor="white" color="var(--primary)" iconData={play} iconScale={1.5} />
+          <Fab tooltipText="Play" on:click={handlePreviewClick} scale={6} iconColor="white" color="var(--primary)" iconData={play} iconScale={1.5} />
         {:else}
-          <Fab on:click={handleStopClick} scale={6} iconColor="white" color="#BD2942" iconData={stop} iconScale={1.5} />
+          <Fab tooltipText="Stop" on:click={handleStopClick} scale={6} iconColor="white" color="#BD2942" iconData={stop} iconScale={1.5} />
         {/if}
       </div>
 
@@ -100,7 +101,7 @@
           </div>
         {:else}
           <!-- {#if !beatmap.isInLibrary} -->
-            <Fab on:click={handleDownloadClick} scale={6} iconColor="white" color="var(--secondary)" iconData={download} iconScale={1.5} />
+            <Fab tooltipText="Download" on:click={handleDownloadClick} scale={6} iconColor="white" color="var(--secondary)" iconData={download} iconScale={1.5} />
           <!-- {/if} -->
         {/if}
       </div>

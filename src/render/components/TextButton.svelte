@@ -1,5 +1,6 @@
 <script>
   export let isActive = false;
+  export let style = '';
 </script>
 
 <style>
@@ -12,10 +13,11 @@
     border-radius: none;
     justify-content: center;
     align-items: center;
+    margin: 0;
   }
 
   .text-button:hover {
-    filter:brightness(200%);
+    background-color: var(--buttonHoverColor);
   }
 
   .text-button.active {
@@ -23,6 +25,6 @@
   }
 </style>
 
-<button class:active={isActive} class="text-button" type="button" on:click>
+<button {style} class:active={isActive} class="text-button" type="button" on:click>
   <slot />
 </button>

@@ -4,6 +4,7 @@ const { hashElement } = require('folder-hash');
 const { getDirectoryNames, getFileNames, getBeatSaberDirectory } = require("../utils");
 
 const { readFile, access, rm } = require('fs/promises');
+const { constants } = require('fs');
 
 const { insertSongs, getSongByHash, getUploaders, getSongsByUploader, getSongsByAuthor, getSongAuthors, getAllSongs, getSongByKey, getAllDiskLocations, deleteSongsByFilesLocations, getSongByFolderHash, deleteSongByFolderHash } = require("../db/queries/library");
 
@@ -30,6 +31,7 @@ async function scanForNewSongs(rootDir, dbConnection) {
     const infoFilePath = (await getFileNames(directory)).find(fName => fName.includes('info.dat') || fName.includes('Info.dat'))
     const infoFileContents = await readFile(infoFilePath, {encoding: 'utf8'})
     const infoFileJSON = JSON.parse(infoFileContents)
+    
     const dbEntry = {
       folder_hash: hash,
       key: '',
@@ -43,20 +45,20 @@ async function scanForNewSongs(rootDir, dbConnection) {
     }
     return dbEntry
   }))
-  return insertSongs(dbConnection, dbEntries).onConflict().ignore()
+  return insertSongs(dbConnection, dbEntries).onConflict('folder_hash').ignore()
 }
 
 async function deleteMissingSongs(dbConnection) {
   const allSongLocations = (await getAllDiskLocations(dbConnection)).map(entry => entry.disk_location)
 
-  const missingSongs = await Promise.all(allSongLocations.filter(async (directory) => {
+  const missingSongs = (await Promise.all(allSongLocations.map(async (directory) => {
     try {
-      await access(directory)
-      return false;
-    } catch {
+      await access(directory, constants.R_OK | constants.W_OK)
+      return null;
+    } catch(e) {
       return directory
     }
-  }));
+  }))).filter(entry => entry != null);
 
   await deleteSongsByFilesLocations(dbConnection, missingSongs)
 }
@@ -64,7 +66,6 @@ async function deleteMissingSongs(dbConnection) {
 function deleteSong(dbConnection, folder_hash) {
   return getSongByFolderHash(dbConnection, folder_hash)
   .then(async song => {
-    console.log(song)
     const diskLocation = song.disk_location;
     await rm(diskLocation, {recursive: true, force: true})
     return song
@@ -80,7 +81,7 @@ function deleteSong(dbConnection, folder_hash) {
 async function syncSongLibrary (dbConnection) {
   const rootDir = await getBeatSaberDirectory(dbConnection);
   return Promise.all([
-    scanForNewSongs(rootDir + "/Beat Saber_Data/CustomLevels/", dbConnection),
+    scanForNewSongs(rootDir + "/Beat Saber_Data/CustomLevels", dbConnection),
     deleteMissingSongs(dbConnection)
   ])
 }

@@ -2,6 +2,7 @@ const request = require("request");
 const {readdir, readFile} = require('fs/promises');
 const fs = require('fs')
 const { getSetting } = require('./db/queries/userSettings');
+const path = require('path');
 
 const DEFAULT_WINDOWS_STEAM_LOCATION =
   "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber";
@@ -58,13 +59,13 @@ function formatFolderName(key, songName, levelAuthorName) {
 async function getDirectoryNames (source) {
   return (await readdir(source, { withFileTypes: true }))
     .filter(direct => direct.isDirectory())
-    .map(direct => `${source}/${direct.name}`)
+    .map(direct => path.join(source, direct.name))
 }
 
 async function getFileNames (source) {
   const dirs = await readdir(source, {withFileTypes: true})
   return dirs.filter(direct => direct.isFile())
-    .map(direct => `${source}/${direct.name}`)
+    .map(direct => path.join(source, direct.name))
 }
 
 

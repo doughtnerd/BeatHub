@@ -1,22 +1,22 @@
 
 exports.up = function(knex) {
-  return knex.raw(`
-    CREATE TABLE IF NOT EXISTS library (
-      folder_hash TEXT PRIMARY KEY,
-      key TEXT NOT NULL,
-      song_title TEXT NOT NULL,
-      song_author TEXT NOT NULL,
-      uploader TEXT NOT NULL,
-      disk_location TEXT NOT NULL,
-      cover_filename TEXT NOT NULL,
-      song_filename TEXT NOT NULL,
-      added_at TEXT NOT NULL
-    );
-  `)
+  return knex.schema.createTable('library', table => {
+    table.text('folder_hash').notNullable().primary();
+    table.text('key').notNullable();
+    table.text('song_title').notNullable();
+    table.text('song_author').notNullable();
+    table.text('uploader').notNullable();
+    table.text('disk_location').notNullable();
+    table.text('cover_filename').notNullable();
+    table.text('song_filename').notNullable();
+    table.text('added_at').notNullable();
+  })
 };
 
 exports.down = function(knex) {
-  return knex.raw(`
-    DROP TABLE IF EXISTS library;
-  `);
+  return knex.schema.hasTable('library').then(exists => {
+    if (exists) {
+      return knex.schema.dropTable('library');
+    }
+  })
 };

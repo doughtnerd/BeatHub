@@ -35,7 +35,7 @@
     }
   }
 
-  function handleScanForSongs() {
+  function handleSyncSongLibrary() {
     window.api.invoke('syncSongLibrary').then(() => {
       window.location.reload();
     });
@@ -43,13 +43,29 @@
 </script>
 
 <style>
+
+  .action-container {
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    background-color:var(--background);
+    justify-content:flex-end;
+  }
+
+  .main-content {
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+    overflow-y:auto; 
+    padding:16px;
+  }
   
 </style>
 
-<div style="height:80px;width:100%;display:flex;flex-direction:column;background-color:var(--background);justify-content:flex-end">
-  <TextButton on:click={handleScanForSongs}><Icon data={undo} scale=1 /> Scan For Songs</TextButton>
+<div class="action-container">
+  <TextButton on:click={handleSyncSongLibrary}><Icon data={undo} scale=1 /> Sync Song Library</TextButton>
   <TabGroup bind:selectedTab/>
 </div>
-<div style="display: flex; flex-direction: column; height: 100%; overflow-y:auto; padding:16px">
+<div class="main-content">
   <Router {routes} prefix="/library"/>
 </div>

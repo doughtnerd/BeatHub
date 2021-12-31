@@ -41,9 +41,9 @@ function register(mainWindow, dbConnection) {
       const songData = {
         key: beatmap.id,
         folder_hash: hash.hash,
-        song_title: beatmap.metadata.songName,
-        song_author: beatmap.metadata.songAuthorName,
-        uploader: beatmap.metadata.levelAuthorName,
+        song_title: infoFileJSON._songName,
+        song_author: infoFileJSON._songAuthorName,
+        uploader: infoFileJSON._levelAuthorName,
         disk_location: directory,
         cover_filename: infoFileJSON._coverImageFilename,
         song_filename: infoFileJSON._songFilename,

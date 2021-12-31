@@ -6,6 +6,7 @@
   import Drawer from "./components/Drawer.svelte";
   import DrawerItem from "./components/DrawerItem.svelte";
   import ErrorNotificationBar from "./components/ErrorNotificationBar.svelte";
+import Scrollbar from "./components/Scrollbar.svelte";
   import Toast from "./components/Toast.svelte";
   import VideoPreviewDialog from "./components/VideoPreviewDialog.svelte";
   import Downloads from "./pages/Downloads.svelte";
@@ -106,6 +107,8 @@
 <Toast />
 
 <VideoPreviewDialog />
+
+<Scrollbar />
 
 <svelte:head>
   <link rel="stylesheet" href={$themeStore.currentThemeCss} />
