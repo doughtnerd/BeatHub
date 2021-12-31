@@ -2,8 +2,20 @@ function getAllSongs(knex) {
   return knex('library').select().orderBy('song_title')  
 }
 
+function getSongByFolderHash(knex, hash) {
+  return knex('library').select().where('folder_hash', hash).first()
+}
+
 function getSongsByHash(knex, hashes) {
   return knex('library').select('folder_hash').whereIn('hash', hashes)
+}
+
+function getSongsByKeys(knex, keys) {
+  return knex('library').whereIn('key', keys)
+}
+
+function getAllDiskLocations(knex) {
+  return knex('library').select('disk_location').distinct()
 }
 
 function getSongByHash(knex, hash) {
@@ -51,6 +63,14 @@ function deleteSongByKeyAndName(knex, key, name) {
   return knex('library').where({key, song_title: name}).del()
 }
 
+function deleteSongByFolderHash(knex, hash) {
+  return knex('library').where({folder_hash: hash}).del()
+}
+
+function deleteSongsByFilesLocations(knex, locations) {
+  return knex('library').whereIn('disk_location', locations).del()
+}
+
 function findSongByKeyAndName(knex, key, name) {
   return knex('library').where({key, song_title: name}).first()
 }
@@ -65,9 +85,12 @@ function querySongByText(knex, text) {
 
 module.exports = {
   getAllSongs,
+  getAllDiskLocations,
   getSongsPage,
   getSongByKey,
   getSongsByHash,
+  getSongByFolderHash,
+  getSongsByKeys,
   getSongByHash,
   getSongByKeyAndName,
   getSongsByUploader,
@@ -77,6 +100,8 @@ module.exports = {
   insertSong,
   insertSongs,
   deleteSongByKeyAndName,
+  deleteSongsByFilesLocations,
+  deleteSongByFolderHash,
   findSongByKeyAndName,
   querySongByText,
 }

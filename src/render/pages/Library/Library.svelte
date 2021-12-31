@@ -36,7 +36,7 @@
   }
 
   function handleScanForSongs() {
-    window.api.invoke('scanForSongs').then(() => {
+    window.api.invoke('syncSongLibrary').then(() => {
       window.location.reload();
     });
   }

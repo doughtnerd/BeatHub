@@ -13,7 +13,7 @@ module.exports = {
   DOWNLOAD_COMPLETE: "downloadComplete",
   DOWNLOAD_ERROR: "downloadError",
   CHANGE_DOWNLOAD_DIRECTORY: "changeDownloadDirectory",
-  GET_DOWNLOAD_DIRECTORY: "getDownloadDirectory",
+  GET_BEATSABER_DIRECTORY: "getBeatSaberDirectory",
   BEATMAP_DOWNLOAD_ERROR: "beatmapDownloadError",
   PREVIEW_BEATMAP: "previewBeatmap",
   PREVIEW_LOADED: "previewLoaded",

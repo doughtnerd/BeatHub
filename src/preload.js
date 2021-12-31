@@ -13,7 +13,7 @@ contextBridge.exposeInMainWorld("api", {
     let validChannels = [
       "changeDownloadDirectory",
       "restartAndUpdate",
-      "getDownloadDirectory",
+      "getBeatSaberDirectory",
       "getAppVersion",
       "downloadBeatmap",
       "getCurrentTheme",
@@ -21,7 +21,7 @@ contextBridge.exposeInMainWorld("api", {
       "previewBeatmap",
       "loadLibrary",
       "deleteSong",
-      "scanForSongs",
+      "syncSongLibrary",
     ];
     if (true || validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, args);

@@ -1,14 +1,15 @@
-const { app, BrowserWindow, ipcMain, session } = require("electron");
+const { ipcMain } = require("electron");
 
 const { hashElement } = require('folder-hash');
-const { getDirectoryNames, getFileNames } = require("../utils");
+const { getDirectoryNames, getFileNames, getBeatSaberDirectory } = require("../utils");
 
-const { readFile } = require('fs/promises');
+const { readFile, access, rm } = require('fs/promises');
 
-const { insertSongs, getSongByHash, getUploaders, getSongsByUploader, getSongsByAuthor, getSongAuthors, getAllSongs } = require("../db/queries/library");
+const { insertSongs, getSongByHash, getUploaders, getSongsByUploader, getSongsByAuthor, getSongAuthors, getAllSongs, getSongByKey, getAllDiskLocations, deleteSongsByFilesLocations, getSongByFolderHash, deleteSongByFolderHash } = require("../db/queries/library");
+
 
 async function generateEntry(directory) {
-  const hash = await hashElement(directory)
+  const hash = await hashElement(directory, {algo: 'md5'})
   return [hash.hash, directory]
 }
 
@@ -23,7 +24,7 @@ async function calcNewSongDirs(dbConnection, rootDir) {
   return newSongs
 }
 
-async function handleScanForSongs(rootDir, dbConnection) {
+async function scanForNewSongs(rootDir, dbConnection) {
   const newSongTuples = await calcNewSongDirs(dbConnection, rootDir)
   const dbEntries = await Promise.all(newSongTuples.map(async ([hash, directory]) => {
     const infoFilePath = (await getFileNames(directory)).find(fName => fName.includes('info.dat') || fName.includes('Info.dat'))
@@ -45,11 +46,53 @@ async function handleScanForSongs(rootDir, dbConnection) {
   return insertSongs(dbConnection, dbEntries).onConflict().ignore()
 }
 
+async function deleteMissingSongs(dbConnection) {
+  const allSongLocations = (await getAllDiskLocations(dbConnection)).map(entry => entry.disk_location)
+
+  const missingSongs = await Promise.all(allSongLocations.filter(async (directory) => {
+    try {
+      await access(directory)
+      return false;
+    } catch {
+      return directory
+    }
+  }));
+
+  await deleteSongsByFilesLocations(dbConnection, missingSongs)
+}
+
+function deleteSong(dbConnection, folder_hash) {
+  return getSongByFolderHash(dbConnection, folder_hash)
+  .then(async song => {
+    console.log(song)
+    const diskLocation = song.disk_location;
+    await rm(diskLocation, {recursive: true, force: true})
+    return song
+  })
+  .then(() => {
+    return deleteSongByFolderHash(dbConnection, folder_hash)
+  })
+  .catch(err => {
+    console.error(err)
+  })
+}
+
+async function syncSongLibrary (dbConnection) {
+  const rootDir = await getBeatSaberDirectory(dbConnection);
+  return Promise.all([
+    scanForNewSongs(rootDir + "/Beat Saber_Data/CustomLevels/", dbConnection),
+    deleteMissingSongs(dbConnection)
+  ])
+}
 
 function register(mainWindow, dbConnection) {
-  ipcMain.handle('scanForSongs', (rootDir) => handleScanForSongs("/Users/ccarlson/Desktop/Beatsaber/Beat Saber_data/CustomLevels", dbConnection))
+  ipcMain.handle('syncSongLibrary', () => syncSongLibrary(dbConnection))
 
   ipcMain.handle('getUploaders', (author) => getUploaders(dbConnection, author))
+
+  ipcMain.handle('getSongsByKey', (key) => getSongByKey(dbConnection, key))
+
+  ipcMain.handle('getSongByKey', (event, {key}) => getSongByKey(dbConnection, key))
 
   ipcMain.handle('getAllSongs', () => getAllSongs(dbConnection))
 
@@ -58,6 +101,10 @@ function register(mainWindow, dbConnection) {
   ipcMain.handle('getArtists', (event) => getSongAuthors(dbConnection))
 
   ipcMain.handle('getSongsByArtist', (event, {artist}) => getSongsByAuthor(dbConnection, artist))
+
+  ipcMain.handle('loadLibrary', () => getAllSongs(dbConnection))
+
+  ipcMain.handle('deleteSong', async (event, {folder_hash}) => deleteSong(dbConnection, folder_hash))
 }
 
 module.exports = {

@@ -1,70 +1,13 @@
-const { ipcMain, dialog } = require("electron");
+const { ipcMain } = require("electron");
 const { fork } = require("child_process");
-const Store = require("electron-store");
-const fs = require("fs");
+const { hashElement } = require('folder-hash');
 
-const storage = new Store();
+const { getFileNames, getBeatSaberDirectory, formatFolderName } = require("../utils");
+const { readFile } = require("fs/promises");
+const { insertSong } = require("../db/queries/library");
 
-const {
-  DOWNLOAD_ERROR,
-  DOWNLOAD_BEATMAP,
-  CHANGE_DOWNLOAD_DIRECTORY,
-  GET_DOWNLOAD_DIRECTORY
-} = require("../../constants/channelNames");
 
-const { DOWNLOAD_DIRECTORY } = require("../../constants/storageKeys");
-
-const DEFAULT_WINDOWS_STEAM_LOCATION =
-  "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber";
-const DEFAULT_WINDOWS_OCULUS_LOCATION =
-  "C:/Program Files/Oculus/Software/Software/hyperbolic-magnetism-beat-saber";
-
-function formatFolderName(beatmap) {
-  const key = beatmap.id;
-  const { songName, levelAuthorName } = beatmap.metadata;
-
-  return `${key} (${songName.replace(
-    /[\\/:*?"<>|.]/g,
-    ""
-  )} - ${levelAuthorName})`;
-}
-
-function existsAsync(path) {
-  return new Promise((resolve, reject) => {
-    fs.exists(path, exists => {
-      resolve(exists);
-    });
-  });
-}
-
-async function getDownloadDirectory() {
-  const hasDownloadDirectory = storage.has(DOWNLOAD_DIRECTORY);
-
-  if (hasDownloadDirectory) {
-    return storage.get(DOWNLOAD_DIRECTORY);
-  } else {
-    if (await existsAsync(DEFAULT_WINDOWS_OCULUS_LOCATION)) {
-      return DEFAULT_WINDOWS_OCULUS_LOCATION;
-    } else if (await existsAsync(DEFAULT_WINDOWS_STEAM_LOCATION)) {
-      return DEFAULT_WINDOWS_STEAM_LOCATION;
-    }
-    // TODO: Add in prompting for install location;
-    return "";
-  }
-}
-
-function openFolderBrowser(startingDirectory) {
-  let options = {
-    title: "Select Beat Saber install directory",
-    defaultPath: startingDirectory,
-    buttonLabel: "Choose folder",
-    properties: ["openDirectory"]
-  };
-
-  return dialog.showOpenDialog(options);
-}
-
-function register(mainWindow) {
+function register(mainWindow, dbConnection) {
   const sendStatusToWindow = (channel, payload) => {
     mainWindow.webContents.send(channel, payload);
   };
@@ -77,36 +20,48 @@ function register(mainWindow) {
   childProcess.on("error", error => {
     sendStatusToWindow(DOWNLOAD_ERROR, { error });
   });
-  childProcess.on("message", message => {
+  childProcess.on("message", async message => {
     sendStatusToWindow(message.messageType, message);
-  });
 
-  ipcMain.handle(DOWNLOAD_BEATMAP, async (event, beatmap) => {
-    //Get download folder location
-    const downloadsFolder = await getDownloadDirectory();
+    if(message.messageType === 'downloadComplete') {
+      const {beatmap} = message;
+      //Get download folder location
+      const downloadsFolder = await getBeatSaberDirectory(dbConnection);
 
-    //Get beatmap folder name
-    const songFolderName = formatFolderName(beatmap);
+      //Get beatmap folder name
+      const songFolderName = formatFolderName(beatmap.id, beatmap.metadata.songName, beatmap.metadata.songAuthorName);
 
-    //Download & extract to location
-    childProcess.send({ beatmap, downloadsFolder, songFolderName });
-  });
+      const directory = `${downloadsFolder}/Beat Saber_Data/CustomLevels/${songFolderName}`
+      const hash = await hashElement(directory, {algo: 'md5'});
 
-  ipcMain.handle(CHANGE_DOWNLOAD_DIRECTORY, async (event, eventData) => {
-    const currentDirectory = await getDownloadDirectory();
-    const selection = await openFolderBrowser(currentDirectory);
-
-    if (!selection.canceled) {
-      const newDir = selection.filePaths[0];
-      storage.set(DOWNLOAD_DIRECTORY, newDir);
-      return newDir;
-    } else {
-      return currentDirectory;
+      const infoFilePath = (await getFileNames(directory)).find(fName => fName.includes('info.dat') || fName.includes('Info.dat'))
+      const infoFileContents = await readFile(infoFilePath, {encoding: 'utf8'})
+      const infoFileJSON = JSON.parse(infoFileContents)
+      
+      const songData = {
+        key: beatmap.id,
+        folder_hash: hash.hash,
+        song_title: beatmap.metadata.songName,
+        song_author: beatmap.metadata.songAuthorName,
+        uploader: beatmap.metadata.levelAuthorName,
+        disk_location: directory,
+        cover_filename: infoFileJSON._coverImageFilename,
+        song_filename: infoFileJSON._songFilename,
+        added_at: new Date().toISOString(),
+      }
+      await insertSong(dbConnection, songData).onConflict('folder_hash').merge();
     }
   });
 
-  ipcMain.handle(GET_DOWNLOAD_DIRECTORY, () => {
-    return getDownloadDirectory();
+  ipcMain.handle('downloadBeatmap', async (event, beatmap) => {
+    //Get download folder location
+    const downloadsFolder = await getBeatSaberDirectory(dbConnection);
+
+    //Get beatmap folder name
+    const songFolderName = formatFolderName(beatmap.id, beatmap.metadata.songName, beatmap.metadata.songAuthorName);
+
+    //Download & extract to location
+    childProcess.send({ beatmap, downloadsFolder, songFolderName });
   });
 }
 

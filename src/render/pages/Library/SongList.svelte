@@ -3,6 +3,7 @@
   import SongListItem from "./SongListItem.svelte";
 
   export let songs = []
+  
 </script>
 
 <List>

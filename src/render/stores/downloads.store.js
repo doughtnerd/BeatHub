@@ -1,6 +1,6 @@
 import { writable, derived } from "svelte/store";
 import {
-  GET_DOWNLOAD_DIRECTORY,
+  GET_BEATSABER_DIRECTORY,
   DOWNLOAD_BEATMAP,
   DOWNLOAD_COMPLETE,
   DOWNLOAD_ERROR,
@@ -17,7 +17,7 @@ function createDownloadsStore() {
     completed: {}
   });
 
-  window.api.invoke(GET_DOWNLOAD_DIRECTORY).then(dir => {
+  window.api.invoke('getBeatSaberDirectory').then(dir => {
     store.update(current => ({
       ...current,
       downloadDirectory: dir
@@ -69,7 +69,7 @@ function createDownloadsStore() {
       });
     },
     changeDownloadDirectory: async () => {
-      const newDirectory = await window.api.invoke(CHANGE_DOWNLOAD_DIRECTORY);
+      const newDirectory = await window.api.invoke('changeBeatSaberDirectory');
       store.update(current => ({
         ...current,
         downloadDirectory: newDirectory

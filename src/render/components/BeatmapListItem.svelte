@@ -99,7 +99,9 @@
             <LoadingSpinner />
           </div>
         {:else}
-          <Fab on:click={handleDownloadClick} scale={6} iconColor="white" color="var(--secondary)" iconData={download} iconScale={1.5} />
+          <!-- {#if !beatmap.isInLibrary} -->
+            <Fab on:click={handleDownloadClick} scale={6} iconColor="white" color="var(--secondary)" iconData={download} iconScale={1.5} />
+          <!-- {/if} -->
         {/if}
       </div>
     </div>

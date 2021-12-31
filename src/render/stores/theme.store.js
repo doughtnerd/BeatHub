@@ -15,7 +15,7 @@ function createThemeStore() {
     currentThemeCss: "dark-theme.css"
   });
 
-  window.api.invoke(GET_CURRENT_THEME).then(({ currentThemeName }) => {
+  window.api.invoke(GET_CURRENT_THEME).then((currentThemeName) => {
     if (currentThemeName) {
       store.set({
         currentThemeName,

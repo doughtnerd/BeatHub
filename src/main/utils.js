@@ -1,5 +1,12 @@
 const request = require("request");
 const {readdir, readFile} = require('fs/promises');
+const fs = require('fs')
+const { getSetting } = require('./db/queries/userSettings');
+
+const DEFAULT_WINDOWS_STEAM_LOCATION =
+  "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber";
+const DEFAULT_WINDOWS_OCULUS_LOCATION =
+  "C:/Program Files/Oculus/Software/Software/hyperbolic-magnetism-beat-saber";
 
 function download(url, onProgress, onEnd, onErr = () => {}) {
   const options = {
@@ -41,6 +48,13 @@ function download(url, onProgress, onEnd, onErr = () => {}) {
   return req;
 }
 
+function formatFolderName(key, songName, levelAuthorName) {
+  return `${key} (${songName.replace(
+    /[\\/:*?"<>|.]/g,
+    ""
+  )} - ${levelAuthorName})`;
+}
+
 async function getDirectoryNames (source) {
   return (await readdir(source, { withFileTypes: true }))
     .filter(direct => direct.isDirectory())
@@ -52,6 +66,37 @@ async function getFileNames (source) {
   return dirs.filter(direct => direct.isFile())
     .map(direct => `${source}/${direct.name}`)
 }
+
+
+
+function existsAsync(path) {
+  return new Promise((resolve, reject) => {
+    fs.exists(path, exists => {
+      resolve(exists);
+    });
+  });
+}
+
+async function getBeatSaberDirectory(dbConnection) {
+  const beatSaberDirectory = await getSetting(dbConnection, 'beatSaberDirectory');
+
+  if (beatSaberDirectory) {
+    return beatSaberDirectory
+  } else {
+    if (await existsAsync(DEFAULT_WINDOWS_OCULUS_LOCATION)) {
+      return DEFAULT_WINDOWS_OCULUS_LOCATION;
+    } else if (await existsAsync(DEFAULT_WINDOWS_STEAM_LOCATION)) {
+      return DEFAULT_WINDOWS_STEAM_LOCATION;
+    }
+    return "";
+  }
+}
     
 
-module.exports = { download, getDirectoryNames, getFileNames };
+module.exports = { 
+  download, 
+  getDirectoryNames, 
+  getFileNames,
+  formatFolderName,
+  getBeatSaberDirectory
+};

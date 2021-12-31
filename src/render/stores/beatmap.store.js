@@ -49,7 +49,12 @@ function createBeatmapStore(endpoint, queryFn) {
           ...current,
           loading: true
         }));
-        const newSongs = await queryFn(nextPage)
+        const fromApi = await queryFn(nextPage)
+        const newSongs = await Promise.all(fromApi.map(async song => {
+          const dbSong = await window.api.invoke('getSongByKey', { key: song.id });
+          song.isInLibrary = dbSong != null;
+          return song;
+        }))
 
         store.update(current => {
           return {

@@ -6,12 +6,25 @@
   const songsStore = writable([]);
 
   onMount(() => {
+    getAllSongs();
+  });
+
+  function getAllSongs() {
     window.api.invoke('getAllSongs').then(songs => {
       songsStore.set(songs);
     });
-  });
+  }
+
+  function handleDeleteSong(song) {
+    window.api.invoke('deleteSong', {folder_hash: song.folder_hash}).then(() => getAllSongs());
+  }
 </script>
 
-<div style="display:flex;flex-direction:column;">
-  <SongList songs={$songsStore} />
-</div>
+{#if $songsStore.length > 0}
+  <SongList songs={$songsStore} on:delete={(event) => handleDeleteSong(event.detail.song)} />
+{:else}
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <h1>No Songs Found</h1>
+  </div>
+{/if}
+

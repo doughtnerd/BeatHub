@@ -12,8 +12,14 @@
   });
 </script>
 
-<div style="display:flex;flex-direction:column;">
-  {#each $uploadersStore as uploader}
-    <LinkButton to={`/library/uploaders/${uploader}`}>{uploader}</LinkButton>
-  {/each}
-</div>
+{#if $uploadersStore.length > 0}
+  <div style="display:flex;flex-direction:column;">
+    {#each $uploadersStore as uploader}
+      <LinkButton to={`/library/uploaders/${uploader}`}>{uploader}</LinkButton>
+    {/each}
+  </div>
+{:else}
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <h1>No Uploaders Found</h1>
+  </div>
+{/if}
