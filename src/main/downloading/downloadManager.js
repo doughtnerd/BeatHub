@@ -6,6 +6,8 @@ const { getFileNames, getBeatSaberDirectory, formatFolderName } = require("../ut
 const { readFile } = require("fs/promises");
 const { insertSong } = require("../db/queries/library");
 
+const path = require('path');
+
 
 function register(mainWindow, dbConnection) {
   const sendStatusToWindow = (channel, payload) => {
@@ -31,7 +33,7 @@ function register(mainWindow, dbConnection) {
       //Get beatmap folder name
       const songFolderName = formatFolderName(beatmap.id, beatmap.metadata.songName, beatmap.metadata.songAuthorName);
 
-      const directory = `${downloadsFolder}/Beat Saber_Data/CustomLevels/${songFolderName}`
+      const directory = path.join(downloadsFolder, 'Beat Saber_Data', 'CustomLevels', songFolderName)
       const hash = await hashElement(directory, {algo: 'md5'});
 
       const infoFilePath = (await getFileNames(directory)).find(fName => fName.includes('info.dat') || fName.includes('Info.dat'))

@@ -4,6 +4,8 @@ const fs = require('fs')
 const { getSetting } = require('./db/queries/userSettings');
 const path = require('path');
 
+const sanitize = require("sanitize-filename");
+
 const DEFAULT_WINDOWS_STEAM_LOCATION =
   "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber";
 const DEFAULT_WINDOWS_OCULUS_LOCATION =
@@ -50,10 +52,8 @@ function download(url, onProgress, onEnd, onErr = () => {}) {
 }
 
 function formatFolderName(key, songName, levelAuthorName) {
-  return `${key} (${songName.replace(
-    /[\\/:*?"<>|.]/g,
-    ""
-  )} - ${levelAuthorName})`;
+  const formattedFolderName = `${key} (${songName} - ${levelAuthorName})`;
+  return sanitize(formattedFolderName);
 }
 
 async function getDirectoryNames (source) {

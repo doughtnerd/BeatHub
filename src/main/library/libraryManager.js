@@ -80,8 +80,9 @@ function deleteSong(dbConnection, folder_hash) {
 
 async function syncSongLibrary (dbConnection) {
   const rootDir = await getBeatSaberDirectory(dbConnection);
+  const songDir = path.join(rootDir, 'Beat Saber_Data', 'CustomLevels');
   return Promise.all([
-    scanForNewSongs(rootDir + "/Beat Saber_Data/CustomLevels", dbConnection),
+    scanForNewSongs(songDir, dbConnection),
     deleteMissingSongs(dbConnection)
   ])
 }
@@ -89,7 +90,7 @@ async function syncSongLibrary (dbConnection) {
 function register(mainWindow, dbConnection) {
   ipcMain.handle('syncSongLibrary', () => syncSongLibrary(dbConnection))
 
-  ipcMain.handle('getUploaders', (author) => getUploaders(dbConnection, author))
+  ipcMain.handle('getUploaders', () => getUploaders(dbConnection))
 
   ipcMain.handle('getSongsByKey', (key) => getSongByKey(dbConnection, key))
 
