@@ -1,15 +1,26 @@
-const { app, BrowserWindow, ipcMain, session } = require("electron");
-const path = require("path");
-const log = require("electron-log");
-const autoUpdater = require("./main/updating/autoUpdate");
-const downloadManager = require("./main/downloading/downloadManager");
-const libraryManager = require('./main/library/libraryManager');
-const previewManager = require("./main/previewing/previewManager");
-const settingsManager = require("./main/settings/settingsManager");
-const url = require("url");
+import { app, BrowserWindow, ipcMain } from "electron";
+import path from "path";
+import downloadManager from "./main/downloading/downloadManager";
+import libraryManager from "./main/library/libraryManager";
+import previewManager from "./main/previewing/previewManager";
+import settingsManager from "./main/settings/settingsManager";
+import url from 'url';
 
-const dbConnectionConfig = require('./main/db/knexfile')
-const { connectDB } = require("./main/db/connect");
+import dbConnectionConfig from "./main/db/knexfile";
+import { connectDB } from "./main/db/connect"
+
+// const { app, BrowserWindow, ipcMain, session } = require("electron");
+// const path = require("path");
+// const log = require("electron-log");
+// const autoUpdater = require("./main/updating/autoUpdate");
+// const downloadManager = require("./main/downloading/downloadManager");
+// const libraryManager = require('./main/library/libraryManager');
+// const previewManager = require("./main/previewing/previewManager");
+// const settingsManager = require("./main/settings/settingsManager");
+// const url = require("url");
+
+// const dbConnectionConfig = require('./main/db/knexfile')
+// const { connectDB } = require("./main/db/connect");
 
 
 let mainWindow;
