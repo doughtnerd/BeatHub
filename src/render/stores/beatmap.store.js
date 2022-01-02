@@ -7,16 +7,6 @@ import {
 } from "../constants/beatsaver-api.constants";
 import { fetchMapsByLatest, fetchMapsByRating } from "../services/beatsaver-api";
 
-function makeQuery(endpoint, nextPage) {
-  return fetch(`${endpoint}${nextPage}`)
-    .then(res => {
-      return res.json();
-    })
-    .then(data => {
-      return data.docs;
-    });
-}
-
 function createBeatmapStore(endpoint, queryFn) {
   const store = writable({
     nextPage: 0,
@@ -49,12 +39,7 @@ function createBeatmapStore(endpoint, queryFn) {
           ...current,
           loading: true
         }));
-        const fromApi = await queryFn(nextPage)
-        const newSongs = await Promise.all(fromApi.map(async song => {
-          const dbSong = await window.api.invoke('getSongByKey', { key: song.id });
-          song.isInLibrary = dbSong != null;
-          return song;
-        }))
+        const newSongs = await queryFn(nextPage)
 
         store.update(current => {
           return {

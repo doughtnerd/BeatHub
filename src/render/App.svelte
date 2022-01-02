@@ -32,9 +32,9 @@ import Scrollbar from "./components/Scrollbar.svelte";
 </script>
 
 <div class="app-container">
-  <div class="main">
+  <main class="main">
     <Drawer mode="slim">
-      <div class="drawer-content" slot="drawer-content">
+      <aside class="drawer-content" slot="drawer-content">
         <DrawerItem
           itemName="Search"
           isActive={$location === '/search'}
@@ -89,12 +89,12 @@ import Scrollbar from "./components/Scrollbar.svelte";
             push('/settings');
           }}
         />
-      </div>
+      </aside>
 
       <Router {routes} />
       
     </Drawer>
-  </div>
+  </main>
   <footer>
     <AudioPlayer />
   </footer>

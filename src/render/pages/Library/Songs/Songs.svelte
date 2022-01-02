@@ -1,34 +1,13 @@
 <script>
-  import { onMount } from 'svelte';
-  import { writable } from 'svelte/store';
-  import LoadingScreen from '../../../components/LoadingScreen.svelte';
-  import SongList from '../SongList.svelte';
+  import { libraryStore } from '../../../stores/library.store';
+  import SongList from '../_shared/SongList.svelte';
 
-  const songsStore = writable([]);
-
-  onMount(() => {
-    getAllSongs();
-  });
-
-  function getAllSongs() {
-    window.api.invoke('getAllSongs').then(songs => {
-      songsStore.set(songs);
-    });
-  }
-
-  function handleDeleteSong(song) {
-    window.api.invoke('deleteSong', {folder_hash: song.folder_hash}).then(() => getAllSongs());
-  }
 </script>
 
-{#await $songsStore}
-  <LoadingScreen />
-{:then songs}
-  {#if songs.length > 0}
-    <SongList songs={songs} on:delete={(event) => handleDeleteSong(event.detail.song)} />
-  {:else}
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-      <h1>No Songs Found</h1>
-    </div>
-  {/if}
-{/await}
+{#if $libraryStore.length > 0}
+  <SongList songs={$libraryStore} on:delete={(event) => libraryStore.deleteSong(event.detail.song)} />
+{:else}
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <h1>No Songs Found</h1>
+  </div>
+{/if}

@@ -10,6 +10,8 @@ import {
 import { toastStore } from "./toast.store";
 import { errorsStore } from "./errors.store";
 
+import { libraryStore } from "./library.store";
+
 function createDownloadsStore() {
   const store = writable({
     downloadDirectory: "",
@@ -56,6 +58,7 @@ function createDownloadsStore() {
         }
       };
     });
+    libraryStore.sync();
   });
 
   return {

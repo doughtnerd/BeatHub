@@ -1,23 +1,24 @@
 <script>
-  import { download, play, stop, eye } from "svelte-awesome/icons";
   import { createEventDispatcher } from "svelte";
-  import LoadingSpinner from "./LoadingSpinner.svelte";
+  import { download,eye,play,stop,save,check } from "svelte-awesome/icons";
+  import { activeBeatmapPreviewKey,beatmapPreviewStore,beatmapToPreviewKey } from "../stores/beatmap-preview.store";
+  import { downloads } from "../stores/downloads.store";
+  import { libraryKeysStore } from "../stores/library.store";
   import BeatmapStats from "./BeatmapStats.svelte";
+  import CharacteristicChip from "./CharacteristicChip.svelte";
   import Fab from "./Fab.svelte";
+  import Icon from "svelte-awesome";
+  import ListDivider from "./ListDivider.svelte";
+  import LoadingSpinner from "./LoadingSpinner.svelte";
   import PrimaryText from "./PrimaryText.svelte";
   import SecondaryText from "./SecondaryText.svelte";
-  import ListDivider from "./ListDivider.svelte";
-
-  import { beatmapPreviewStore, activeBeatmapPreviewKey, beatmapToPreviewKey } from "../stores/beatmap-preview.store";
-
-  import { downloads } from "../stores/downloads.store";
-  import CharacteristicChip from "./CharacteristicChip.svelte";
 
   export let beatmap;
 
   $: isCurrentlyPlaying = $activeBeatmapPreviewKey === beatmap.id;
   $: isCurrentlyDownloading = $downloads.downloading.hasOwnProperty(beatmap.id);
   $: isCurrentlyLoading = $beatmapToPreviewKey === beatmap.id && $beatmapPreviewStore.loading;
+  $: isInLibrary = $libraryKeysStore.hasOwnProperty(beatmap.id);
 
   const dispatch = createEventDispatcher();
 
@@ -77,7 +78,7 @@
           on:click={handleVideoPreviewClick}
           scale={6}
           iconColor="white"
-          color="var(--beatmapUpvotesIconColor)"
+          color="var(--expertPlusChipBackgroundColor)"
           iconData={eye}
           iconScale={1.5}
         />
@@ -100,9 +101,13 @@
             <LoadingSpinner />
           </div>
         {:else}
-          <!-- {#if !beatmap.isInLibrary} -->
+          {#if !isInLibrary}
             <Fab tooltipText="Download" on:click={handleDownloadClick} scale={6} iconColor="white" color="var(--secondary)" iconData={download} iconScale={1.5} />
-          <!-- {/if} -->
+          {:else}
+            <div style="display:flex;flex-direction:column;justify-items:center;align-items:center;width:48px;color:var(--beatmapUpvotesIconColor)">
+              <Icon scale={2} data={check} />
+            </div>
+          {/if}
         {/if}
       </div>
     </div>

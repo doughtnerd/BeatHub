@@ -1,5 +1,5 @@
 <script>
-  import List from '../../components/List.svelte';
+  import List from '../../../components/List.svelte';
   import SongListItem from "./SongListItem.svelte";
 
   export let songs = []

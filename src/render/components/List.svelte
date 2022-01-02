@@ -1,7 +1,3 @@
-<script>
-
-</script>
-
 <style>
   .list {
     display: flex;
@@ -13,6 +9,6 @@
   }
 </style>
 
-<div class="list">
+<div role="list" class="list">
   <slot />
 </div>

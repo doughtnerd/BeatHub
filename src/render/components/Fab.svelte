@@ -1,6 +1,6 @@
 <script>
+  import { createEventDispatcher } from "svelte";
   import Icon from "svelte-awesome";
-  import {tooltip} from '../actions/tooltip'
 
   export let scale = 5;
   export let color;
@@ -10,9 +10,17 @@
 
   export let disabled = false;
   export let tooltipText = '';
+
+  const dispatch = createEventDispatcher()
+
+  function handleKeyDown(event) {
+    if (["Space", "Enter"].includes(event.code)) {
+      dispatch('click')
+    }
+  }
 </script>
 
-<div class="round-button" style="height:{scale * 8}px; width:{scale * 8}px" on:click>
+<div role="button" tabindex=1 class="round-button" style="height:{scale * 8}px; width:{scale * 8}px" on:click on:keydown={handleKeyDown}>
   <div class:disabled  class="round-button-circle" style="--color:{color}; --iconColor:{iconColor}">
     <Icon scale={iconScale} data={iconData} />
   </div>
