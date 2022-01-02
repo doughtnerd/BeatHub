@@ -12,7 +12,7 @@ export default {
   input: "src/main.js",
   output: {
     sourcemap: true,
-    format: "esm",
+    format: "umd",
     name: "beathub",
     file: "public/bundle.js"
   },

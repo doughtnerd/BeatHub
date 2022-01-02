@@ -1,9 +1,10 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
-import downloadManager from "./main/downloading/downloadManager";
-import libraryManager from "./main/library/libraryManager";
-import previewManager from "./main/previewing/previewManager";
-import settingsManager from "./main/settings/settingsManager";
+import * as downloadManager from "./main/downloading/downloadManager";
+import * as libraryManager from "./main/library/libraryManager";
+import * as previewManager from "./main/previewing/previewManager";
+import * as settingsManager from "./main/settings/settingsManager";
+import * as autoUpdater from './main/updating/autoUpdate'
 import url from 'url';
 
 import dbConnectionConfig from "./main/db/knexfile";
@@ -39,7 +40,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
-      enableRemoteModule: false,
+      // enableRemoteModule: false,
       allowRunningInsecureContent: false,
       preload: path.join(__dirname, "preload.js"),
     },
@@ -50,7 +51,7 @@ function createWindow() {
   let watcher;
   if (mode == "development") {
     mainWindow.openDevTools();
-    watcher = require("chokidar").watch([path.join(__dirname, "..", "public", "bundle.js"), path.join(__dirname)], { ignoreInitial: true });
+    watcher = require("chokidar").watch([path.join(__dirname, "..", "bundle.js"), path.join(__dirname)], { ignoreInitial: true });
     watcher.on("change", () => {
       mainWindow.reload();
     });
@@ -58,7 +59,7 @@ function createWindow() {
 
   mainWindow.loadURL(
     url.format({
-      pathname: path.join(__dirname, "..", "public", "index.html"),
+      pathname: path.join(__dirname, "..", "index.html"),
       protocol: "file:",
       slashes: true,
     })

@@ -3,11 +3,6 @@ import { PREVIEW_BEATMAP, PREVIEW_LOADED, PREVIEW_ERROR } from "../../constants/
 import AdmZip from "adm-zip";
 import { download } from "../utils";
 
-// const { ipcMain } = require("electron");
-// const { PREVIEW_BEATMAP, PREVIEW_LOADED, PREVIEW_ERROR } = require("../../constants/channelNames");
-// const AdmZip = require("adm-zip");
-// const { download } = require("../utils");
-
 export function register(mainWindow) {
 	const sendStatusToWindow = (channel, payload) => {
 		mainWindow.webContents.send(channel, payload);

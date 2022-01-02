@@ -2,7 +2,7 @@ import fs from "fs";
 import { readdir } from "fs/promises";
 import path from "path";
 import request from "request";
-import { sanitize } from "sanitize-filename";
+import sanitize from "sanitize-filename";
 import { getSetting } from "./db/queries/userSettings";
 
 // const request = require("request");
@@ -18,7 +18,7 @@ const DEFAULT_WINDOWS_STEAM_LOCATION =
 const DEFAULT_WINDOWS_OCULUS_LOCATION =
   "C:/Program Files/Oculus/Software/Software/hyperbolic-magnetism-beat-saber";
 
-export function download(url, onProgress, onEnd, onErr = () => {}) {
+export function download(url, onProgress, onEnd, onErr = (err) => {}) {
 	const options = {
 		url,
 		encoding: null,

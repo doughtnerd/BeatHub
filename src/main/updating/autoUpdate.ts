@@ -5,7 +5,7 @@ import { ipcMain } from "electron";
 
 export function register(mainWindow) {
 	autoUpdater.logger = log;
-	autoUpdater.logger.transports.file.level = "info";
+	// autoUpdater.logger.transports.file.level = "info";
 
 	const sendStatusToWindow = (channel, text) => {
 		log.info(`${channel}: ${text}`);

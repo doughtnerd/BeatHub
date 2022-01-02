@@ -10,14 +10,21 @@ import { CURRENT_THEME_NAME } from "../../constants/storageKeys";
 // const { getBeatSaberDirectory } = require("../utils");
 
 function openFolderBrowser(startingDirectory) {
-	let options = {
-		title: "Select Beat Saber install directory",
-		defaultPath: startingDirectory,
-		buttonLabel: "Choose folder",
-		properties: ["openDirectory"]
-	};
+	// let options = {
+	// 	title: "Select Beat Saber install directory",
+	// 	defaultPath: startingDirectory,
+	// 	buttonLabel: "Choose folder",
+	// 	properties: ["openDirectory"]
+	// };
 
-	return dialog.showOpenDialog(options);
+	return dialog.showOpenDialog(
+		{
+			title: "Select Beat Saber install directory",
+			defaultPath: startingDirectory,
+			buttonLabel: "Choose folder",
+			properties: ["openDirectory"]
+		}
+	);
 }
 
 async function changeBeatSaberDirectory(dbConnection) {

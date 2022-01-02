@@ -4,6 +4,7 @@ import { hashElement } from "folder-hash";
 import { getFileNames, getBeatSaberDirectory, formatFolderName } from "../utils";
 import { insertSong } from "../db/queries/library";
 import path from "path";
+import {readFile} from 'fs/promises'
 
 // const { ipcMain } = require("electron");
 // const { fork } = require("child_process");
@@ -29,7 +30,7 @@ export function register(mainWindow, dbConnection) {
 	childProcess.on("error", error => {
 		sendStatusToWindow("downloadError", { error });
 	});
-	childProcess.on("message", async message => {
+	childProcess.on("message", async (message: any) => {
 		sendStatusToWindow(message.messageType, message);
 
 		if(message.messageType === "downloadComplete") {

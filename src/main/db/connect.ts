@@ -1,9 +1,9 @@
-import Knex from "knex";
+import {knex} from "knex";
 
 // const Knex = require('knex');
 
 export async function connectDB(config) {
-	const instance = Knex.knex(config);
+	const instance = knex(config);
 
 	try { 
 		const migrations = await instance.migrate.latest();

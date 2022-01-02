@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "outDir": "public/dist",
+    "allowJs": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "node"
+    ],
+    "skipLibCheck": true,
+    "lib": [
+      "es6",
+    ]
+  },
+  "include": [
+    "src/main/**/*",
+    "src/electron.ts",
+    "src/preload.ts"
+  ]
+}

@@ -23,7 +23,7 @@ async function extractBeatmap(buffer, rootFolder, songFolderName) {
 	);
 }
 
-process.on("message", (message, sendHandle) => {
+process.on("message", (message: any, sendHandle) => {
 	const { beatmap, downloadsFolder, songFolderName } = message;
 
 	download(

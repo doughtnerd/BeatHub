@@ -5,6 +5,7 @@ import { getDirectoryNames, getFileNames, getBeatSaberDirectory } from "../utils
 import { readFile, access, rm } from "fs/promises";
 import { constants } from "fs";
 import { insertSongs, getSongByHash, getUploaders, getSongsByUploader, getSongsByAuthor, getSongAuthors, getAllSongs, getSongByKey, getAllDiskLocations, deleteSongsByFilesLocations, getSongByFolderHash, deleteSongByFolderHash } from "../db/queries/library"
+import * as path from "path";
 
 // const { ipcMain } = require("electron");
 // const { hashElement } = require("folder-hash");
@@ -94,7 +95,7 @@ async function syncSongLibrary (dbConnection) {
 	]);
 }
 
-function register(mainWindow, dbConnection) {
+export function register(mainWindow, dbConnection) {
 	ipcMain.handle("syncSongLibrary", () => syncSongLibrary(dbConnection));
 
 	ipcMain.handle("getUploaders", () => getUploaders(dbConnection));
@@ -115,7 +116,3 @@ function register(mainWindow, dbConnection) {
 
 	ipcMain.handle("deleteSong", async (event, {folder_hash}) => deleteSong(dbConnection, folder_hash));
 }
-
-module.exports = {
-	register
-};
