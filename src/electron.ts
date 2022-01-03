@@ -84,7 +84,7 @@ app.on("ready", async () => {
   })
 
   session
-    .fromPartition('beathub-partition')
+    .defaultSession
     .setPermissionRequestHandler((webContents, permission, callback) => {
       callback(false)
     })
