@@ -4,10 +4,20 @@
 
 </script>
 
+<style>
+  .no-songs-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+</style>
+
 {#if $libraryStore.length > 0}
   <SongList songs={$libraryStore} on:delete={(event) => libraryStore.deleteSong(event.detail.song)} />
 {:else}
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <div class="no-songs-display">
     <h1>No Songs Found</h1>
   </div>
 {/if}

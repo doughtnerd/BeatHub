@@ -1,6 +1,15 @@
 <script>
   export let color;
   export let background;
+
+  let badgeEl;
+
+  $: {
+    if(badgeEl) {
+      badgeEl.style.setProperty('--color', color);
+      badgeEl.style.setProperty('--background', background);
+    }
+  }
 </script>
 
 <style>
@@ -26,7 +35,7 @@
   }
 </style>
 
-<div class="badge" style="--color:{color}; --background:{background}">
+<div bind:this={badgeEl} class="badge">
   <span class="badge-text">
     <slot />
   </span>

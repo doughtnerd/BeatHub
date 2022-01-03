@@ -1,9 +1,8 @@
 <script>
-  import LoadingSpinner from "./LoadingSpinner.svelte";
+  import { pause,play,volumeOff,volumeUp } from "svelte-awesome/icons";
   import { beatmapPreviewStore } from "../stores/beatmap-preview.store";
   import Fab from "./Fab.svelte";
-  import Icon from "svelte-awesome";
-  import { play, pause, volumeUp, volumeOff } from "svelte-awesome/icons";
+  import LoadingSpinner from "./LoadingSpinner.svelte";
 
   let currentTime = 0;
   let duration;
@@ -59,16 +58,13 @@
 
 <div class="audio-container">
   {#if $beatmapPreviewStore.loading}
-    <div
-      style="display: flex; flex-direction: column; justify-content: center;
-      height: 56px; width: 56px;"
-    >
+    <div class="loading-indicator-container">
       <LoadingSpinner />
     </div>
   {:else if $beatmapPreviewStore.activePreview}
     <img src={$beatmapPreviewStore.activePreview.versions[0].coverURL} alt="song" />
   {:else}
-    <div style="height: 56px; width: 56px;" />
+    <div class="placeholder" />
   {/if}
   <div class="time-display">{formattedCurrentTime} / {formattedDuration}</div>
   <div class="time-control">
@@ -87,6 +83,19 @@
 </div>
 
 <style>
+
+  .placeholder {
+    height: 56px;
+    width: 56px;
+  }
+
+  .loading-indicator-container {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+    height: 56px; 
+    width: 56px;
+  }
   .audio-container {
     background-color: var(--background);
     padding: 0;

@@ -1,6 +1,14 @@
 <script>
   export let isActive = false;
   export let style = '';
+
+  let buttonEl;
+
+  $: {
+    if(buttonEl) {
+      buttonEl.style.cssText = style;
+    }
+  }
 </script>
 
 <style>
@@ -25,6 +33,6 @@
   }
 </style>
 
-<button {style} class:active={isActive} class="text-button" type="button" on:click>
+<button bind:this={buttonEl} class:active={isActive} class="text-button" type="button" on:click>
   <slot />
 </button>

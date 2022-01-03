@@ -3,6 +3,7 @@
 
   export let characteristic;
   export let difficulty;
+
   const bgColorMap = {
     Easy: "--easyChipBackgroundColor",
     Normal: "--normalChipBackgroundColor",
@@ -20,12 +21,20 @@
     Lightshow: "icons/lightshow.svg",
     Lawless: "icons/lawless.svg",
   };
+  
+  let chipContainer;
 
   $: bgColor = bgColorMap[difficulty];
   $: icon = iconMap[characteristic];
+
+  $: {
+    if(chipContainer) {
+      chipContainer.style.setProperty('--chipBackgroundColor', `var(${bgColor})`);
+    } 
+  }
 </script>
 
-<span use:tooltip={{ text: `${difficulty} ${characteristic}` }} class="chip" style="--chipBackgroundColor:var({bgColor})">
+<span bind:this={chipContainer} use:tooltip={{ text: `${difficulty} ${characteristic}` }} class="chip">
   <img src={icon} width="24px" alt="Song Characteristic: {difficulty} {characteristic}" />
 </span>
 

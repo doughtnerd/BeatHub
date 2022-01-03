@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, session } from "electron";
 import path from "path";
 import * as downloadManager from "./main/downloading/downloadManager";
 import * as libraryManager from "./main/library/libraryManager";
@@ -10,21 +10,9 @@ import url from 'url';
 import dbConnectionConfig from "./main/db/knexfile";
 import { connectDB } from "./main/db/connect"
 
-// const { app, BrowserWindow, ipcMain, session } = require("electron");
-// const path = require("path");
-// const log = require("electron-log");
-// const autoUpdater = require("./main/updating/autoUpdate");
-// const downloadManager = require("./main/downloading/downloadManager");
-// const libraryManager = require('./main/library/libraryManager');
-// const previewManager = require("./main/previewing/previewManager");
-// const settingsManager = require("./main/settings/settingsManager");
-// const url = require("url");
-
-// const dbConnectionConfig = require('./main/db/knexfile')
-// const { connectDB } = require("./main/db/connect");
-
-
 let mainWindow;
+
+
 
 ipcMain.handle("getAppVersion", () => {
   return app.getVersion();
@@ -77,16 +65,29 @@ function createWindow() {
 
 
 app.on("ready", async () => {
-  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-  //   callback({
-  //     responseHeaders: Object.assign(
-  //       {
-  //         "Content-Security-Policy": ["default-src 'self'"],
-  //       },
-  //       details.responseHeaders
-  //     ),
-  //   });
-  // });
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        "Content-Security-Policy": [
+          "default-src 'self'", 
+          "script-src 'self' 'unsafe-inline' https://kit.fontawesome.com https://skystudioapps.com", 
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", 
+          "connect-src 'self' https://na.cdn.beatsaver.com https://beatsaver.com https://api.beatsaver.com https://ka-f.fontawesome.com", //may need to add data: 
+          "img-src 'self'  https://na.cdn.beatsaver.com blob: skystudioapps.com data:",
+          "media-src 'self' file: blob: skystudioapps.com data:",
+          "font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://ka-f.fontawesome.com",
+          "frame-src 'self' https://skystudioapps.com"
+        ].join("; "),
+      }
+    })
+  })
+
+  session
+    .fromPartition('beathub-partition')
+    .setPermissionRequestHandler((webContents, permission, callback) => {
+      callback(false)
+    })
 
   const dbConnection = await connectDB(dbConnectionConfig)
 

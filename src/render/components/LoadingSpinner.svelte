@@ -2,7 +2,18 @@
   export let color = "var(--primary)";
   export let scale = 1;
 
-  $: scaleToPx = 8 * scale + "px";
+  let spinnerContainer;
+
+  // $: scaleToPx = 8 * scale + "px";
+
+  $: {
+    if(spinnerContainer) {
+      const scaleToPx = 8 * scale + "px";
+      spinnerContainer.style.setProperty("--spinnerColor", color);
+      spinnerContainer.style.setProperty("--scale", scaleToPx);
+    }
+  }
+
 </script>
 
 <style>
@@ -57,7 +68,7 @@
   }
 </style>
 
-<div class="spinner" style="--spinnerColor:{color}; --scale:{scaleToPx}">
+<div bind:this={spinnerContainer} class="spinner">
   <div class="bounce1" />
   <div class="bounce2" />
   <div class="bounce3" />

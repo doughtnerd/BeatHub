@@ -5,6 +5,15 @@
 
 </script>
 
+<style>
+  .no-artists-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+</style>
 
 {#if $artistsStore.length > 0}
   <List>
@@ -13,7 +22,7 @@
     {/each}
   </List>
 {:else}
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <div class="no-artists-display">
     <h1>No Artists Found</h1>
   </div>
 {/if}

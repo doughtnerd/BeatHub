@@ -47,7 +47,7 @@
   <div class="beatmap-info-container">
     <div class="beatmap-song-info">
       <PrimaryText>
-        <span style="font-size: 24px">{beatmap.metadata.songName}</span>
+        <span class="song-name-text">{beatmap.metadata.songName}</span>
       </PrimaryText>
       <SecondaryText>
         {beatmap.metadata.songAuthorName.toLowerCase() === beatmap.metadata.levelAuthorName.toLowerCase()
@@ -104,7 +104,7 @@
           {#if !isInLibrary}
             <Fab tooltipText="Download" on:click={handleDownloadClick} scale={6} iconColor="white" color="var(--secondary)" iconData={download} iconScale={1.5} />
           {:else}
-            <div style="display:flex;flex-direction:column;justify-items:center;align-items:center;width:48px;color:var(--beatmapUpvotesIconColor)">
+            <div class="in-library-indicator">
               <Icon scale={2} data={check} />
             </div>
           {/if}
@@ -116,6 +116,20 @@
 <ListDivider />
 
 <style>
+
+  .song-name-text {
+    font-size: 24px;
+  }
+
+  .in-library-indicator {
+    display:flex;
+    flex-direction:column;
+    justify-items:center;
+    align-items:center;
+    width:48px;
+    color:var(--beatmapUpvotesIconColor);
+  }
+  
   .spinner-wrapper {
     width: 48px;
     height: 48px;

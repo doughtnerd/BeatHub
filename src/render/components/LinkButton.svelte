@@ -5,6 +5,13 @@
   export let to = '';
   export let style = '';
   export let activeConfig = null;
+  
+  let buttonEl;
+  $: {
+    if (buttonEl) {
+      buttonEl.style.cssText = style
+    }
+  }
 </script>
 
 <style>
@@ -25,7 +32,7 @@
 </style>
 
 {#if activeConfig}
-  <a {style} href={to} use:link use:active={activeConfig} class="link-button"><slot /></a>
+  <a bind:this={buttonEl} href={to} use:link use:active={activeConfig} class="link-button"><slot /></a>
 {:else}
-  <a {style} href={to} use:link use:active class="link-button"><slot /></a>
+  <a bind:this={buttonEl} href={to} use:link use:active class="link-button"><slot /></a>
 {/if}

@@ -6,7 +6,11 @@ function createSettingsStore() {
     beatSaberDirectory: ''
   })
 
-  window.api.invoke('getBeatSaberDirectory').then(dir => {
+  window.api.invoke('getBeatSaberDirectory').then(async dir => {
+    if(!dir) {
+      dir = await window.api.invoke('changeBeatSaberDirectory')
+    }
+
     store.update(current => ({
       ...current,
       beatSaberDirectory: dir

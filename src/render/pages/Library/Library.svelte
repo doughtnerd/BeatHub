@@ -47,12 +47,18 @@
   :global(.library-active-tab) {
     background-color:var(--foreground) !important;
   }
+
+  .library-nav {
+    display:flex;
+    flex-direction:row;
+    align-items:stretch;
+  }
   
 </style>
 
 <header class="action-container">
   <TextButton on:click={() => libraryStore.sync()}><Icon data={undo} scale=1 /> Sync Song Library</TextButton>
-  <nav style="display:flex;flex-direction:row;justify-content;align-items:stretch;">
+  <nav class="library-nav">
     <LinkButton activeConfig={{path:/\/library\/artists.*/, className:'library-active-tab'}} style="flex-grow:1;" to="/library/artists">
       Artists
     </LinkButton>

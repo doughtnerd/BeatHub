@@ -15,15 +15,29 @@
 
 </script>
 
+<style>
+  .no-songs-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .uploader-name {
+    place-self:center;
+  }
+</style>
+
 <Grid columns="1fr 1fr 1fr">
   <LinkButton style="place-self:center start;" to="/library/uploaders"><Icon data={arrowLeft} scale=.75 /> Back</LinkButton>
-  <h3 style="place-self:center">{params.uploader}</h3>
+  <h3 class="uploader-name">{params.uploader}</h3>
 </Grid>
 
 {#if $songsByUploaderStore.length > 0}
   <SongList songs={$songsByUploaderStore} on:delete={(event) => libraryStore.deleteSong(event.detail.song)} />
 {:else}
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-    <h1>No songs found</h1>
+  <div class="no-songs-display">
+    <h1>No Songs Found</h1>
   </div>
 {/if}

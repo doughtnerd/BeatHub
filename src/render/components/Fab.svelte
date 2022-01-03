@@ -9,7 +9,25 @@
   export let iconScale;
 
   export let disabled = false;
+
   export let tooltipText = '';
+
+  let buttonContainer;
+  let buttonIconContainer;
+
+  $: {
+    if(buttonContainer) {
+      buttonContainer.style.height = `${scale * 8}px`;
+      buttonContainer.style.width = `${scale * 8}px`;
+    }
+  }
+
+  $: {
+    if(buttonIconContainer) {
+      buttonIconContainer.style.setProperty('--color', color);
+      buttonIconContainer.style.setProperty('--iconColor', iconColor);
+    }
+  }
 
   const dispatch = createEventDispatcher()
 
@@ -20,8 +38,8 @@
   }
 </script>
 
-<div role="button" tabindex=1 class="round-button" style="height:{scale * 8}px; width:{scale * 8}px" on:click on:keydown={handleKeyDown}>
-  <div class:disabled  class="round-button-circle" style="--color:{color}; --iconColor:{iconColor}">
+<div bind:this={buttonContainer} role="button" tabindex=0 class="round-button" on:click on:keydown={handleKeyDown}>
+  <div bind:this={buttonIconContainer} class:disabled  class="round-button-circle">
     <Icon scale={iconScale} data={iconData} />
   </div>
 </div>

@@ -11,7 +11,7 @@ contextBridge.exposeInMainWorld("api", {
   },
   invoke: (channel, args) => {
     let validChannels = [
-      "changeDownloadDirectory",
+      "changeBeatSaberDirectory",
       "restartAndUpdate",
       "getBeatSaberDirectory",
       "getAppVersion",
@@ -22,11 +22,18 @@ contextBridge.exposeInMainWorld("api", {
       "loadLibrary",
       "deleteSong",
       "syncSongLibrary",
+      "getAllSongs",
+      "getUploaders",
+      "getSongsByKey",
+      "getSongByKey",
+      "getSongsByUploader",
+      "getArtists",
+      "getSongsByArtist"
     ];
-    if (true || validChannels.includes(channel)) {
+    if (validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, args);
     } else {
-      throw new Error("Invalid channel for invoke");
+      throw new Error("Invalid channel for invoke: " + channel);
     }
   },
   receive: (channel, func) => {

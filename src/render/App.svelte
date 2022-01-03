@@ -75,7 +75,7 @@ import Scrollbar from "./components/Scrollbar.svelte";
             push('/downloads');
           }}
         >
-          <div style="position: absolute; left: 8px;">
+          <div class="download-badge-position">
             <Badge color="white" background="var(--error)">
               <span>{$numberOfDownloads}</span>
             </Badge>
@@ -115,6 +115,11 @@ import Scrollbar from "./components/Scrollbar.svelte";
 </svelte:head>
 
 <style>
+
+  .download-badge-position {
+    position: absolute; 
+    left: 8px;
+  }
   .app-container {
     height: 100vh;
     width: 100vw;

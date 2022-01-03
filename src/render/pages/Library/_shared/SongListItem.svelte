@@ -54,13 +54,21 @@
     flex-grow: .33
   }
 
+  .song-info {
+    display:flex;
+    flex-direction:column;
+    justify-content:center; 
+    align-items:center;
+    padding: 0px 8px 0 8px;
+  }
+
 </style>
 
 <div class="library-tile">
   <Grid columns="64px 1fr 160px" rows="min-content">
     <img src={`${song.disk_location}/${song.cover_filename}`} alt={`${song.song_title} Cover`}>
 
-    <div style="display:flex;flex-direction:column;justify-content:center; align-items:center;padding: 0px 8px 0 8px">
+    <div class="song-info">
       <span>{song.song_title}</span>
       <span>{song.song_author}</span>
       <sub>Uploaded By: {song.uploader}</sub>

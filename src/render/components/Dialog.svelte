@@ -6,6 +6,15 @@
   export let height = "200px";
   export let width = "400px";
 
+  let dialogEl;
+
+  $: {
+    if(dialogEl) {
+      dialogEl.style.height = height;
+      dialogEl.style.width = width;
+    }
+  }
+
   $: hasBackdrop = mode === "standard";
 
   const dispatch = createEventDispatcher();
@@ -16,7 +25,7 @@
 </script>
 
 <div class="dialog-container" on:click={handleBackgroundClick} class:backdrop={hasBackdrop}>
-  <div class="dialog" style="height:{height}; width:{width}">
+  <div bind:this={dialogEl} class="dialog">
     <div class="dialog-content">
       <slot name="dialog-content" />
     </div>
@@ -50,8 +59,6 @@
   .dialog {
     background-color: var(--foreground);
     padding: 16px;
-    /* width: 400px;
-    height: 200px; */
 
     display: flex;
     flex-direction: column;

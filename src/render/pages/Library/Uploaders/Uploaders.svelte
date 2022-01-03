@@ -5,6 +5,16 @@
 
 </script>
 
+<style>
+  .no-uploaders-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+</style>
+
 {#if $uploadersStore.length > 0}
   <List>
     {#each $uploadersStore as uploader}
@@ -12,7 +22,7 @@
     {/each}
   </List>
 {:else}
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <div class="no-uploaders-display">
     <h1>No Uploaders Found</h1>
   </div>
 {/if}

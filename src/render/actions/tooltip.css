@@ -1,0 +1,34 @@
+.tooltip {
+  position: absolute;
+  color: var(--backgroundText);
+  background-color: var(--tooltipBackgroundColor);
+  box-shadow: 0 0 1px 1px var(--primary);
+  border-radius: 8px;
+  padding: 8px;
+  width: 120px;
+  text-align: center;
+  transition: opacity .5s;
+  transform: translate(5px, -50%);
+}
+
+.tooltip.left::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--tooltipBackgroundColor) ;
+}
+
+.tooltip.right::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent var(--tooltipBackgroundColor) transparent transparent;
+}

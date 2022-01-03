@@ -37,6 +37,12 @@
   }
 </script>
 
+<style>
+  .loading-screen-layout {
+    height: 80px;
+  }
+</style>
+
 {#await init}
   <LoadingScreen />
 {:then results}
@@ -49,7 +55,7 @@
     on:videoPreview={handleVideoPreview}
   />
   {#if $topRatedMapsStore.loading}
-    <div style="height: 80px">
+    <div class="loading-screen-layout">
       <LoadingScreen />
     </div>
   {/if}

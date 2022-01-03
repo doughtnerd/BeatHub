@@ -15,15 +15,29 @@
 
 </script>
 
+<style>
+  .no-songs-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .artist-name {
+    place-self:center;
+  }
+</style>
+
 <Grid columns="1fr 1fr 1fr">
   <LinkButton style="place-self:center start;" to="/library/artists"><Icon data={arrowLeft} scale=.75 /> Back</LinkButton>
-  <h3 style="place-self:center">{params.artist}</h3>
+  <h3 class="artist-name">{params.artist}</h3>
 </Grid>
 
 {#if $songsByArtistStore.length > 0}
   <SongList songs={$songsByArtistStore} on:delete={(event) => libraryStore.deleteSong(event.detail.song)} />
 {:else}
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <div class="no-songs-display">
     <h1>No Songs Found</h1>
   </div>
 {/if}

@@ -43,7 +43,7 @@
   }
 </script>
 
-<div style="display: flex; flex-direction: column; height: 100%">
+<div class="display-container">
   <div class="search-container">
     <div class="form__group field">
       <input
@@ -72,7 +72,7 @@
       on:videoPreview={handleVideoPreview}
     />
     {#if $searchStore.loading}
-      <div style="height: 80px">
+      <div class="loading-screen-layout">
         <LoadingScreen />
       </div>
     {/if}
@@ -80,6 +80,15 @@
 </div>
 
 <style>
+
+  .loading-screen-layout {
+    height:80px;
+  }
+
+  .display-container {
+    display: flex; flex-direction: column; height: 100%
+  }
+
   .search-container {
     background-color: var(--forground);
     display: flex;
@@ -148,10 +157,4 @@
   .form__field:invalid {
     box-shadow: none;
   }
-
-  /* .song-list-container {
-    padding-top: 72px;
-    overflow: hidden;
-    max-height: calc(100% - 72px);
-  } */
 </style>
