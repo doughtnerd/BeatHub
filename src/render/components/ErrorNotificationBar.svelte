@@ -28,8 +28,8 @@
   }
 </style>
 
-{#if $errorsStore.isShowing}
+{#if $errorsStore}
   <div in:fly={inSettings} out:fly={outSettings} class="notification">
-    {$errorsStore.message}
+    {$errorsStore}
   </div>
 {/if}

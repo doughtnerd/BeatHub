@@ -5,15 +5,6 @@ import {
 	DOWNLOAD_PROGRESS,
 	DOWNLOAD_ERROR
 } from "../../constants/channelNames";
-// const AdmZip = require("adm-zip");
-
-// const { download } = require("../utils");
-
-// const {
-//   DOWNLOAD_COMPLETE,
-//   DOWNLOAD_PROGRESS,
-//   DOWNLOAD_ERROR
-// } = require("../../constants/channelNames");
 
 async function extractBeatmap(buffer, rootFolder, songFolderName) {
 	const zip = new AdmZip(buffer);

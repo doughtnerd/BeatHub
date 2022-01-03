@@ -5,6 +5,7 @@
 
 </script>
 
+
 {#if $artistsStore.length > 0}
   <List>
     {#each $artistsStore as artist}

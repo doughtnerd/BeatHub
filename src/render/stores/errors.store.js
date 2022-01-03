@@ -1,10 +1,7 @@
 import { writable } from "svelte/store";
 
 function createErrorsStore() {
-  const store = writable({
-    isShowing: false,
-    message: null
-  });
+  const store = writable("");
 
   let errorTimeout;
 
@@ -13,16 +10,10 @@ function createErrorsStore() {
     showMessage(message, time = 3000) {
       clearTimeout(errorTimeout);
 
-      store.set({
-        isShowing: true,
-        message
-      });
+      store.set(message);
 
       errorTimeout = setTimeout(() => {
-        store.set({
-          isShowing: false,
-          message: null
-        });
+        store.set('');
       }, time);
     }
   };

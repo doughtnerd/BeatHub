@@ -1,19 +1,16 @@
 <script>
   import PrimaryText from "../components/PrimaryText.svelte";
-  import { downloads } from "../stores/downloads.store";
-  import { appInfoStore } from "../stores/app-info.store";
-  import { availableThemesStore, themeStore } from "../stores/theme.store";
+  import { settingsStore } from '../stores/settings.store';
+  import { availableThemesStore,themeStore } from "../stores/theme.store";
 
   function handleChangeDirectory(event) {
-    downloads.changeDownloadDirectory();
+    settingsStore.changeBeatSaberDirectory();
   }
 
   function handleThemeChange(event) {
     const theme = event.target.value;
     themeStore.setTheme(theme);
   }
-
-  let installLocInput;
 </script>
 
 <style>
@@ -49,19 +46,21 @@
     <h1>App Version</h1>
   </PrimaryText>
   <div>
-    <span>{$appInfoStore.appVersion}</span>
+    <span>{$settingsStore.appVersion}</span>
   </div>
 
   <PrimaryText>
     <h1>Beat Saber Install Location</h1>
   </PrimaryText>
   <div class="folder-selection-area">
-    <span>Current Location: {$downloads.downloadDirectory}</span>
+    <span>Current Location: {$settingsStore.beatSaberDirectory}</span>
     <div class="folder-selection-buttons">
 
       <button
         class="primary"
         id="folder-selection"
+        type="button"
+        tabindex="0"
         on:click={handleChangeDirectory}>
         Choose Location
       </button>

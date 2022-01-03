@@ -22,6 +22,7 @@
     background-color: var(--background);
     color: var(--backgroundText);
     overflow-y: scroll;
+    z-index: 2;
     /* overflow-x: hidden; */
   }
 

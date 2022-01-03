@@ -45,23 +45,23 @@
   }
 
   :global(.library-active-tab) {
-    background-color:var(--buttonHoverColor) !important;
+    background-color:var(--foreground) !important;
   }
   
 </style>
 
 <header class="action-container">
-  <TextButton on:click={libraryStore.sync}><Icon data={undo} scale=1 /> Sync Song Library</TextButton>
+  <TextButton on:click={() => libraryStore.sync()}><Icon data={undo} scale=1 /> Sync Song Library</TextButton>
   <nav style="display:flex;flex-direction:row;justify-content;align-items:stretch;">
-    <LinkButton activeConfig={{path:/\/library\/artists\/?.*/, className:'library-active-tab'}} style="flex-grow:1;" to="/library/artists">
+    <LinkButton activeConfig={{path:/\/library\/artists.*/, className:'library-active-tab'}} style="flex-grow:1;" to="/library/artists">
       Artists
     </LinkButton>
 
-    <LinkButton activeConfig={{path:/\/library\/uploaders\/?.*/, className:'library-active-tab'}} style="flex-grow:1;" to="/library/uploaders">
+    <LinkButton activeConfig={{path:/\/library\/uploaders.*/, className:'library-active-tab'}} style="flex-grow:1;" to="/library/uploaders">
       Uploaders
     </LinkButton>
 
-    <LinkButton activeConfig={{path:/\/library\/songs\/?.*/, className:'library-active-tab'}} style="flex-grow:1;" to="/library/songs">
+    <LinkButton activeConfig={{path:/\/library\/songs.*/, className:'library-active-tab'}} style="flex-grow:1;" to="/library/songs">
       Songs
     </LinkButton>
   </nav>

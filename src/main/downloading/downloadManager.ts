@@ -6,16 +6,6 @@ import { insertSong } from "../db/queries/library";
 import path from "path";
 import {readFile} from 'fs/promises'
 
-// const { ipcMain } = require("electron");
-// const { fork } = require("child_process");
-// const { hashElement } = require('folder-hash');
-
-// const { getFileNames, getBeatSaberDirectory, formatFolderName } = require("../utils");
-// const { readFile } = require("fs/promises");
-// const { insertSong } = require("../db/queries/library");
-
-// const path = require('path');
-
 
 export function register(mainWindow, dbConnection) {
 	const sendStatusToWindow = (channel, payload) => {
@@ -31,8 +21,6 @@ export function register(mainWindow, dbConnection) {
 		sendStatusToWindow("downloadError", { error });
 	});
 	childProcess.on("message", async (message: any) => {
-		sendStatusToWindow(message.messageType, message);
-
 		if(message.messageType === "downloadComplete") {
 			const {beatmap} = message;
 			//Get download folder location
@@ -51,9 +39,9 @@ export function register(mainWindow, dbConnection) {
 			const songData = {
 				key: beatmap.id,
 				folder_hash: hash.hash,
-				song_title: infoFileJSON._songName,
-				song_author: infoFileJSON._songAuthorName,
-				uploader: infoFileJSON._levelAuthorName,
+				song_title: infoFileJSON._songName || "Unknown",
+				song_author: infoFileJSON._songAuthorName || "Unknown",
+				uploader: infoFileJSON._levelAuthorName || "Unknown",
 				disk_location: directory,
 				cover_filename: infoFileJSON._coverImageFilename,
 				song_filename: infoFileJSON._songFilename,
@@ -61,6 +49,8 @@ export function register(mainWindow, dbConnection) {
 			};
 			await insertSong(dbConnection, songData).onConflict("folder_hash").merge();
 		}
+
+		sendStatusToWindow(message.messageType, message);
 	});
 
 	ipcMain.handle("downloadBeatmap", async (event, beatmap) => {

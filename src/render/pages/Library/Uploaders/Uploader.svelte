@@ -5,10 +5,13 @@
   import LinkButton from '../../../components/LinkButton.svelte';
   import { libraryStore } from '../../../stores/library.store';
   import SongList from "../_shared/SongList.svelte";
+  import { derived } from "svelte/store";
 
   export let params = {}
 
-  $: songsByUploader = libraryStore.getSongsByUploader(params.uploader)
+  const songsByUploaderStore = derived(libraryStore, $libraryStore => {
+    return $libraryStore.filter((song) => song.uploader === params.uploader).sort((a, b) => a.song_title.localeCompare(b.song_title));
+  })
 
 </script>
 
@@ -17,8 +20,8 @@
   <h3 style="place-self:center">{params.uploader}</h3>
 </Grid>
 
-{#if songsByUploader.length > 0}
-  <SongList songs={songsByUploader} on:delete={(event) => libraryStore.deleteSong(event.detail.song)} />
+{#if $songsByUploaderStore.length > 0}
+  <SongList songs={$songsByUploaderStore} on:delete={(event) => libraryStore.deleteSong(event.detail.song)} />
 {:else}
   <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <h1>No songs found</h1>

@@ -4,7 +4,7 @@
 
   export let to = '';
   export let style = '';
-  export let activeConfig;
+  export let activeConfig = null;
 </script>
 
 <style>

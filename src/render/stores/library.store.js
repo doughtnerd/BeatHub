@@ -13,12 +13,14 @@ function createLibraryStore() {
   const store = writable([]);
   const { set, update, subscribe } = store;
 
-  getAllSongs().then(songs => {
-    set(songs);
-  });
-
   function sync() {
     syncSongLibrary().then(() => getAllSongs()).then(songs => {set(songs)});
+  }
+
+  function refreshLibrary() {
+    getAllSongs().then(songs => {
+      set(songs)
+    })
   }
 
   function isInLibrary(key) {
@@ -37,9 +39,12 @@ function createLibraryStore() {
     window.api.invoke('deleteSong', {folder_hash: song.folder_hash}).then(() => getAllSongs()).then(songs => {set(songs)});
   }
 
+  refreshLibrary()
+
   return {
     subscribe,
     sync,
+    refreshLibrary,
     isInLibrary,
     getSongsByArtist,
     getSongsByUploader,

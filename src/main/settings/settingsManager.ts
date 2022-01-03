@@ -3,23 +3,11 @@ import {getSetting, setSetting, hasSetting} from "../db/queries/userSettings";
 import { getBeatSaberDirectory } from "../utils";
 import { CURRENT_THEME_NAME } from "../../constants/storageKeys";
 
-// const { ipcMain, dialog } = require("electron");
-// const { CURRENT_THEME_NAME } = require("../../constants/storageKeys");
-// const { hasSetting, getSetting, setSetting } = require("../db/queries/userSettings")
-
-// const { getBeatSaberDirectory } = require("../utils");
-
 function openFolderBrowser(startingDirectory) {
-	// let options = {
-	// 	title: "Select Beat Saber install directory",
-	// 	defaultPath: startingDirectory,
-	// 	buttonLabel: "Choose folder",
-	// 	properties: ["openDirectory"]
-	// };
-
 	return dialog.showOpenDialog(
 		{
 			title: "Select Beat Saber install directory",
+			message: "Select the directory where Beat Saber is installed",
 			defaultPath: startingDirectory,
 			buttonLabel: "Choose folder",
 			properties: ["openDirectory"]
@@ -40,7 +28,7 @@ async function changeBeatSaberDirectory(dbConnection) {
 	}
 }
 
-export function register(mainWindow, dbConnection) {
+export async function register(mainWindow, dbConnection) {
 	ipcMain.handle("hasSetting", (event, {settingKey}) => hasSetting(dbConnection, settingKey));
 
 	ipcMain.handle("getSetting", (event, {settingKey}) => getSetting(dbConnection, settingKey));

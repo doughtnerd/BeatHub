@@ -5,14 +5,6 @@ import request from "request";
 import sanitize from "sanitize-filename";
 import { getSetting } from "./db/queries/userSettings";
 
-// const request = require("request");
-// const {readdir, readFile} = require('fs/promises');
-// const fs = require('fs')
-// const { getSetting } = require('./db/queries/userSettings');
-// const path = require('path');
-
-// const sanitize = require("sanitize-filename");
-
 const DEFAULT_WINDOWS_STEAM_LOCATION =
   "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber";
 const DEFAULT_WINDOWS_OCULUS_LOCATION =
