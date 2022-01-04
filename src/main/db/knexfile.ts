@@ -1,4 +1,5 @@
-import path from "path";
+import {Knex} from 'knex';
+import {join} from 'path'
 
 const dbConnectionConfig = {
 	client: "sqlite",
@@ -6,12 +7,12 @@ const dbConnectionConfig = {
 		filename: "./beathubdb.sqlite"
 	},
 	migrations: {
-		extension: "js",
+		extension: "ts",
 		tableName: "beathub_migrations",
-		directory: path.join(__dirname, "./", "migrations"),
+		directory: join(__dirname, "./", "migrations"),
 	},
 	seeds: {
-		directory: path.join(__dirname, "./", "seeds", "dev"),
+		directory: join(__dirname, "./", "seeds", "dev"),
 	}
 };
 

@@ -1,5 +1,5 @@
 <script>
-  import { book,cog,exclamation,search,star,tasks } from "svelte-awesome/icons";
+  import { book,cog,exclamation,search,star,tasks,microchip } from "svelte-awesome/icons";
   import Router,{ location,push } from 'svelte-spa-router';
   import AudioPlayer from "./components/AudioPlayer.svelte";
   import Badge from "./components/Badge.svelte";
@@ -11,6 +11,7 @@ import Scrollbar from "./components/Scrollbar.svelte";
   import VideoPreviewDialog from "./components/VideoPreviewDialog.svelte";
   import Downloads from "./pages/Downloads.svelte";
   import Library from "./pages/Library/Library.svelte";
+  import Mods from "./pages/Mods/Mods.svelte";
   import NewSongs from "./pages/NewSongs.svelte";
   import Search from "./pages/Search.svelte";
   import Settings from "./pages/Settings.svelte";
@@ -26,6 +27,8 @@ import Scrollbar from "./components/Scrollbar.svelte";
     '/new': NewSongs,
     '/library': Library,
     '/library/*': Library,
+    '/mods': Mods,
+    "/mods/*": Mods,
     '/downloads': Downloads,
     '/settings': Settings
   };
@@ -65,6 +68,14 @@ import Scrollbar from "./components/Scrollbar.svelte";
           icon={book}
           on:click={() => {
             push('/library');
+          }}
+        />
+        <DrawerItem
+          itemName="Mods"
+          isActive={$location.includes('/mods')}
+          icon={microchip}
+          on:click={() => {
+            push('/mods');
           }}
         />
         <DrawerItem

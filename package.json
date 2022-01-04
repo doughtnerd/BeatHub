@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.1.1",
+    "@types/adm-zip": "^0.4.34",
     "chokidar": "^3.2.1",
     "electron": "^16.0.4",
     "electron-builder": "^22.14.5",
@@ -29,10 +30,12 @@
     "sirv-cli": "^0.4.4",
     "svelte": "^3.44.3",
     "svelte-preprocess": "^4.10.1",
+    "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
   },
   "dependencies": {
     "adm-zip": "~0.4.13",
+    "dependency-graph": "^0.11.0",
     "electron-log": "^4.0.3",
     "electron-store": "~5.1.0",
     "electron-updater": "^4.2.0",
@@ -55,11 +58,12 @@
     "windows:pure-electron-dev": "set NODE_ENV=development&&set ROLLUP_WATCH=true&&electron --inspect=3000 .",
     "publish": "electron-builder --win -p always --projectDir=.",
     "postinstall": "install-app-deps",
-    "knex:migrate:make": "knex --knexfile ./src/main/db/knexfile.js migrate:make",
-    "knex:seed:make": "knex --knexfile ./src/main/db/knexfile.js seed:make",
-    "knex:seed:run": "knex --knexfile ./src/main/db/knexfile.js seed:run",
-    "knex:migrate:latest": "knex --knexfile ./src/main/db/knexfile.js migrate:latest",
-    "knex": "knex --knexfile ./src/main/db/knexfile.js"
+    "knex:migrate:make": "knex --knexfile ./src/main/db/knexfile.ts migrate:make",
+    "knex:seed:make": "knex --knexfile ./src/main/db/knexfile.ts seed:make",
+    "knex:seed:run": "knex --knexfile ./src/main/db/knexfile.ts seed:run",
+    "knex:migrate:latest": "knex --knexfile ./src/main/db/knexfile.ts migrate:latest",
+    "knex:migrate:rollback": "knex --knexfile ./src/main/db/knexfile.ts migrate:rollback",
+    "knex": "knex --knexfile ./src/main/db/knexfile.ts"
   },
   "build": {
     "publish": [

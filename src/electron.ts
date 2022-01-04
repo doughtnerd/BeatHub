@@ -4,6 +4,7 @@ import * as downloadManager from "./main/downloading/downloadManager";
 import * as libraryManager from "./main/library/libraryManager";
 import * as previewManager from "./main/previewing/previewManager";
 import * as settingsManager from "./main/settings/settingsManager";
+import * as modManager from './main/mods/modManager'
 import * as autoUpdater from './main/updating/autoUpdate'
 import url from 'url';
 
@@ -73,7 +74,7 @@ app.on("ready", async () => {
           "default-src 'self'", 
           "script-src 'self' 'unsafe-inline' https://kit.fontawesome.com https://skystudioapps.com", 
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", 
-          "connect-src 'self' https://na.cdn.beatsaver.com https://beatsaver.com https://api.beatsaver.com https://ka-f.fontawesome.com", //may need to add data: 
+          "connect-src 'self' https://na.cdn.beatsaver.com https://beatsaver.com https://api.beatsaver.com https://ka-f.fontawesome.com https://beatmods.com", //may need to add data: 
           "img-src 'self'  https://na.cdn.beatsaver.com blob: skystudioapps.com data:",
           "media-src 'self' file: blob: skystudioapps.com data:",
           "font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://ka-f.fontawesome.com",
@@ -97,6 +98,7 @@ app.on("ready", async () => {
   previewManager.register(mainWindow);
   libraryManager.register(mainWindow, dbConnection);
   settingsManager.register(mainWindow, dbConnection);
+  modManager.register(dbConnection)
 
   const updater = autoUpdater.register(mainWindow);
   updater.checkForUpdatesAndNotify();
