@@ -6,7 +6,7 @@
     "email": "doughtnerd@gmail.com",
     "url": "https://github.com/Doughtnerd"
   },
-  "version": "2.5.3",
+  "version": "2.5.5",
   "main": "./public/dist/electron.js",
   "license": "(MIT OR Apache-2.0)",
   "repository": {
@@ -34,7 +34,6 @@
   "dependencies": {
     "adm-zip": "~0.4.13",
     "electron-log": "^4.0.3",
-    "electron-store": "~5.1.0",
     "electron-updater": "^4.2.0",
     "folder-hash": "^4.0.1",
     "knex": "^0.95.15",
