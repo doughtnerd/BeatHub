@@ -3,19 +3,19 @@
   import { errorsStore } from "../stores/errors.store";
 
   const inSettings = {
-    y: -200,
+    y: -300,
     duration: 500
   };
 
   const outSettings = {
-    y: -200,
+    y: -300,
     duration: 500
   };
 </script>
 
 <style>
   .notification {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
 
@@ -25,6 +25,8 @@
 
     background-color: var(--error);
     color: white;
+
+    z-index: 2;
   }
 </style>
 

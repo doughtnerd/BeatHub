@@ -26,6 +26,7 @@
 
 <div class="dialog-container" on:click={handleBackgroundClick} class:backdrop={hasBackdrop}>
   <div bind:this={dialogEl} class="dialog">
+    <slot name="dialog-header"/>
     <div class="dialog-content">
       <slot name="dialog-content" />
     </div>
@@ -66,11 +67,13 @@
 
   .dialog-content {
     flex-grow: 2;
+    overflow-y: scroll;
   }
 
   .dialog-actions {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    align-items: center;
   }
 </style>

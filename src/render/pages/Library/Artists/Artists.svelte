@@ -1,4 +1,5 @@
 <script>
+  import FullPageCenteredLayout from "../../../components/FullPageCenteredLayout.svelte";
   import LinkButton from "../../../components/LinkButton.svelte";
   import List from "../../../components/List.svelte";
   import { artistsStore } from "../../../stores/library.store";
@@ -11,17 +12,7 @@
     {/each}
   </List>
 {:else}
-  <div class="no-artists-display">
-    <h1>No Artists Found</h1>
-  </div>
+  <FullPageCenteredLayout>
+    <h1>No artists found</h1>
+  </FullPageCenteredLayout>
 {/if}
-
-<style>
-  .no-artists-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-</style>

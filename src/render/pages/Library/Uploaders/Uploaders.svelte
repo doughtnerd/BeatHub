@@ -1,4 +1,5 @@
 <script>
+  import FullPageCenteredLayout from "../../../components/FullPageCenteredLayout.svelte";
   import LinkButton from "../../../components/LinkButton.svelte";
   import List from "../../../components/List.svelte";
   import { uploadersStore } from "../../../stores/library.store";
@@ -13,17 +14,7 @@
     {/each}
   </List>
 {:else}
-  <div class="no-uploaders-display">
+  <FullPageCenteredLayout>
     <h1>No Uploaders Found</h1>
-  </div>
+  </FullPageCenteredLayout>
 {/if}
-
-<style>
-  .no-uploaders-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-</style>

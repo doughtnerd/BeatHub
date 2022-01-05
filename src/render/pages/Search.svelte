@@ -5,6 +5,8 @@
   import { beatmapPreviewStore } from "../stores/beatmap-preview.store";
   import { beatmapVideoPreviewStore } from "../stores/beatmap-video-preview.store";
   import { downloads } from "../stores/downloads.store";
+  import { networkIsOnline } from "../stores/network.store";
+  import FullPageCenteredLayout from "../components/FullPageCenteredLayout.svelte";
 
   async function handleLoadMore() {
     await searchStore.loadNextPage();
@@ -44,38 +46,49 @@
 </script>
 
 <div class="display-container">
-  <div class="search-container">
-    <div class="form__group field">
-      <input
-        on:change={handleSearch}
-        on:input={debounce(handleSearch, 500)}
-        type="search"
-        class="form__field"
-        placeholder="Name"
-        name="search"
-        id="search"
-        required
-      />
-      <label for="search" class="form__label">Search</label>
-    </div>
-  </div>
-
-  {#if $searchStore.searching}
-    <LoadingScreen />
-  {:else}
-    <InfiniteBeatmapList
-      maps={$searchStore.maps}
-      on:preview={handlePreview}
-      on:stop={handleStop}
-      on:download={handleDownload}
-      on:loadMore={handleLoadMore}
-      on:videoPreview={handleVideoPreview}
-    />
-    {#if $searchStore.loading}
-      <div class="loading-screen-layout">
-        <LoadingScreen />
+  {#if $networkIsOnline}
+    <div class="search-container">
+      <div class="form__group field">
+        <input
+          on:change={handleSearch}
+          on:input={debounce(handleSearch, 500)}
+          type="search"
+          class="form__field"
+          placeholder="Name"
+          name="search"
+          id="search"
+          required
+        />
+        <label for="search" class="form__label">Search</label>
       </div>
+    </div>
+  
+    {#if $searchStore.searching}
+      <LoadingScreen />
+    {:else}
+      <InfiniteBeatmapList
+        maps={$searchStore.maps}
+        on:preview={handlePreview}
+        on:stop={handleStop}
+        on:download={handleDownload}
+        on:loadMore={handleLoadMore}
+        on:videoPreview={handleVideoPreview}
+      />
+      {#if $searchStore.loading}
+        <div class="loading-screen-layout">
+          <LoadingScreen />
+        </div>
+      {/if}
     {/if}
+  {:else}
+    <FullPageCenteredLayout>
+      <div>
+        <h1>No internet connection</h1>
+        <p>
+          You need an internet connection search songs.
+        </p>
+      </div>
+    </FullPageCenteredLayout>
   {/if}
 </div>
 

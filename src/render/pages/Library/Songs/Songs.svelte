@@ -1,5 +1,6 @@
 <script>
-  import { libraryStore } from "../../../stores/library.store";
+  import FullPageCenteredLayout from "../../../components/FullPageCenteredLayout.svelte";
+import { libraryStore } from "../../../stores/library.store";
   import SongList from "../_shared/SongList.svelte";
 </script>
 
@@ -7,17 +8,7 @@
   <p>Found {$libraryStore.length} Songs</p>
   <SongList songs={$libraryStore} on:delete={(event) => libraryStore.deleteSong(event.detail.song)} />
 {:else}
-  <div class="no-songs-display">
+  <FullPageCenteredLayout>
     <h1>No Songs Found</h1>
-  </div>
+  </FullPageCenteredLayout>
 {/if}
-
-<style>
-  .no-songs-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-</style>

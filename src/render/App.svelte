@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from "svelte";
+
   import { book,cog,exclamation,search,star,tasks } from "svelte-awesome/icons";
   import Router,{ location,push } from 'svelte-spa-router';
   import AudioPlayer from "./components/AudioPlayer.svelte";
@@ -6,7 +8,7 @@
   import Drawer from "./components/Drawer.svelte";
   import DrawerItem from "./components/DrawerItem.svelte";
   import ErrorNotificationBar from "./components/ErrorNotificationBar.svelte";
-import Scrollbar from "./components/Scrollbar.svelte";
+  import Scrollbar from "./components/Scrollbar.svelte";
   import Toast from "./components/Toast.svelte";
   import VideoPreviewDialog from "./components/VideoPreviewDialog.svelte";
   import Downloads from "./pages/Downloads.svelte";
@@ -18,6 +20,8 @@ import Scrollbar from "./components/Scrollbar.svelte";
   import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
   import { numberOfDownloads } from "./stores/downloads.store";
   import { themeStore } from "./stores/theme.store";
+
+  import NetworkStatusBanner from "./components/NetworkStatusBanner.svelte";
 
   const routes = {
     '/': Search,
@@ -32,7 +36,9 @@ import Scrollbar from "./components/Scrollbar.svelte";
 </script>
 
 <div class="app-container">
+  <NetworkStatusBanner />
   <main class="main">
+    <ErrorNotificationBar />
     <Drawer mode="slim">
       <aside class="drawer-content" slot="drawer-content">
         <DrawerItem
@@ -100,7 +106,7 @@ import Scrollbar from "./components/Scrollbar.svelte";
   </footer>
 </div>
 
-<ErrorNotificationBar />
+
 
 <UpdateReadyDialog />
 
@@ -121,6 +127,7 @@ import Scrollbar from "./components/Scrollbar.svelte";
     left: 8px;
   }
   .app-container {
+    position: relative;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -136,6 +143,7 @@ import Scrollbar from "./components/Scrollbar.svelte";
   }
 
   .main {
+    position: relative;
     overflow-y: scroll;
     flex-grow: 2;
   }

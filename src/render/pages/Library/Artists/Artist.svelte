@@ -6,6 +6,7 @@
   import { libraryStore } from "../../../stores/library.store";
   import SongList from "../_shared/SongList.svelte";
   import { derived } from "svelte/store";
+  import FullPageCenteredLayout from "../../../components/FullPageCenteredLayout.svelte";
 
   export let params = {};
 
@@ -22,20 +23,12 @@
 {#if $songsByArtistStore.length > 0}
   <SongList songs={$songsByArtistStore} on:delete={(event) => libraryStore.deleteSong(event.detail.song)} />
 {:else}
-  <div class="no-songs-display">
+  <FullPageCenteredLayout>
     <h1>No Songs Found</h1>
-  </div>
+  </FullPageCenteredLayout>
 {/if}
 
 <style>
-  .no-songs-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-
   .artist-name {
     place-self: center;
   }
