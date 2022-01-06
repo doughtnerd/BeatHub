@@ -6,7 +6,7 @@
     "email": "doughtnerd@gmail.com",
     "url": "https://github.com/Doughtnerd"
   },
-  "version": "2.5.3",
+  "version": "2.7.5",
   "main": "./public/dist/electron.js",
   "license": "(MIT OR Apache-2.0)",
   "repository": {
@@ -37,7 +37,6 @@
     "adm-zip": "~0.4.13",
     "dependency-graph": "^0.11.0",
     "electron-log": "^4.0.3",
-    "electron-store": "~5.1.0",
     "electron-updater": "^4.2.0",
     "folder-hash": "^4.0.1",
     "knex": "^0.95.15",
@@ -53,7 +52,7 @@
     "autobuild": "rollup -c -w",
     "build": "yarn ts-build && electron-builder build",
     "electron-dev": "yarn ts-build && run-p autobuild pure-electron-dev",
-    "windows:electron-dev": "run-p autobuild windows:pure-electron-dev",
+    "windows:electron-dev": "yarn ts-build && run-p autobuild windows:pure-electron-dev",
     "pure-electron-dev": "NODE_ENV=development electron --inspect=3000 .",
     "windows:pure-electron-dev": "set NODE_ENV=development&&set ROLLUP_WATCH=true&&electron --inspect=3000 .",
     "publish": "electron-builder --win -p always --projectDir=.",

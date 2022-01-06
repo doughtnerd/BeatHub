@@ -11,6 +11,11 @@
   import Songs from './Songs/Songs.svelte';
   import Uploader from "./Uploaders/Uploader.svelte";
   import Uploaders from "./Uploaders/Uploaders.svelte";
+  import Dialog from '../../components/Dialog.svelte';
+
+  import { writable } from 'svelte/store';
+
+  const dialogOpen = writable(false)
 
   onMount(() => {
     push('/library/artists');
@@ -22,6 +27,13 @@
     '/artists': Artists,
     '/artists/:artist': Artist,
     '/songs': Songs
+  }
+
+  function handleConfirmDialog(shouldSync) {
+    if (shouldSync) {
+      libraryStore.sync();
+    }
+    dialogOpen.set(false);
   }
 
 </script>
@@ -57,7 +69,7 @@
 </style>
 
 <header class="action-container">
-  <TextButton on:click={() => libraryStore.sync()}><Icon data={undo} scale=1 /> Sync Song Library</TextButton>
+  <TextButton on:click={() => dialogOpen.set(true)}><Icon data={undo} scale=1 /> Sync Song Library</TextButton>
   <nav class="library-nav">
     <LinkButton activeConfig={{path:/\/library\/artists.*/, className:'library-active-tab'}} style="flex-grow:1;" to="/library/artists">
       Artists
@@ -76,3 +88,29 @@
 <div class="main-content">
   <Router {routes} prefix="/library"/>
 </div>
+
+{#if $dialogOpen}
+<Dialog height="400px" width="400px">
+  <h1 slot="dialog-header">Sync Song Library</h1>
+  <div slot="dialog-content">
+    
+    <p>Are you sure you want to sync the song library?</p>
+    <p>
+      Use this only if you have songs downloaded already and would like to manage them using this app.
+    </p>
+    <p>
+      This will scan your Beat Saber installation directory for new songs and update the library accordingly.
+      You should be able to use the app normally but it could take a minute for the process to complete.
+    </p>
+    <p>
+      Songs added to your library this way won't have their Beat Saver data synced. Meaning you won't be able to load the
+      visual preview and the song won't be marked as 'downloaded' when browsing/searching songs. To fix this, just delete the song
+      and download it again using this app.
+    </p>
+  </div>
+  <svelte:fragment slot="dialog-actions">
+    <button type="button" on:click={() => handleConfirmDialog(true)}>Yes</button>
+    <button type="button" on:click={() => handleConfirmDialog(false)}>No</button>
+  </svelte:fragment>
+</Dialog>
+{/if}

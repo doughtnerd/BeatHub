@@ -6,6 +6,8 @@
   import { beatmapVideoPreviewStore } from "../stores/beatmap-video-preview.store";
   import { downloads } from "../stores/downloads.store";
   import { onMount } from "svelte";
+  import { networkIsOnline } from "../stores/network.store";
+  import FullPageCenteredLayout from "../components/FullPageCenteredLayout.svelte";
 
   let init;
 
@@ -43,20 +45,31 @@
   }
 </style>
 
-{#await init}
-  <LoadingScreen />
-{:then results}
-  <InfiniteBeatmapList
-    maps={$newMapsStore.maps}
-    on:preview={handlePreview}
-    on:stop={handleStop}
-    on:download={handleDownload}
-    on:loadMore={handleLoadMore}
-    on:videoPreview={handleVideoPreview}
-  />
-  {#if $newMapsStore.loading}
-    <div class="loading-screen-layout">
-      <LoadingScreen />
+{#if $networkIsOnline}
+  {#await init}
+    <LoadingScreen />
+  {:then results}
+    <InfiniteBeatmapList
+      maps={$newMapsStore.maps}
+      on:preview={handlePreview}
+      on:stop={handleStop}
+      on:download={handleDownload}
+      on:loadMore={handleLoadMore}
+      on:videoPreview={handleVideoPreview}
+    />
+    {#if $newMapsStore.loading}
+      <div class="loading-screen-layout">
+        <LoadingScreen />
+      </div>
+    {/if}
+  {/await}
+{:else}
+  <FullPageCenteredLayout>
+    <div>
+      <h1>No internet connection</h1>
+      <p>
+        You need an internet connection browse songs.
+      </p>
     </div>
-  {/if}
-{/await}
+  </FullPageCenteredLayout>
+{/if}
