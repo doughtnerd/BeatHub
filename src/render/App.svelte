@@ -1,12 +1,12 @@
 <script>
-  import { book,cog,exclamation,search,star,tasks,microchip } from "svelte-awesome/icons";
-  import { onMount } from "svelte";
+  import { book,cog,exclamation,microchip,search,star,tasks } from "svelte-awesome/icons";
   import Router,{ location,push } from 'svelte-spa-router';
   import AudioPlayer from "./components/AudioPlayer.svelte";
   import Badge from "./components/Badge.svelte";
   import Drawer from "./components/Drawer.svelte";
   import DrawerItem from "./components/DrawerItem.svelte";
   import ErrorNotificationBar from "./components/ErrorNotificationBar.svelte";
+  import NetworkStatusBanner from "./components/NetworkStatusBanner.svelte";
   import Scrollbar from "./components/Scrollbar.svelte";
   import Toast from "./components/Toast.svelte";
   import VideoPreviewDialog from "./components/VideoPreviewDialog.svelte";
@@ -20,8 +20,6 @@
   import UpdateReadyDialog from "./pages/UpdateReadyDialog.svelte";
   import { numberOfDownloads } from "./stores/downloads.store";
   import { themeStore } from "./stores/theme.store";
-
-  import NetworkStatusBanner from "./components/NetworkStatusBanner.svelte";
 
   const routes = {
     '/': Search,

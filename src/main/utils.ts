@@ -4,11 +4,43 @@ import path from "path";
 import request from "request";
 import sanitize from "sanitize-filename";
 import { getSetting } from "./db/queries/userSettings";
+import https from 'https';
 
 const DEFAULT_WINDOWS_STEAM_LOCATION =
   "C:/Program Files (x86)/Steam/steamapps/common/Beat Saber";
 const DEFAULT_WINDOWS_OCULUS_LOCATION =
   "C:/Program Files/Oculus/Software/Software/hyperbolic-magnetism-beat-saber";
+
+export function fetchHttps(url): Promise<string> {
+	return new Promise((resolve, reject) => {
+		https.get(url, res => {
+			let body = '';
+			res.on('data', chunk => {
+				body += chunk;
+			});
+			res.on('end', () => {
+				resolve(body);
+			});
+		}).on('error', (e) => {
+			reject(e);
+		});
+	});
+}
+
+export function downloadAsync(url): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    download(
+      url,
+      (bytesReceived, totalBytes) => {},
+      buffer => {
+        resolve(buffer as Buffer)
+      },
+      error => {
+        reject(error)
+      }
+    )
+  });
+}
 
 export function download(url, onProgress, onEnd, onErr = (err) => {}) {
 	const options = {

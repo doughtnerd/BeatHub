@@ -13,6 +13,8 @@ export async function up(knex: Knex): Promise<void> {
         table.string('game_version').notNullable();
         table.string('updated_date').notNullable();
         table.string('disk_location').notNullable();
+        table.string('files').notNullable();
+        table.boolean('enabled').notNullable();
       });
     }
   });
