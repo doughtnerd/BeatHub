@@ -6,7 +6,7 @@
     "email": "doughtnerd@gmail.com",
     "url": "https://github.com/Doughtnerd"
   },
-  "version": "2.7.5",
+  "version": "2.7.7",
   "main": "./public/dist/electron.js",
   "license": "(MIT OR Apache-2.0)",
   "repository": {
@@ -49,6 +49,7 @@
   },
   "scripts": {
     "ts-build": "tsc --project tsconfig.json",
+    "ci:build": "tsc --project tsconfig.json",
     "autobuild": "rollup -c -w",
     "build": "yarn ts-build && electron-builder build",
     "electron-dev": "yarn ts-build && run-p autobuild pure-electron-dev",

@@ -3,3 +3,4 @@ node_modules
 public/bundle.*
 dist
 *.sqlite
+yarn-error.log
