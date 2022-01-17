@@ -4,33 +4,79 @@
 
 ## Description
 
-A tiny and fast song browser and downloader for Beat Saber!
+A tiny and fast song browser, downloader, and library manager for Beat Saber!
+
+---
+
+## Feature Overview
+- Discover Songs
+    - [Search for songs](#search-for-songs)
+    - [Browse song lists](#browse-song-lists)
+- Preview Songs
+    - [Visual Preview](#visual-preview)
+    - [Audio Preview](#audio-preview)
+- [Download Manager](#download-manager)
+- [Manage your library](#library-management)
+- [Change settings](#change-settings)
+
+
+---
 
 ## Features
 
+### Search for Songs
 - Search for beatmaps available through beatsaver.com
+- Search by artist, song name, or uploader name
 
 ![Search Demo](demo/Search.gif)
 
-- Browse top rated, top downloded, hottest, and newest custom beatmaps
+### Browse Song Lists
+- Browse the list of top-rated songs
+- Browse the list of newest songs
 
 ![Lists Demo](demo/BeatmapLists.gif)
 
-- Preview any beatmap before downloading, scrub through the song to see how you like it.
+### Visual Preview
+- Visually preview the songs before you download it
+- Scrub through the song
+- Change difficulty or mode and preview it
 
-![Preview Demo](demo/SongPreviewing.gif)
+![Visual Preview Demo](demo/VisualPreview.gif)
 
-- Quickly download custom beatmaps directly to your BeatSaber directory
+### Audio Preview
+- Listen to a song before you download it or just to have some background music :)
+
+![Audio Preview Demo](demo/SongPreviewing.gif)
+
+### Download Manager 
+- Quickly download custom beatmaps directly to your Beat Saber install directory
+- Check progress of your downloads
+- Get an alert when your download has finished
 
 ![Download Demo](demo/SongDownloading.gif)
 
-- Set Beatmap download folder
+### Library Management
+- Downloaded songs will have a green check by them when you browse
+- View songs in your library by artist, uploader, or song name
+- Preview songs in your library
+- Delete a song from your library
+
+![Library Demo](demo/Library.gif)
+
+### Change Settings
+- Change your Beat Saber install folder
+- Change theme (light or dark)
 
 ![Path Demo](demo/InstallLocation.gif)
 
+---
+
 ## How to get
 
-[Go to releases](https://github.com/doughtnerd/BeatHub/releases) and download the latest version.
+1. [Go to releases](https://github.com/doughtnerd/BeatHub/releases) and download the latest version.
+2. If Windows tells you something like "running this isn't safe" run it anyway, it's just saying that because I haven't set up "signing" the executable (next security update hopefully)
+
+---
 
 ## Background
 
@@ -40,10 +86,14 @@ working on that project for ideas on how to make the client work. The rest of th
 I started working on this because I was having a bit of an unreliable experience with the BeatDrop (not to knock that project, it's still an excellent mod & map manager) software and felt a more simplified client for browsing & downloading songs would be nice. I also at the time was playing around with [Svelte 3](https://svelte.dev/) & [Electron](https://electronjs.org/) and reeeeally wanted to
 build a real world project to learn Svelte 3 with.
 
+---
+
 ## Planned Features
 
-1. Song Library Management
-2. Mod installation support
+1. Mod installation support
+2. Signed binary, to avoid security/antivirus issues
+
+---
 
 ## Contributing
 
