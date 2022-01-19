@@ -50,13 +50,13 @@ async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): P
   // Extract all the mods, return tuple of (mod, extracted_path, extracted_files)
   const modExtracts = modDownloads.map(([mod, buffer]) => {
     const zip = new AdmZip(buffer);
-    const diskLocation = mod.name === 'BSIPA' ? beatSaberDir : `${beatSaberDir}/Beat Saber_Data/IPA/Pending`
+    const diskLocation = mod.name === 'BSIPA' ? beatSaberDir : `${beatSaberDir}/IPA/Pending`
     zip.extractAllTo(diskLocation, true);
     return [mod, diskLocation, zip.getEntries().filter(z => !z.isDirectory).map(entry => entry.entryName)];
   })
 
-  // Insert all the mods into the database
-  const dbInserts = modExtracts.map(([mod, diskLocation, files]) => {
+  // Insert all installed the mods into the database
+  const dbInserts = modExtracts.map(([mod, diskLocation, extracted_files]) => {
     const dbEntry = {
       id: mod.id,
       name: mod.name,
@@ -65,8 +65,7 @@ async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): P
       version: mod.version,
       game_version: mod.game_version,
       updated_date: mod.updated_date,
-      disk_location: diskLocation,
-      files,
+      extracted_files,
       enabled: true,
     }
 

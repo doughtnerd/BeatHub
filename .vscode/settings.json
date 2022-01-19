@@ -1,3 +1,11 @@
 {
-  
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Dev BeathubDB",
+            "database": "${workspaceFolder:beathub}/beathubdb.sqlite"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 }

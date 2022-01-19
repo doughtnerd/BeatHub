@@ -2,11 +2,12 @@ import { app } from 'electron';
 import path, { join } from "path";
 
 const userDataPath = app.getPath('userData');
-console.log(userDataPath)
 
 const sqliteDBPath = process.env.NODE_ENV === 'development' ? 
-	path.join(__dirname, 'beathubdb.sqlite') : 
+	'beathubdb.sqlite' : 
 	path.join(userDataPath, 'beathubdb.sqlite');
+
+console.log(sqliteDBPath)
 
 const dbConnectionConfig = {
 	client: "sqlite",
