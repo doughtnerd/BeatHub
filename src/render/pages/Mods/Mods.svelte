@@ -1,50 +1,49 @@
 <script>
-
-  import LoadingScreen from '../../components/LoadingScreen.svelte'
-  import {getMods} from '../../services/beatmod-api'
-
-  function handleModClick(mod) {
-    window.api.invoke('installMod', {mod}).catch(err => {
-      console.log(err)
-    })
-  }
-  
+  import { modsStore } from "../../stores/mods.store";
+  import compareVersions from "compare-versions";
+  // import * as semver from "semver";
 </script>
 
 <div class="main-content">
-  {#await getMods()}
-    <LoadingScreen />
-  {:then mods}
-    <table>
-      <thead style="text-align:left">
+  <table>
+    <thead style="text-align:left">
+      <tr>
+        <th>Name</th>
+        <th>Version</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each $modsStore as mod}
         <tr>
-          <th>Name</th>
-          <th>Version</th>
-          <th>Actions</th>
+          <td>{mod.name}</td>
+          <td>
+            {#if mod.installed && compareVersions(mod.installedVersion, mod.version) === -1}
+              <strike>{mod.installedVersion}</strike>{mod.version}
+            {:else}
+              {mod.version}
+            {/if}
+          </td>
+          <td>{mod.version}</td>
+          <td>
+            {#if mod.installed}
+              <button on:click={() => modsStore.uninstallMod(mod)} class="btn btn-primary">Uninstall</button>
+            {:else}
+              <button on:click={() => modsStore.installMod({ ...mod, _id: mod.installedId })} class="btn btn-primary">Install</button>
+            {/if}
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        {#each mods as mod}
-          <tr>
-            <td>{mod.name}</td>
-            <td>{mod.version}</td>
-            <td>
-              <button on:click={() => handleModClick(mod)} class="btn btn-primary">Install</button>
-            </td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
-   
-  {/await}
+      {/each}
+    </tbody>
+  </table>
 </div>
 
 <style>
   .main-content {
-    display: flex; 
-    flex-direction: column; 
-    height: 100%; 
-    overflow-y:auto; 
-    padding:16px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    padding: 16px;
   }
 </style>

@@ -29,7 +29,9 @@ contextBridge.exposeInMainWorld("api", {
       "getSongsByUploader",
       "getArtists",
       "getSongsByArtist",
-      "installMod"
+      "installMod",
+      "getAllInstalledMods",
+      "uninstallMod"
     ];
     if (validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, args);

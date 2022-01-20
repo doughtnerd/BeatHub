@@ -7,6 +7,7 @@ import { downloadAsync, fetchHttps, getBeatSaberDirectory } from "../utils";
 import { default as AdmZip } from 'adm-zip';
 import { DepGraph } from 'dependency-graph';
 import { ModAPIData, ModGraphData } from "./mod.type";
+import * as semver from "semver";
 
 type Right<T> = T;
 type Left = Error;
@@ -30,10 +31,15 @@ async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): P
     ...modToInstallDeps.map(dep => (graph.getNodeData(dep) as any))
   ];
 
-  // Check which mods are already installed
+  // Remove mods that have either already been installed or are older versions of an already installed mod
   const installedMods = await getAllInstalledMods(dbConnection);
   const filteredInstalls = modsToInstall.filter((mod: ModGraphData) => {
-    return !installedMods.find(installedMod => installedMod.id === mod.id);
+    const modWithSameName = installedMods.find(m => m.name === mod.name);
+    if(modWithSameName) {
+      return semver.gt(mod.version, modWithSameName.version) 
+    } else {
+      return true
+    }
   })
 
   // Download all the mods
@@ -64,12 +70,10 @@ async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): P
       category: mod.category,
       version: mod.version,
       game_version: mod.game_version,
-      updated_date: mod.updated_date,
-      extracted_files,
-      enabled: true,
+      extracted_files
     }
 
-    return insertInstalledMod(dbConnection, dbEntry).onConflict('id').merge()
+    return insertInstalledMod(dbConnection, dbEntry).onConflict('id').merge().onConflict(['name']).merge();
   })
 
   await Promise.all(dbInserts)
@@ -78,13 +82,17 @@ async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): P
 }
 
 async function handleUninstallMod(dbConnection, mod): Promise<boolean> {
+  console.log(mod)
   const allMods = await getMods("", "1.19.0");
   const graph = buildModDependencyGraph(allMods);
 
   const dependants = graph.dependantsOf(mod._id);
+  
+  const installedMods = await getAllInstalledMods(dbConnection);
+  const installedDependants = dependants.map(modId => installedMods.find(installedMod => modId === installedMod.id)?.id).filter(i => i);
 
-  if(dependants) {
-    throw new UninstallModException(`Cannot uninstall mod ${mod.name} because it is depended on by ${dependants.map(dep => graph.getNodeData(dep).name).join(', ')}`)
+  if(installedDependants) {
+    throw new UninstallModException(`Cannot uninstall mod ${mod.name} because it is depended on by ${installedDependants.map(dep => graph.getNodeData(dep).name).join(', ')}`)
   }
 
   const installedMod = await getInstalledModById(dbConnection, mod._id);
