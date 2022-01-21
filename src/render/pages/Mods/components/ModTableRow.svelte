@@ -1,8 +1,18 @@
 <script>
-  import { modsStore } from "../../../stores/mods.store";
   import compareVersions from "compare-versions";
+  import { createEventDispatcher } from "svelte";
 
   export let mod;
+
+  const dispatch = createEventDispatcher();
+
+  function handleClickInstallMod(mod) {
+    dispatch("installMod", mod);
+  }
+
+  function handleClickUninstallMod(mod) {
+    dispatch("uninstallMod", mod);
+  }
 </script>
 
 <tr>
@@ -19,12 +29,12 @@
   <td>
     {#if mod.installed}
       {#if compareVersions(mod.installedVersion, mod.version) === -1}
-        <button on:click={() => modsStore.installMod(mod)}>Update</button>
+        <button on:click={() => handleClickInstallMod(mod)}>Update</button>
       {:else}
-        <button on:click={() => modsStore.uninstallMod(mod)} class="btn btn-primary">Uninstall</button>
+        <button on:click={() => handleClickUninstallMod(mod)} class="btn btn-primary">Uninstall</button>
       {/if}
     {:else}
-      <button on:click={() => modsStore.installMod(mod)} class="btn btn-primary">Install</button>
+      <button on:click={() => handleClickInstallMod(mod)} class="btn btn-primary">Install</button>
     {/if}
   </td>
 </tr>

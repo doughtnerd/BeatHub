@@ -41,9 +41,6 @@ function createModsStore() {
             .then(mods => {
                 set(mods);
             })
-            .catch((err) => {
-                console.log(err);
-            });
     }
 
     function uninstallMod(mod) {
@@ -52,14 +49,10 @@ function createModsStore() {
             .then(mods => {
                 set(mods);
             })
-            .catch((err) => {
-                console.log(err);
-            });
     }
 
     resolveMods()
         .then(mods => {
-            console.log(mods);
             set(mods);
         })
 

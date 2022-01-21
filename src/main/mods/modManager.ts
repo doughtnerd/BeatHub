@@ -8,6 +8,8 @@ import { default as AdmZip } from 'adm-zip';
 import { DepGraph } from 'dependency-graph';
 import { ModAPIData, ModGraphData } from "./mod.type";
 import * as semver from "semver";
+import path from 'path'
+
 
 type Right<T> = T;
 type Left = Error;
@@ -94,6 +96,8 @@ async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): P
 }
 
 
+// TODO: Need to handle situation where the mod is installed but not activated. The mod will be in the IPA/Pending directory in this case, not where this function thinks.
+
 /**
  * 
  * @param dbConnection 
@@ -115,15 +119,20 @@ async function handleUninstallMod(dbConnection, mod): Promise<boolean> {
   const installedMods = await getAllInstalledMods(dbConnection);
   const installedDependants = dependants.map(modId => installedMods.find(installedMod => modId === installedMod.id)?.id).filter(i => i);
 
-  if(installedDependants) {
+  if(installedDependants.length) {
     throw new UninstallModException(`Cannot uninstall mod ${mod.name} because it is depended on by ${installedDependants.map(dep => graph.getNodeData(dep).name).join(', ')}`)
   }
 
   const installedMod = await getInstalledModById(dbConnection, mod._id);
+  const beatSaberDir = await getBeatSaberDirectory(dbConnection);
   if(installedMod) {
-    const { disk_location } = installedMod;
-    await rm(disk_location, { recursive: true, force: true });
-    await deleteInstalledMod(dbConnection, mod._id);
+    const extractedFiles = (installedMod.extracted_files as string).split(',');
+
+    for (const file of extractedFiles) {
+      await rm(path.join(beatSaberDir, file), { recursive: true, force: true });
+      await deleteInstalledMod(dbConnection, mod._id);
+    }
+
     return true;
   }
   return false;

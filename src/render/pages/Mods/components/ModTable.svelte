@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     {#each mods as mod}
-      <ModTableRow {mod} />
+      <ModTableRow on:installMod on:uninstallMod {mod} />
     {/each}
   </tbody>
 </table>
