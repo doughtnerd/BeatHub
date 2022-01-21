@@ -19,10 +19,22 @@ class UninstallModException extends Error {
   }
 }
 
+/**
+ * Handles the very obnoxious process of installing mods and resolving dependencies
+ * 
+ * @param dbConnection Connection to the DB used to store installed mod data
+ * @param modToInstall The mod that is being requested for install
+ * 
+ * @returns Promise that resolves to true if the mod was installed.
+ */
 async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): Promise<boolean> {
   // Fetch mods and build dependency graph
   const allMods = await getMods("", "1.19.0");
   const graph = buildModDependencyGraph(allMods);
+
+  if(graph instanceof Error) {
+    throw graph;
+  }
 
   // Get list of all mods that will need to be installed in order to install requested mod
   const modToInstallDeps = graph.dependenciesOf(modToInstall._id);
@@ -81,10 +93,22 @@ async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): P
   return true;
 }
 
+
+/**
+ * 
+ * @param dbConnection 
+ * @param mod 
+ * @returns 
+ */
 async function handleUninstallMod(dbConnection, mod): Promise<boolean> {
-  console.log(mod)
   const allMods = await getMods("", "1.19.0");
-  const graph = buildModDependencyGraph(allMods);
+
+  let graph;
+  try {
+    graph = buildModDependencyGraph(allMods);
+  } catch (err) {
+    throw new Error(`Unable to installed mod. `)
+  }
 
   const dependants = graph.dependantsOf(mod._id);
   
@@ -127,7 +151,7 @@ function getMods(searchText = "", gameVersion = "1.19.0", sortOption = "category
   return fetchHttps(uri).then((res: string) => JSON.parse(res))
 }
 
-function buildModDependencyGraph(mods: ModAPIData[]): DepGraph<ModGraphData> {
+function buildModDependencyGraph(mods: ModAPIData[]): Either<DepGraph<ModGraphData>> {
   const graph = new DepGraph<ModGraphData>({circular: false})
 
   mods.forEach(mod => {
@@ -145,9 +169,14 @@ function buildModDependencyGraph(mods: ModAPIData[]): DepGraph<ModGraphData> {
 
   mods.forEach(mod => {
     mod.dependencies.forEach(dep => {
-      graph.addDependency(mod._id, dep._id);
+        try {
+          graph.addDependency(mod._id, dep._id);
+        } catch (err) {
+          return new Error(`${mod.name} depends on ${dep.name} which does not have a version compatible with Beat Saber version: ${mod.gameVersion}`)
+        }
+      })
     })
-  })
+
 
   return graph
 }
@@ -155,8 +184,6 @@ function buildModDependencyGraph(mods: ModAPIData[]): DepGraph<ModGraphData> {
 
 
 export function register(dbConnection: Knex): void {
-  // const childProcess = fork(`${__dirname}/mod_installer.js`);
-
   ipcMain.handle('getAllInstalledMods', () => getAllInstalledMods(dbConnection));
 
   ipcMain.handle('uninstallMod', (event, { mod }) => handleUninstallMod(dbConnection, mod))

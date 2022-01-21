@@ -58,10 +58,10 @@ function createModsStore() {
     }
 
     resolveMods()
-    .then(mods => {
-        console.log(mods);
-        set(mods);
-    })
+        .then(mods => {
+            console.log(mods);
+            set(mods);
+        })
 
     return {
         installMod,
