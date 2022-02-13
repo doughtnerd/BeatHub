@@ -107,20 +107,19 @@ async function handleInstallMod(dbConnection: Knex, modToInstall: ModAPIData): P
 async function handleUninstallMod(dbConnection, mod): Promise<boolean> {
   const allMods = await getMods("", "1.19.0");
 
-  let graph;
-  try {
-    graph = buildModDependencyGraph(allMods);
-  } catch (err) {
-    throw new Error(`Unable to installed mod. `)
+  let graphResult = buildModDependencyGraph(allMods);
+ 
+  if(graphResult instanceof Error) {
+    throw graphResult;
   }
 
-  const dependants = graph.dependantsOf(mod._id);
+  const dependants = graphResult.dependantsOf(mod._id);
   
   const installedMods = await getAllInstalledMods(dbConnection);
   const installedDependants = dependants.map(modId => installedMods.find(installedMod => modId === installedMod.id)?.id).filter(i => i);
 
   if(installedDependants.length) {
-    throw new UninstallModException(`Cannot uninstall mod ${mod.name} because it is depended on by ${installedDependants.map(dep => graph.getNodeData(dep).name).join(', ')}`)
+    throw new UninstallModException(`Cannot uninstall mod ${mod.name} because it is depended on by ${installedDependants.map(dep => graphResult.getNodeData(dep).name).join(', ')}`)
   }
 
   const installedMod = await getInstalledModById(dbConnection, mod._id);

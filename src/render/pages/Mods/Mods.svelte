@@ -7,11 +7,10 @@
   const uninstallErrorMessageStore = writable("");
 
   function handleInstallMod(event) {
-    modsStore.install(event.detail);
+    modsStore.installMod(event.detail);
   }
 
   function handleUnInstallMod(event) {
-    console.log("ASDFASDF");
     modsStore.uninstallMod(event.detail).catch((error) => {
       uninstallErrorMessageStore.set(error.message);
     });
