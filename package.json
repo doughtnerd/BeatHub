@@ -39,7 +39,7 @@
     "knex": "^0.95.15",
     "request": "^2.88.0",
     "sanitize-filename": "^1.6.3",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.0.3",
     "svelte-awesome": "~2.2.1",
     "svelte-infinite-scroll": "~0.1.0",
     "svelte-spa-router": "^3.2.0"
