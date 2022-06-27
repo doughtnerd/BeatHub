@@ -73,7 +73,7 @@ app.on("ready", async () => {
           "default-src 'self'", 
           "script-src 'self' 'unsafe-inline' https://kit.fontawesome.com https://skystudioapps.com", 
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", 
-          "connect-src 'self' https://na.cdn.beatsaver.com https://beatsaver.com https://api.beatsaver.com https://ka-f.fontawesome.com", //may need to add data: 
+          "connect-src 'self' https://r2cdn.beatsaver.com https://na.cdn.beatsaver.com https://beatsaver.com https://api.beatsaver.com https://ka-f.fontawesome.com", //may need to add data: 
           "img-src 'self'  https://na.cdn.beatsaver.com blob: skystudioapps.com data:",
           "media-src 'self' file: blob: skystudioapps.com data:",
           "font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://ka-f.fontawesome.com",
