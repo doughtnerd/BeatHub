@@ -36,7 +36,7 @@
     "electron-log": "^4.0.3",
     "electron-updater": "^4.2.0",
     "folder-hash": "^4.0.1",
-    "knex": "^0.95.15",
+    "knex": "^2.4.0",
     "request": "^2.88.0",
     "sanitize-filename": "^1.6.3",
     "sqlite3": "^5.0.2",
